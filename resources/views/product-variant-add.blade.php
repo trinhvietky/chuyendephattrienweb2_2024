@@ -18,8 +18,8 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Product Edit</h2>
-                                    <p>Welcome to Nalika <span class="bread-ntd">Admin Template</span></p>
+                                    <h2>Product list</h2>
+                                    <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
                         </div>

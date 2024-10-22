@@ -35,7 +35,6 @@
         </div>
     </div>
 </div>
-</div>
 <!-- Single pro tab start-->
 <div class="single-product-tab-area mg-b-30">
     <!-- Single pro tab review Start-->
