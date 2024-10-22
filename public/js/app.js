@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -23231,3 +23232,6 @@ process.umask = function() { return 0; };
 /******/ 	
 /******/ })()
 ;
+=======
+require('./bootstrap');
+>>>>>>> main

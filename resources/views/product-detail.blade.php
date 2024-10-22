@@ -79,26 +79,42 @@
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
+<<<<<<< HEAD
 						<li class="active-menu">
 								<a href="{{route('index')}}">Home</a>
 							</li>
 
 							<li>
 								<a href="{{route('product')}}">Shop</a>
+=======
+							<li>
+								<a href="index.html">Home</a>
+>>>>>>> main
 								<ul class="sub-menu">
 									<li><a href="index.html">Homepage 1</a></li>
 									<li><a href="home-02.html">Homepage 2</a></li>
 									<li><a href="home-03.html">Homepage 3</a></li>
+<<<<<<< HEAD
 									<li><a href="home-03.html">Homepage 3</a></li>
 									<li><a href="home-03.html">Homepage 3</a></li>
 								</ul>
 							</li>
 
+=======
+								</ul>
+							</li>
+
+							<li>
+								<a href="product.html">Shop</a>
+							</li>
+
+>>>>>>> main
 							<li class="label1" data-label1="hot">
 								<a href="shoping-cart.html">Features</a>
 							</li>
 
 							<li>
+<<<<<<< HEAD
 								<a href="{{route('blog')}}">Blog</a>
 							</li>
 
@@ -108,6 +124,17 @@
 
 							<li>
 								<a href="{{route('contact')}}">Contact</a>
+=======
+								<a href="blog.html">Blog</a>
+							</li>
+
+							<li>
+								<a href="about.html">About</a>
+							</li>
+
+							<li>
+								<a href="contact.html">Contact</a>
+>>>>>>> main
 							</li>
 						</ul>
 					</div>	
@@ -193,7 +220,11 @@
 
 			<ul class="main-menu-m">
 				<li>
+<<<<<<< HEAD
 					<a href="{{route('index')}}">Home</a>
+=======
+					<a href="index.html">Home</a>
+>>>>>>> main
 					<ul class="sub-menu-m">
 						<li><a href="index.html">Homepage 1</a></li>
 						<li><a href="home-02.html">Homepage 2</a></li>
@@ -205,7 +236,11 @@
 				</li>
 
 				<li>
+<<<<<<< HEAD
 					<a href="{{route('product')}}">Shop</a>
+=======
+					<a href="product.html">Shop</a>
+>>>>>>> main
 				</li>
 
 				<li>
@@ -213,6 +248,7 @@
 				</li>
 
 				<li>
+<<<<<<< HEAD
 					<a href="{{route('blog')}}">Blog</a>
 				</li>
 
@@ -222,6 +258,17 @@
 
 				<li>
 					<a href="{{route('contact')}}">Contact</a>
+=======
+					<a href="blog.html">Blog</a>
+				</li>
+
+				<li>
+					<a href="about.html">About</a>
+				</li>
+
+				<li>
+					<a href="contact.html">Contact</a>
+>>>>>>> main
 				</li>
 			</ul>
 		</div>

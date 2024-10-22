@@ -80,11 +80,19 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
+<<<<<<< HEAD
 								<a href="{{route('index')}}">Home</a>
 							</li>
 
 							<li>
 								<a href="{{route('product')}}">Shop</a>
+=======
+								<a href="index.html">Home</a>
+							</li>
+
+							<li>
+								<a href="{{route('product')}}}">Shop</a>
+>>>>>>> main
 								<ul class="sub-menu">
 									<li><a href="index.html">Homepage 1</a></li>
 									<li><a href="home-02.html">Homepage 2</a></li>
@@ -99,6 +107,7 @@
 							</li>
 
 							<li>
+<<<<<<< HEAD
 								<a href="{{route('blog')}}">Blog</a>
 							</li>
 
@@ -108,12 +117,24 @@
 
 							<li>
 								<a href="{{route('contact')}}">Contact</a>
+=======
+								<a href="blog.html">Blog</a>
+							</li>
+
+							<li>
+								<a href="about.html">About</a>
+							</li>
+
+							<li>
+								<a href="contact.html">Contact</a>
+>>>>>>> main
 							</li>
 						</ul>
 					</div>	
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
+<<<<<<< HEAD
 					@if (Route::has('login'))
                	 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
@@ -124,6 +145,19 @@
                     @endauth
                 </div>
             @endif
+=======
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+							<i class="zmdi zmdi-search"></i>
+						</div>
+
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</div>
+
+						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+							<i class="zmdi zmdi-favorite-outline"></i>
+						</a>
+>>>>>>> main
 					</div>
 				</nav>
 			</div>	
@@ -192,7 +226,11 @@
 
 			<ul class="main-menu-m">
 				<li>
+<<<<<<< HEAD
 					<a href="{{route('index')}}">Home</a>
+=======
+					<a href="index.html">Home</a>
+>>>>>>> main
 					<ul class="sub-menu-m">
 						<li><a href="index.html">Homepage 1</a></li>
 						<li><a href="home-02.html">Homepage 2</a></li>
@@ -204,7 +242,11 @@
 				</li>
 
 				<li>
+<<<<<<< HEAD
 					<a href="{{route('product')}}">Shop</a>
+=======
+					<a href="product.html">Shop</a>
+>>>>>>> main
 				</li>
 
 				<li>
@@ -212,6 +254,7 @@
 				</li>
 
 				<li>
+<<<<<<< HEAD
 					<a href="{{route('blog')}}">Blog</a>
 				</li>
 
@@ -221,6 +264,17 @@
 
 				<li>
 					<a href="{{route('contact')}}">Contact</a>
+=======
+					<a href="blog.html">Blog</a>
+				</li>
+
+				<li>
+					<a href="about.html">About</a>
+				</li>
+
+				<li>
+					<a href="contact.html">Contact</a>
+>>>>>>> main
 				</li>
 			</ul>
 		</div>
@@ -327,6 +381,11 @@
 		</div>
 	</div>
 
+<<<<<<< HEAD
+=======
+		
+
+>>>>>>> main
 	<!-- Slider -->
 	<section class="section-slide">
 		<div class="wrap-slick1">
