@@ -1,0 +1,11 @@
+.head {
+    background-color: wheat;
+    text-align: center;
+}
+
+table,th,td,tr {
+    text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
