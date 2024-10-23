@@ -14,6 +14,7 @@ class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
+     * 
      */
     public function create(): View
     {
@@ -24,13 +25,22 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+{
+    if (!Auth::attempt($request->only('email', 'password'))) {
+        return back()->withErrors([
+            'email' => 'Thông tin đăng nhập không chính xác.',
+        ]);
     }
+
+    $request->session()->regenerate();
+
+    // Kiểm tra vai trò của người dùng
+    if (Auth::user()->usertype === 'admin') {
+        return redirect()->intended(RouteServiceProvider::ADMIN);
+    }
+
+    return redirect()->intended(RouteServiceProvider::USER);
+}
 
     /**
      * Destroy an authenticated session.

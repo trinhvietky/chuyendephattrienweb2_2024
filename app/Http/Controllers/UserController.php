@@ -5,17 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
 {
     public function index()
     {
-        // Lấy tất cả dữ liệu từ bảng users
-        $users = User::all();
-
-        // Trả dữ liệu về view
-        return view('user-list', compact('users'));
+        // Logic cho user home page
+        return view('users.home');
     }
 
     // Phương thức xóa user

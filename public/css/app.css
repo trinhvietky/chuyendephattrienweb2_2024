@@ -1627,3 +1627,9 @@ select {
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
 }
+
+.x-dropdown-link {
+  font-size: 30px; /* Tăng kích thước chữ nhiều hơn */
+  padding: 20px 30px; /* Tăng thêm padding */
+  font-weight: bold;
+}
