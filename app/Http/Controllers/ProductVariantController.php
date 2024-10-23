@@ -16,11 +16,19 @@ class ProductVariantController extends Controller
     public function index()
     {
         // Hiển thị danh sách sản phẩm
-        $productVariants = ProductVariant::with(['product', 'color', 'size'])->get();
+        $productVariants = ProductVariant::all();
+        $images = [];
+        foreach ($productVariants as $variant) {
+            $images[] = ProductImage::where('product_id', $variant->product->product_id)
+                ->where('color_id', $variant->color->color_id)
+                ->first();
+        }
+
+        // dd($images);
 
 
         // Truyền cả hai biến vào view
-        return view('product-variant-list', compact('productVariants'));
+        return view('product-variant-list', compact('productVariants', 'images'));
     }
 
 
@@ -37,6 +45,8 @@ class ProductVariantController extends Controller
     // Lưu biến thể sản phẩm mới vào cơ sở dữ liệu
     public function store(Request $request)
     {
+        // dd($request->file('product_images'));
+
         // Validate dữ liệu
         $validatedData = $request->validate([
             'color_id' => 'required|exists:colors,color_id',
@@ -59,15 +69,11 @@ class ProductVariantController extends Controller
                 'size_id' => $sizeId,
                 'stock' => $validatedData['stock'][$index], // Lấy stock tương ứng
             ]);
-
-            // Lưu ID của biến thể mới tạo
-            $productVariantIds[] = $productVariant->id; // Lưu ID của sản phẩm biến thể
-
-            // Xử lý lưu hình ảnh nếu có
-            if ($request->hasFile('product_images')) {
-                foreach ($request->file('product_images') as $image) {
-                    $this->saveImage($image, $productVariant->id, $validatedData['color_id']);
-                }
+        }
+        // Xử lý lưu hình ảnh nếu có
+        if ($request->hasFile('product_images')) {
+            foreach ($request->file('product_images') as $image) {
+                $this->saveImage($image, $product_id, $validatedData['color_id']);
             }
         }
 
@@ -119,7 +125,7 @@ class ProductVariantController extends Controller
     private function saveImage($image, $productVariantId, $colorId)
     {
         // Lưu ảnh vào thư mục
-        $path = 'img/';
+        $path = 'img/product/';
         $imageName = time() . '_' . rand(0, 999) . '.' . $image->getClientOriginalExtension();
         $image->move(public_path($path), $imageName);
 
@@ -130,5 +136,31 @@ class ProductVariantController extends Controller
             'image_path' => $path . $imageName,
             'alt_text' => 'Ảnh sản phẩm', // Tùy chỉnh văn bản thay thế
         ]);
+    }
+
+    public function deleteImage($imageId)
+    {
+        // Tìm ảnh dựa trên ID trong bảng ProductImage
+        $productImages = ProductImage::find($imageId);
+
+        if ($productImages) {
+            // Lấy đường dẫn đầy đủ của ảnh cần xóa
+            $fullImagePath = public_path($productImages->image_path);
+
+            // Kiểm tra xem file có tồn tại trong thư mục hay không
+            if (file_exists($fullImagePath)) {
+                // Xóa ảnh từ thư mục
+                unlink($fullImagePath);
+            }
+
+            // Xóa bản ghi ảnh từ bảng ProductImage
+            $productImages->delete();
+
+            // Thông báo thành công
+            return back()->with('success', 'Ảnh đã được xóa thành công.');
+        }
+
+        // Nếu không tìm thấy ảnh, thông báo lỗi
+        return back()->with('error', 'Không tìm thấy ảnh.');
     }
 }

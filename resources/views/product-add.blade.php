@@ -7,7 +7,7 @@
 </div>
 @endif
 
-<div class="breadcome-area">
+<div class="breadcome-area" style="margin-top: 40px;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

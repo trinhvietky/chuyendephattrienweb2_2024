@@ -6,7 +6,7 @@
     {{ session('success') }}
 </div>
 @endif
-<div class="breadcome-area">
+<div class="breadcome-area" style="margin-top: 40px;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -51,7 +51,7 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{ route('product_variants.store') }}" method="POST">
+                                    <form action="{{ route('product_variants.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
@@ -66,21 +66,21 @@
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
                                                     <div class="custom-file form-control">
-                                                        <input type="file" name="product_image[]" id="image1" class="custom-file-input">
+                                                        <input type="file" name="product_images[]" id="image1" class="custom-file-input">
 
                                                     </div>
                                                 </div>
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
                                                     <div class="custom-file form-control">
-                                                        <input type="file" name="product_image[]" id="image2" class="custom-file-input">
+                                                        <input type="file" name="product_images[]" id="image2" class="custom-file-input">
 
                                                     </div>
                                                 </div>
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
                                                     <div class="custom-file form-control">
-                                                        <input type="file" name="product_image[]" id="image3" class="custom-file-input">
+                                                        <input type="file" name="product_images[]" id="image3" class="custom-file-input">
 
                                                     </div>
                                                 </div>

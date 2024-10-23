@@ -49,15 +49,17 @@
                         <tr>
                             <th>ID</th>
                             <th>Sản phẩm</th>
+                            <th>Hình ảnh</th>
                             <th>Màu sắc</th>
                             <th>Kích thước</th>
                             <th>Số lượng</th>
                             <th>Thao tác</th>
                         </tr>
-                        @foreach ($productVariants as $variant)
+                        @foreach ($productVariants as $index => $variant)
                         <tr>
                             <td>{{ $variant->productVariant_id }}</td>
                             <td>{{ $variant->product->product_name }}</td>
+                            <td><img src="{{ asset( $images[$index]->image_path) }}" alt=""></td>
                             <td>{{ $variant->color->color_name }}</td>
                             <td>{{ $variant->size->size_name }}</td>
                             <td>{{ $variant->stock }}</td>

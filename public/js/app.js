@@ -20,9 +20,7 @@ document.getElementById('add-size').addEventListener('click', function () {
                                                                             <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
                                                                             <select name="size_id[]" class="form-control" required>
                                                                                 <option value="" selected disabled>Chọn kích thước</option>
-                                                                                @foreach ($sizes as $size)
-                                                                                <option value="{{ $size->size_id }}">{{ $size->size_name }}</option>
-                                                                                @endforeach
+                                                                                 ${sizeOptions}
                                                                             </select>
                                                                         </div>
                                                                     </div>

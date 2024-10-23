@@ -31,9 +31,4 @@ class ProductVariant extends Model
     {
         return $this->belongsTo(Size::class, 'size_id');
     }
-
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class);
-    }
 }
