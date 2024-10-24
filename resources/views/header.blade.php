@@ -115,7 +115,7 @@
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Product</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox" href="user-list"><span class="mini-sub-pro">Product list</span></a></li>
+                                <li><a title="Inbox" href="{{route('product_variants.index')}}"><span class="mini-sub-pro">Product list</span></a></li>
                                 <!-- <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">View Mail</span></a></li>
                                 <li><a title="Compose Mail" href="mailbox-compose.html"><span class="mini-sub-pro">Compose Mail</span></a></li> -->
                             </ul>
