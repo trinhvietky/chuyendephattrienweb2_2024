@@ -1,10 +1,10 @@
 <?php
 
-<<<<<<< HEAD
+
 use App\Http\Controllers\ProfileController;
-=======
+
 use App\Http\Controllers\CrudVoucherController;
->>>>>>> CRUD-Voucher-thang
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
@@ -158,7 +158,7 @@ Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.u
 
 
 
-<<<<<<< HEAD
+
 //Quan ly product
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('products', [ProductController::class, 'store'])->name('products.store');
@@ -171,17 +171,21 @@ Route::put('admin/product_variants/{productVariant_id}', [ProductVariantControll
 Route::delete('admin/product_variants/{productVariant_id}', [ProductVariantController::class, 'destroy'])->name('product_variants.destroy');
 
 Route::get('/sizes', [SizeController::class, 'getSizes'])->name('sizes.get');
-=======
-Route::get('/voucher-list', [CrudVoucherController::class, 'listVoucher'])->name('voucher_list');
 
-Route::post('create-voucher', [CrudVoucherController::class, 'postVoucher'])->name('create_voucher');
-Route::get('create-Voucher', function () {
-    return view('crud_voucher.add_voucher');
+
+
+// quản lý voucher
+Route::get('admin/voucher-list', [CrudVoucherController::class, 'listVoucher'])->name('voucher_list');
+
+// thêm voucher
+Route::post('admin/create-voucher', [CrudVoucherController::class, 'postVoucher'])->name('create_voucher');
+Route::get('admin/create-Voucher', function () {
+    return view('admin.voucher-add');
 })->name('Voucher-create');
 
+// sửa voucher
+Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->name('edit_voucher');
+Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
+// xóa voucher
+Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
 
-Route::get('edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->name('edit_voucher');
-Route::post('update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
-
-Route::delete('delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
->>>>>>> CRUD-Voucher-thang

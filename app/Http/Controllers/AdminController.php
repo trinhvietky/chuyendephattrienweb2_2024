@@ -63,7 +63,7 @@ class AdminController extends Controller
         ]);
 
         // Redirect to a specific page after saving
-        return redirect()->route('/admin/user-list')->with('success', 'User added successfully!');
+        return redirect()->route('admin/user-list')->with('success', 'User added successfully!');
     }
 
     public function edit($id)
@@ -93,6 +93,6 @@ class AdminController extends Controller
         $user->save();
 
         // Chuyển hướng lại trang danh sách với thông báo thành công
-        return redirect()->route('/admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
+        return redirect()->route('admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
     }
 }

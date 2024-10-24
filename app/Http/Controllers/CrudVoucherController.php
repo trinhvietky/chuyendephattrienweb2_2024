@@ -14,14 +14,17 @@ class CrudVoucherController extends Controller
     public function listVoucher()
     {
         $voucher = Voucher::all();
-        return view('crud_voucher.list_voucher', ['voucher' => $voucher]);
+        return view('admin.voucher-list', ['voucher' => $voucher]);
     }
 
+    /**
+     * xóa voucher
+     */
     public function deletevoucher($id)
     {
         $voucher = Voucher::findOrFail($id);
         $voucher->delete();
-        return redirect('/voucher-list')->with('success', 'voucher đã được xóa thành công.');
+        return redirect('admin/voucher-list')->with('success', 'voucher đã được xóa thành công.');
     }
 
 
@@ -34,9 +37,12 @@ class CrudVoucherController extends Controller
         $voucher = Voucher::findOrFail($id);
 
         // Trả dữ liệu về view edit
-        return view('crud_voucher.update_voucher', ['voucher' => $voucher]);
+        return view('admin.voucher-edit', ['voucher' => $voucher]);
     }
 
+    /**
+     * hàm thêm voucher
+     */
     public function postVoucher(Request $request)
     {
         $messages = [
@@ -82,9 +88,9 @@ class CrudVoucherController extends Controller
             'end_date' => $data['end_date'],
             'minimum_order' => $data['minimum_order'],
             'usage_limit' => $data['usage_limit'],
-            'status' => '0',
+            'status' => 0,
         ]);
-        return redirect('/voucher-list')->withSuccess('Thêm voucher thành công');
+        return redirect('admin/voucher-list')->withSuccess('Thêm voucher thành công');
     }
 
 
@@ -96,6 +102,16 @@ class CrudVoucherController extends Controller
      */
     public function updateVoucher(Request $request, $id)
     {
+        $request->validate([
+            'voucher_code' => 'required|size:6|regex:/^[A-Z0-9]+$/',
+            'description' => 'required',
+            'discount_amount' => 'required|min:0|integer',
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'minimum_order' => 'required|min:0|integer',
+            'usage_limit' => 'required|min:0|integer',
+
+        ]);
 
         $voucher = Voucher::findOrFail($id);
         $voucher->voucher_code = $request->input('voucher_code');

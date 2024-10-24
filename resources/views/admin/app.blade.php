@@ -119,6 +119,11 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Inbox" href="{{route('product_variants.index')}}"><span class="mini-sub-pro">Product list</span></a></li>
                             </ul>
+                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Voucher</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Inbox" href="{{route('voucher_list')}}"><span class="mini-sub-pro">Vouche list</span></a></li>
+                                
+                            </ul>
                         </li>
                         <!-- <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Mailbox</span></a>
