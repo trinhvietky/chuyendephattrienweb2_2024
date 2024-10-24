@@ -113,6 +113,7 @@
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">User</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Inbox" href="user-list"><span class="mini-sub-pro">User list</span></a></li>
+                                <li><a title="Inbox" href="{{route('voucher_list')}}"><span class="mini-sub-pro">Voucher</span></a></li>
                                 <!-- <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">View Mail</span></a></li>
                                 <li><a title="Compose Mail" href="mailbox-compose.html"><span class="mini-sub-pro">Compose Mail</span></a></li> -->
                             </ul>
@@ -982,7 +983,14 @@
         <script src="{{asset('js/plugins.js')}}"></script>
         <!-- main JS
 		============================================ -->
+<<<<<<< HEAD
         <script src="{{asset('js/main.js')}}"></script>
+=======
+    <script src="{{asset('js/main.js')}}"></script>
+
+    <script src="https://kit.fontawesome.com/f1d7b33898.js" crossorigin="anonymous"></script>
+
+>>>>>>> CRUD-Voucher-thang
 </body>
 
 </html>
