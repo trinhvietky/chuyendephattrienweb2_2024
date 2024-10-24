@@ -78,8 +78,13 @@
             </div>
             <div class="nalika-profile">
                 <div class="profile-dtl">
+<<<<<<< HEAD
                     <a href="#"><img src="/img/notification/4.jpg" alt="" /></a>
                     <h2>Lakian <span class="min-dtn">Das</span></h2>
+=======
+                    <a href="#"><img src="/img/notification/4.jpg" alt="" style="margin-left: 45px;" /></a>
+                    <h2>{{ Auth::user()->name }}</h2>
+>>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                 </div>
                 <div class="profile-social-dtl">
                     <ul class="dtl-social">
