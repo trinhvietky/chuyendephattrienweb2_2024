@@ -13,7 +13,7 @@ class ProductController extends Controller
     {
         // Lấy tất cả sản phẩm từ database
         $products = Product::with('subCategory')->get(); // 'subCategory' là quan hệ giữa Product và Category
-        return view('products.index', compact('products'));
+        return view('admin/products.index', compact('products'));
     }
 
     // Hiển thị form thêm sản phẩm
@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         // Lấy danh mục con để gán cho sản phẩm
         $subCategories = SubCategory::all();
-        return view('product-add', compact('subCategories'));
+        return view('admin/product-add', compact('subCategories'));
     }
 
     // Lưu sản phẩm mới vào database

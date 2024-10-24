@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-@extends('header')
-@section('text')
-=======
 @extends('admin/app')
 @section('menu-footer')
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
 
 @if(session('success'))
 <div class="alert alert-success">
@@ -13,11 +8,7 @@
 @endif
 
 <div class="breadcome-area">
-<<<<<<< HEAD
-    <div class="container-fluid">
-=======
     <div class="container-fluid" style="margin-top: 70px;">
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="breadcome-list">

@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\SizeController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +36,7 @@ Route::get('/', function () {
 })->name('index');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
-    Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
+    Route::get('/admin/home', [AdminController::class, 'index'])->name('admin/home');
     Route::get('/users/home', [UserController::class, 'index'])->name('users.home');
 });
 
@@ -148,3 +151,18 @@ Route::post('/admin/users', [AdminController::class, 'store'])->name('users.stor
 Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('user.edit');
 
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
+
+
+
+//Quan ly product
+Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('products', [ProductController::class, 'store'])->name('products.store');
+
+Route::get('admin/product_variants', [ProductVariantController::class, 'index'])->name('product_variants.index');
+Route::get('admin/product_variants/create', [ProductVariantController::class, 'create'])->name('product_variants.create');
+Route::post('admin/product_variants', [ProductVariantController::class, 'store'])->name('product_variants.store');
+Route::get('admin/product_variants/{productVariant_id}/edit', [ProductVariantController::class, 'edit'])->name('product_variants.edit');
+Route::put('admin/product_variants/{productVariant_id}', [ProductVariantController::class, 'update'])->name('product_variants.update');
+Route::delete('admin/product_variants/{productVariant_id}', [ProductVariantController::class, 'destroy'])->name('product_variants.destroy');
+
+Route::get('/sizes', [SizeController::class, 'getSizes'])->name('sizes.get');

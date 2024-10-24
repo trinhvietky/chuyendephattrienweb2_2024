@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-@extends('header')
-@section('text')
-=======
 @extends('admin/app')
 @section('menu-footer')
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
 
 @if (session('success'))
 <div class="alert alert-success">
@@ -13,11 +8,7 @@
 @endif
 
 <div class="breadcome-area">
-<<<<<<< HEAD
-    <div class="container-fluid">
-=======
     <div class="container-fluid" style="margin-top: 70px;">
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="breadcome-list">
@@ -66,48 +57,28 @@
 
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-<<<<<<< HEAD
-                                            <input type="text" name="name" class="form-control" placeholder="Full name" value="{{ $user->name }}" required>
-=======
                                             <input type="text" name="name" class="form-control" placeholder="Full name" value="{{ $user->name }}" required style="background: #152036;
                                             font-size: 17px;">
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                                         </div>
 
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
-<<<<<<< HEAD
-                                            <input type="email" name="email" class="form-control" placeholder="Email" value="{{ $user->email }}" required>
-=======
                                             <input type="email" name="email" class="form-control" placeholder="Email" value="{{ $user->email }}" required style="background: #152036; font-size: 17px;">
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                                         </div>
 
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-<<<<<<< HEAD
-                                            <input type="text" name="phone" class="form-control" placeholder="Phone" value="{{ $user->phone }}" required>
-=======
                                             <input type="text" name="phone" class="form-control" placeholder="Phone" value="{{ $user->phone }}" required style="background: #152036; font-size: 17px;">
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                                         </div>
 
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-<<<<<<< HEAD
-                                            <input type="text" name="role" class="form-control" placeholder="Quyền" value="{{ $user->usertype }}" required>
-=======
                                             <input type="text" name="role" class="form-control" placeholder="Quyền" value="{{ $user->usertype }}" required style="background: #152036; font-size: 17px;">
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                                         </div>
 
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
-<<<<<<< HEAD
-                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu" value="{{ $user->password }}" required>
-=======
                                             <input type="password" name="password" class="form-control" placeholder="Mật khẩu" value="{{ $user->password }}" required style="background: #152036; font-size: 17px;">
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Cập nhật</button>

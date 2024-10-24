@@ -19,7 +19,7 @@
     <!-- Bootstrap CSS
 		============================================ -->
     <link rel="stylesheet" href="{{asset('/css/font-awesome.min.css')}}">
-	<!-- nalika Icon CSS
+    <!-- nalika Icon CSS
 		============================================ -->
     <link rel="stylesheet" href="{{asset('/css/nalika-icon.css')}}">
     <!-- owl.carousel CSS
@@ -75,19 +75,19 @@
                 <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
                 <strong><img src="img/logo/logosn.png" alt="" /></strong>
             </div>
-			<div class="nalika-profile">
-				<div class="profile-dtl">
-					<a href="#"><img src="img/notification/4.jpg" alt="" /></a>
-					<h2>Lakian <span class="min-dtn">Das</span></h2>
-				</div>
-				<div class="profile-social-dtl">
-					<ul class="dtl-social">
-						<li><a href="#"><i class="icon nalika-facebook"></i></a></li>
-						<li><a href="#"><i class="icon nalika-twitter"></i></a></li>
-						<li><a href="#"><i class="icon nalika-linkedin"></i></a></li>
-					</ul>
-				</div>
-			</div>
+            <div class="nalika-profile">
+                <div class="profile-dtl">
+                    <a href="#"><img src="img/notification/4.jpg" alt="" /></a>
+                    <h2>Lakian <span class="min-dtn">Das</span></h2>
+                </div>
+                <div class="profile-social-dtl">
+                    <ul class="dtl-social">
+                        <li><a href="#"><i class="icon nalika-facebook"></i></a></li>
+                        <li><a href="#"><i class="icon nalika-twitter"></i></a></li>
+                        <li><a href="#"><i class="icon nalika-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
@@ -112,13 +112,13 @@
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">User</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-<<<<<<< HEAD
-                                <li><a title="Inbox" href="{{route('product_variants.index')}}"><span class="mini-sub-pro">Product list</span></a></li>
-=======
                                 <li><a title="Inbox" href="user-list"><span class="mini-sub-pro">User list</span></a></li>
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                                 <!-- <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">View Mail</span></a></li>
                                 <li><a title="Compose Mail" href="mailbox-compose.html"><span class="mini-sub-pro">Compose Mail</span></a></li> -->
+                            </ul>
+                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Product</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Inbox" href="{{route('product_variants.index')}}"><span class="mini-sub-pro">Product list</span></a></li>
                             </ul>
                         </li>
                         <!-- <li>
@@ -228,18 +228,18 @@
                                     <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
                                         <div class="menu-switcher-pro">
                                             <button type="button" id="sidebarCollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
-													<i class="icon nalika-menu-task"></i>
-												</button>
+                                                <i class="icon nalika-menu-task"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
                                         <div class="header-top-menu tabl-d-n hd-search-rp">
                                             <div class="breadcome-heading">
-												<form role="search" class="">
-													<input type="text" placeholder="Search..." class="form-control">
-													<a href=""><i class="fa fa-search"></i></a>
-												</form>
-											</div>
+                                                <form role="search" class="">
+                                                    <input type="text" placeholder="Search..." class="form-control">
+                                                    <a href=""><i class="fa fa-search"></i></a>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
@@ -368,10 +368,10 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-															<i class="icon nalika-user"></i>
-															<span class="admin-name">Advanda Cro</span>
-															<i class="icon nalika-down-arrow nalika-angle-dw"></i>
-														</a>
+                                                        <i class="icon nalika-user"></i>
+                                                        <span class="admin-name">Advanda Cro</span>
+                                                        <i class="icon nalika-down-arrow nalika-angle-dw"></i>
+                                                    </a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
                                                         <li><a href="register.html"><span class="icon nalika-home author-log-ic"></span> Register</a>
                                                         </li>
@@ -655,9 +655,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example">
                                                                                             <label class="onoffswitch-label" for="example">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                <span class="onoffswitch-inner"></span>
+                                                                                                <span class="onoffswitch-switch"></span>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -671,9 +671,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example3">
                                                                                             <label class="onoffswitch-label" for="example3">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                <span class="onoffswitch-inner"></span>
+                                                                                                <span class="onoffswitch-switch"></span>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -687,9 +687,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example4">
                                                                                             <label class="onoffswitch-label" for="example4">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                <span class="onoffswitch-inner"></span>
+                                                                                                <span class="onoffswitch-switch"></span>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -703,9 +703,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example7">
                                                                                             <label class="onoffswitch-label" for="example7">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                <span class="onoffswitch-inner"></span>
+                                                                                                <span class="onoffswitch-switch"></span>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -719,9 +719,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" checked="" class="onoffswitch-checkbox" id="example2">
                                                                                             <label class="onoffswitch-label" for="example2">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                <span class="onoffswitch-inner"></span>
+                                                                                                <span class="onoffswitch-switch"></span>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -735,9 +735,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" checked="" class="onoffswitch-checkbox" id="example6">
                                                                                             <label class="onoffswitch-label" for="example6">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                <span class="onoffswitch-inner"></span>
+                                                                                                <span class="onoffswitch-switch"></span>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -751,9 +751,9 @@
                                                                                         <div class="onoffswitch">
                                                                                             <input type="checkbox" name="collapsemenu" checked="" class="onoffswitch-checkbox" id="example5">
                                                                                             <label class="onoffswitch-label" for="example5">
-																									<span class="onoffswitch-inner"></span>
-																									<span class="onoffswitch-switch"></span>
-																								</label>
+                                                                                                <span class="onoffswitch-inner"></span>
+                                                                                                <span class="onoffswitch-switch"></span>
+                                                                                            </label>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -918,71 +918,71 @@
             </div>
             <!-- Mobile Menu end -->
             @yield('text')
-        <div class="footer-copyright-area">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-copy-right">
-                            <p>Copyright © 2018 <a href="https://colorlib.com/wp/templates/">Colorlib</a> All rights reserved.</p>
+            <div class="footer-copyright-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="footer-copy-right">
+                                <p>Copyright © 2018 <a href="https://colorlib.com/wp/templates/">Colorlib</a> All rights reserved.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- jquery
+        <!-- jquery
 		============================================ -->
-    <script src="{{asset('js/vendor/jquery-1.12.4.min.jss')}}"></script>
-    <!-- bootstrap JS
+        <script src="{{asset('js/vendor/jquery-1.12.4.min.jss')}}"></script>
+        <!-- bootstrap JS
 		============================================ -->
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <!-- wow JS
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
+        <!-- wow JS
 		============================================ -->
-    <script src="{{asset('js/wow.min.js')}}"></script>
-    <!-- price-slider JS
+        <script src="{{asset('js/wow.min.js')}}"></script>
+        <!-- price-slider JS
 		============================================ -->
-    <script src="{{asset('js/jquery-price-slider.js')}}"></script>
-    <!-- meanmenu JS
+        <script src="{{asset('js/jquery-price-slider.js')}}"></script>
+        <!-- meanmenu JS
 		============================================ -->
-    <script src="{{asset('js/jquery.meanmenu.js')}}"></script>
-    <!-- owl.carousel JS
+        <script src="{{asset('js/jquery.meanmenu.js')}}"></script>
+        <!-- owl.carousel JS
 		============================================ -->
-    <script src="{{asset('js/owl.carousel.min.js')}}"></script>
-    <!-- sticky JS
+        <script src="{{asset('js/owl.carousel.min.js')}}"></script>
+        <!-- sticky JS
 		============================================ -->
-    <script src="{{asset('js/jquery.sticky.js')}}"></script>
-    <!-- scrollUp JS
+        <script src="{{asset('js/jquery.sticky.js')}}"></script>
+        <!-- scrollUp JS
 		============================================ -->
-    <script src="{{asset('js/jquery.scrollUp.min.js')}}"></script>
-    <!-- mCustomScrollbar JS
+        <script src="{{asset('js/jquery.scrollUp.min.js')}}"></script>
+        <!-- mCustomScrollbar JS
 		============================================ -->
-    <script src="{{asset('js/scrollbar/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-    <script src="{{asset('js/scrollbar/mCustomScrollbar-active.js')}}"></script>
-    <!-- metisMenu JS
+        <script src="{{asset('js/scrollbar/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+        <script src="{{asset('js/scrollbar/mCustomScrollbar-active.js')}}"></script>
+        <!-- metisMenu JS
 		============================================ -->
-    <script src="{{asset('js/metisMenu/metisMenu.min.js')}}"></script>
-    <script src="{{asset('js/metisMenu/metisMenu-active.js')}}"></script>
-    <!-- sparkline JS
+        <script src="{{asset('js/metisMenu/metisMenu.min.js')}}"></script>
+        <script src="{{asset('js/metisMenu/metisMenu-active.js')}}"></script>
+        <!-- sparkline JS
 		============================================ -->
-    <script src="{{asset('js/sparkline/jquery.sparkline.min.js')}}"></script>
-    <script src="{{asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>
-    <!-- calendar JS
+        <script src="{{asset('js/sparkline/jquery.sparkline.min.js')}}"></script>
+        <script src="{{asset('js/sparkline/jquery.charts-sparkline.js')}}"></script>
+        <!-- calendar JS
 		============================================ -->
-    <script src="{{asset('js/calendar/moment.min.js')}}"></script>
-    <script src="{{asset('js/calendar/fullcalendar.min.js')}}"></script>
-    <script src="{{asset('js/calendar/fullcalendar-active.js')}}"></script>
-	<!-- float JS
+        <script src="{{asset('js/calendar/moment.min.js')}}"></script>
+        <script src="{{asset('js/calendar/fullcalendar.min.js')}}"></script>
+        <script src="{{asset('js/calendar/fullcalendar-active.js')}}"></script>
+        <!-- float JS
 		============================================ -->
-    <script src="{{asset('js/flot/jquery.flot.js')}}"></script>
-    <script src="{{asset('js/flot/jquery.flot.resize.js')}}"></script>
-    <script src="{{asset('js/flot/curvedLines.js')}}"></script>
-    <script src="{{asset('js/flot/flot-active.js')}}"></script>
-    <!-- plugins JS
+        <script src="{{asset('js/flot/jquery.flot.js')}}"></script>
+        <script src="{{asset('js/flot/jquery.flot.resize.js')}}"></script>
+        <script src="{{asset('js/flot/curvedLines.js')}}"></script>
+        <script src="{{asset('js/flot/flot-active.js')}}"></script>
+        <!-- plugins JS
 		============================================ -->
-    <script src="{{asset('js/plugins.js')}}"></script>
-    <!-- main JS
+        <script src="{{asset('js/plugins.js')}}"></script>
+        <!-- main JS
 		============================================ -->
-    <script src="{{asset('js/main.js')}}"></script>
+        <script src="{{asset('js/main.js')}}"></script>
 </body>
 
 </html>

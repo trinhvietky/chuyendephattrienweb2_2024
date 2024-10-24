@@ -73,18 +73,13 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
+                <a href="{{route('admin/home')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
                 <strong><img src="/img/logo/logosn.png" alt="" /></strong>
             </div>
             <div class="nalika-profile">
                 <div class="profile-dtl">
-<<<<<<< HEAD
-                    <a href="#"><img src="/img/notification/4.jpg" alt="" /></a>
-                    <h2>Lakian <span class="min-dtn">Das</span></h2>
-=======
                     <a href="#"><img src="/img/notification/4.jpg" alt="" style="margin-left: 45px;" /></a>
                     <h2>{{ Auth::user()->name }}</h2>
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
                 </div>
                 <div class="profile-social-dtl">
                     <ul class="dtl-social">
@@ -118,9 +113,11 @@
                         <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">User</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox" href="user-list"><span class="mini-sub-pro">User list</span></a></li>
-                                <!-- <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">View Mail</span></a></li>
-                                <li><a title="Compose Mail" href="mailbox-compose.html"><span class="mini-sub-pro">Compose Mail</span></a></li> -->
+                                <li><a title="Inbox" href="{{route('admin/user-list')}}"><span class="mini-sub-pro">User list</span></a></li>
+                            </ul>
+                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Product</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Inbox" href="{{route('product_variants.index')}}"><span class="mini-sub-pro">Product list</span></a></li>
                             </ul>
                         </li>
                         <!-- <li>

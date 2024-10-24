@@ -28,7 +28,7 @@ class ProductVariantController extends Controller
 
 
         // Truyền cả hai biến vào view
-        return view('product-variant-list', compact('productVariants', 'images'));
+        return view('admin/product-variant-list', compact('productVariants', 'images'));
     }
 
 
@@ -39,7 +39,7 @@ class ProductVariantController extends Controller
         $colors = Color::all();
         $sizes = Size::all();
         $subCategories = SubCategory::all();
-        return view('product-variant-add', compact('colors', 'sizes', 'subCategories'));
+        return view('admin/product-variant-add', compact('colors', 'sizes', 'subCategories'));
     }
 
     // Lưu biến thể sản phẩm mới vào cơ sở dữ liệu
@@ -77,7 +77,7 @@ class ProductVariantController extends Controller
             }
         }
 
-        return redirect()->route('product_variants.index')->with('success', 'Biến thể sản phẩm đã được thêm');
+        return redirect()->route('admin/product_variants.index')->with('success', 'Biến thể sản phẩm đã được thêm');
     }
 
 
@@ -89,7 +89,7 @@ class ProductVariantController extends Controller
         $colors = Color::all();
         $sizes = Size::all();
         $subCategories = SubCategory::all();
-        return view('product-edit', compact('productVariant', 'products', 'colors', 'sizes', 'subCategories'));
+        return view('admin/product-edit', compact('productVariant', 'products', 'colors', 'sizes', 'subCategories'));
     }
 
     // Cập nhật biến thể sản phẩm
