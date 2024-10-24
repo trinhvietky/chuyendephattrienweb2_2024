@@ -1,5 +1,5 @@
-@extends('header')
-@section('text')
+@extends('admin/app')
+@section('menu-footer')
 
 @if (session('success'))
     <div class="alert alert-success">
@@ -8,7 +8,7 @@
 @endif
 
 <div class="breadcome-area">
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top: 70px;">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="breadcome-list">
@@ -55,23 +55,23 @@
                                         @csrf
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                            <input type="text" name="name" class="form-control" placeholder="Full name" required>
+                                            <input type="text" name="name" class="form-control" placeholder="Full name" required style="background: #152036; font-size: 16px">
                                         </div>
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
-                                            <input type="email" name="email" class="form-control" placeholder="Email" required>
+                                            <input type="email" name="email" class="form-control" placeholder="Email" required style="background: #152036; font-size: 16px">
                                         </div>
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                            <input type="text" name="phone" class="form-control" placeholder="Phone" required>
+                                            <input type="text" name="phone" class="form-control" placeholder="Phone" required style="background: #152036; font-size: 16px">
                                         </div>
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                            <input type="text" name="role" class="form-control" placeholder="Quyền" required>
+                                            <input type="text" name="role" class="form-control" placeholder="Quyền" required style="background: #152036; font-size: 16px">
                                         </div>
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
-                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
+                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu" style="background: #152036; font-size: 16px">
                                         </div>
 
                                         <div class="text-center custom-pro-edt-ds">

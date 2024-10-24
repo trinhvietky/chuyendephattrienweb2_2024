@@ -128,23 +128,23 @@ Route::get('/contact', function () {
 // Route::get('/admin/home', function () {
 //     return view('admin/home');
 // })->name('admin/home');
-Route::get('/user-list', function () {
-    return view('user-list');
+// Route::get('/admin/user-list', function () {
+//     return view('/admin/user-list');
+// });
+Route::get('/admin/user-add', function () {
+    return view('/admin/user-add');
 });
-Route::get('/user-add', function () {
-    return view('user-add');
-});
-Route::get('/user-list', [UserController::class, 'index']);
+Route::get('/admin/user-list', [AdminController::class, 'AllUser']);
 
-Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::delete('/admin/user/{id}', [AdminController::class, 'destroy'])->name('user.destroy');
 
-Route::get('/user-list', [UserController::class, 'index'])->name('user-list');
+Route::get('/admin/user-list', [AdminController::class, 'AllUser'])->name('admin/user-list');
 
 //Them user
-Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::post('/admin/users', [AdminController::class, 'store'])->name('users.store');
 
 
 //Sua user
-Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('user.edit');
 
-Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
