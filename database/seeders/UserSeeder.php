@@ -24,5 +24,14 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        DB::table('users')->insert([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'phone' => '0987654321',
+            'password' => bcrypt('adminpassword'), // Mã hóa mật khẩu cho admin
+            'usertype' => 'admin', // Đặt role thành admin
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

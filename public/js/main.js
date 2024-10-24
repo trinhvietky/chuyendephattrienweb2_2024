@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> main
 
 (function ($) {
     "use strict";
@@ -280,6 +283,9 @@
 
 
 
+<<<<<<< HEAD
+})(jQuery);
+=======
 })(jQuery);
 =======
 (function ($) {
@@ -385,3 +391,4 @@
  
 })(jQuery); 
 >>>>>>> CRUD-User-VietKy
+>>>>>>> main
