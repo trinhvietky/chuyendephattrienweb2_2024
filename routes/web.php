@@ -1,10 +1,15 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
+=======
+use App\Http\Controllers\ProductVariantController;
+use App\Http\Controllers\SizeController;
+>>>>>>> CRUD-Product-ThanhTai
 
 /*
 |--------------------------------------------------------------------------
@@ -12,12 +17,13 @@ use Illuminate\Support\Facades\Auth;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
 Route::get('/', function () {
+<<<<<<< HEAD
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
@@ -44,13 +50,23 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+=======
+    return view('welcome');
+});
 
+>>>>>>> CRUD-Product-ThanhTai
 
-// Các trang khác (ví dụ Blog, About, Contact)
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
+Route::get('products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('products', [ProductController::class, 'store'])->name('products.store');
 
+Route::get('product_variants', [ProductVariantController::class, 'index'])->name('product_variants.index');
+Route::get('product_variants/create', [ProductVariantController::class, 'create'])->name('product_variants.create');
+Route::post('product_variants', [ProductVariantController::class, 'store'])->name('product_variants.store');
+Route::get('product_variants/{productVariant_id}/edit', [ProductVariantController::class, 'edit'])->name('product_variants.edit');
+Route::put('product_variants/{productVariant_id}', [ProductVariantController::class, 'update'])->name('product_variants.update');
+Route::delete('product_variants/{productVariant_id}', [ProductVariantController::class, 'destroy'])->name('product_variants.destroy');
+
+<<<<<<< HEAD
 Route::get('/blog-detail', function () {
     return view('blog-detail');
 })->name('blog-');
@@ -148,3 +164,6 @@ Route::post('/admin/users', [AdminController::class, 'store'])->name('users.stor
 Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('user.edit');
 
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
+=======
+Route::get('/sizes', [SizeController::class, 'getSizes'])->name('sizes.get');
+>>>>>>> CRUD-Product-ThanhTai
