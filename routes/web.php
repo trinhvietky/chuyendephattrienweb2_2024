@@ -8,6 +8,7 @@ use App\Http\Controllers\CrudVoucherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
@@ -188,4 +189,7 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
+
+//contact
+Route::post('/send', [ContactController::class, 'send'])->name('contact.send');
 
