@@ -63,7 +63,11 @@ class AdminController extends Controller
         ]);
 
         // Redirect to a specific page after saving
+<<<<<<< HEAD
         return redirect()->route('/admin/user-list')->with('success', 'User added successfully!');
+=======
+        return redirect()->route('admin/user-list')->with('success', 'User added successfully!');
+>>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
     }
 
     public function edit($id)
@@ -93,6 +97,10 @@ class AdminController extends Controller
         $user->save();
 
         // Chuyển hướng lại trang danh sách với thông báo thành công
+<<<<<<< HEAD
         return redirect()->route('/admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
+=======
+        return redirect()->route('admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
+>>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
     }
 }
