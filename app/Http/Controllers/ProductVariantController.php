@@ -77,7 +77,7 @@ class ProductVariantController extends Controller
             }
         }
 
-        return redirect()->route('admin/product_variants.index')->with('success', 'Biến thể sản phẩm đã được thêm');
+        return redirect()->route('product_variants.index')->with('success', 'Biến thể sản phẩm đã được thêm');
     }
 
 
