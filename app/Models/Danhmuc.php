@@ -12,4 +12,9 @@ class Danhmuc extends Model
     protected $table = 'danhmuc';
     protected $primaryKey = 'danhmuc_ID';
     protected $fillable = ['danhmuc_Ten'];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'danhmuc_ID');
+    }
 }

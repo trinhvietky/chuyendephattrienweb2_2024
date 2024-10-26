@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class DanhmucController extends Controller
 {
-    public function index()
+    public function getAllDanhMuc()
     {
-        $danhmucs = Danhmuc::all();
-        return view('/admin/danhmuc-list', compact('danhmucs'));
+        return DanhMuc::all();
     }
+
 
     // public function create()
     // {

@@ -60,7 +60,7 @@
                                     <td>{{ $danhmuc->danhmuc_Ten }}</td>
                                     <td>
                                        
-
+                                    <div style="display: flex; margin-left: -12px;">
                                         <form action="{{ route('danhmuc.destroy', $danhmuc->danhmuc_ID) }}" method="POST"
                                             onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');"
                                             style="margin-right: 5px;">
@@ -77,7 +77,7 @@
                                             style="color: white; margin-top: 7px; background: none; border: none;">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </a>
-
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

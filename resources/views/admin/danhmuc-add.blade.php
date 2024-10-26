@@ -56,8 +56,9 @@
                                     <form action="{{ route('danhmuc.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="danhmuc_Ten">Tên danh mục</label>
-                                            <input type="text" name="danhmuc_Ten" class="form-control" required>
+                                            <label for="danhmuc_Ten" style="color: aliceblue">Tên danh mục</label>
+                                            <input type="text" name="danhmuc_Ten" class="form-control" required style="background: #152036;
+                                            font-size: 17px;">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Thêm</button>
                                     </form>

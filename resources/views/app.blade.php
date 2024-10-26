@@ -86,11 +86,9 @@
 							<li>
 								<a href="{{route('product')}}">Shop</a>
 								<ul class="sub-menu">
-									<li><a href="index.html">Homepage 1</a></li>
-									<li><a href="home-02.html">Homepage 2</a></li>
-									<li><a href="home-03.html">Homepage 3</a></li>
-									<li><a href="home-03.html">Homepage 3</a></li>
-									<li><a href="home-03.html">Homepage 3</a></li>
+								@foreach($danhmucs as $danhmuc)
+									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
+								@endforeach
 								</ul>
 							</li>
 

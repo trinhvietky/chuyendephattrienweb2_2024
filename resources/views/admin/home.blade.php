@@ -73,11 +73,7 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-<<<<<<< HEAD
-                <a href="index.html"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
-=======
-                <a href="{{route('admin/home')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
->>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
+                <a href="{{route('admin.home')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
                 <strong><img src="/img/logo/logosn.png" alt="" /></strong>
             </div>
             <div class="nalika-profile">
@@ -115,23 +111,11 @@
                             </ul>
                         </li> -->
                         <li>
-<<<<<<< HEAD
-                            <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">User</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox" href="user-list"><span class="mini-sub-pro">User list</span></a></li>
-                                <li><a title="Inbox" href="{{ route('danhmuc.index') }}"><span class="mini-sub-pro">Danh muc list</span></a></li>
-                                <!-- <li><a title="View Mail" href="mailbox-view.html"><span class="mini-sub-pro">View Mail</span></a></li>
-                                <li><a title="Compose Mail" href="mailbox-compose.html"><span class="mini-sub-pro">Compose Mail</span></a></li> -->
-                            </ul>
-                        </li>
-                        
-=======
                         <a class="has-arrow" href="{{route('admin/user-list')}}" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span>User</span></a>
                             <a class="has-arrow" href="{{route('product_variants.index')}}" aria-expanded="false"><i class="icon nalika-shopping-cart icon-wrap"></i> <span class="mini-click-non">Product</span></a>
                             <a class="has-arrow" href="{{route('voucher_list')}}" aria-expanded="false"><i class="icon nalika-price-tag icon-wrap"></i> <span class="mini-click-non">Voucher</span></a>
-                            <a class="has-arrow" href="{{route('voucher_list')}}" aria-expanded="false"><i class="icon nalika-menu-task icon-wrap"></i> <span class="mini-click-non">Danh mục</span></a>
+                            <a class="has-arrow" href="{{route('danhmuc.index')}}" aria-expanded="false"><i class="icon nalika-menu-task icon-wrap"></i> <span class="mini-click-non">Danh mục</span></a>
                         </li>
->>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
                         <!-- <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Mailbox</span></a>
                             <ul class="submenu-angle" aria-expanded="false">

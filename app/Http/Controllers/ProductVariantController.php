@@ -28,11 +28,7 @@ class ProductVariantController extends Controller
 
 
         // Truyền cả hai biến vào view
-<<<<<<< HEAD
-        return view('product-variant-list', compact('productVariants', 'images'));
-=======
         return view('admin/product-variant-list', compact('productVariants', 'images'));
->>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
     }
 
 
@@ -43,11 +39,7 @@ class ProductVariantController extends Controller
         $colors = Color::all();
         $sizes = Size::all();
         $subCategories = SubCategory::all();
-<<<<<<< HEAD
-        return view('product-variant-add', compact('colors', 'sizes', 'subCategories'));
-=======
         return view('admin/product-variant-add', compact('colors', 'sizes', 'subCategories'));
->>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
     }
 
     // Lưu biến thể sản phẩm mới vào cơ sở dữ liệu
@@ -97,11 +89,7 @@ class ProductVariantController extends Controller
         $colors = Color::all();
         $sizes = Size::all();
         $subCategories = SubCategory::all();
-<<<<<<< HEAD
-        return view('product-edit', compact('productVariant', 'products', 'colors', 'sizes', 'subCategories'));
-=======
         return view('admin/product-edit', compact('productVariant', 'products', 'colors', 'sizes', 'subCategories'));
->>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
     }
 
     // Cập nhật biến thể sản phẩm
