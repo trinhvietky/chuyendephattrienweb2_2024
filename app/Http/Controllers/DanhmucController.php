@@ -10,13 +10,13 @@ class DanhmucController extends Controller
     public function index()
     {
         $danhmucs = Danhmuc::all();
-        return view('danhmuc.index', compact('danhmucs'));
+        return view('/admin/danhmuc-list', compact('danhmucs'));
     }
 
-    public function create()
-    {
-        return view('danhmuc.create');
-    }
+    // public function create()
+    // {
+    //     return view('danhmuc.create');
+    // }
 
     public function store(Request $request)
     {
@@ -31,7 +31,7 @@ class DanhmucController extends Controller
     public function edit($id)
     {
         $danhmuc = Danhmuc::findOrFail($id);
-        return view('danhmuc.edit', compact('danhmuc'));
+        return view('/admin/danhmuc-edit', compact('danhmuc'));
     }
 
     public function update(Request $request, $id)

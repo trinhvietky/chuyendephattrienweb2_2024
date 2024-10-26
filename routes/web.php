@@ -2,14 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-use App\Http\Controllers\DanhmucController;
-
-=======
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DanhmucController;
 use Illuminate\Support\Facades\Auth;
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +19,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-<<<<<<< HEAD
+
 // Route::get('/', function () {
 //     return view('CRUD_danhmuc');
 // });
 
-Route::resource('danhmuc', DanhmucController::class);
-=======
 Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
@@ -152,6 +147,7 @@ Route::delete('/admin/user/{id}', [AdminController::class, 'destroy'])->name('us
 
 Route::get('/admin/user-list', [AdminController::class, 'AllUser'])->name('admin/user-list');
 
+
 //Them user
 Route::post('/admin/users', [AdminController::class, 'store'])->name('users.store');
 
@@ -160,4 +156,18 @@ Route::post('/admin/users', [AdminController::class, 'store'])->name('users.stor
 Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('user.edit');
 
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
->>>>>>> maitrananhtuan_trangtru_user_dangnhap,trangtru_admin_dangnhap
+
+//Danh muc
+Route::get('/admin/danhmuc-list', [DanhmucController::class, 'index'])->name('danhmuc.index');
+
+Route::get('/admin/danhmuc-add', function () {
+    return view('/admin/danhmuc-add');
+});
+
+Route::post('/admin/danhmuc-add', [DanhmucController::class, 'store'])->name('danhmuc.store');
+
+Route::get('/admin/danhmuc/{danhmuc_ID}/edit', [DanhmucController::class, 'edit'])->name('danhmuc.edit');
+
+Route::put('/admin/danhmuc/{danhmuc_ID}', [DanhmucController::class, 'update'])->name('danhmuc.update');
+
+Route::delete('/admin/danhmuc/{id}', [DanhmucController::class, 'destroy'])->name('danhmuc.destroy');

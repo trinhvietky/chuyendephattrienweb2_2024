@@ -18,7 +18,8 @@
                     <td>{{ $danhmuc->danhmuc_ID }}</td>
                     <td>{{ $danhmuc->danhmuc_Ten }}</td>
                     <td>
-                    <a href="{{ route('danhmuc.edit', $danhmuc->danhmuc_ID) }}" class="btn btn-primary">Sửa</a>
+
+                        <a href="{{ route('danhmuc.edit', $danhmuc->danhmuc_ID) }}" class="btn btn-primary">Sửa</a>
 
                         <form action="{{ route('danhmuc.destroy', $danhmuc->danhmuc_ID) }}" method="POST"
                             style="display: inline;">
@@ -27,6 +28,7 @@
                             <button onclick="return confirm('Bạn có chắc chắn muốn xóa?');"
                                 class="btn btn-danger">Xóa</button>
                         </form>
+                        
                     </td>
                 </tr>
             @endforeach
