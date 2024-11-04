@@ -12,7 +12,7 @@ class AdminController extends Controller
     public function index()
     {
         // Logic cho admin home page
-        return view('admin/home');
+        return view('admin/dashboard');
     }
     // Phương thức xóa user
     public function AllUser()
@@ -32,7 +32,7 @@ class AdminController extends Controller
         $user->delete();
 
         // Sau khi xóa, chuyển hướng về trang danh sách người dùng với thông báo thành công
-        return redirect()->route('user-list')->with('success', 'User đã được xóa thành công.');
+        return redirect()->route('admin/user-list')->with('success', 'User đã được xóa thành công.');
     }
 
     public function store(Request $request)
@@ -63,7 +63,7 @@ class AdminController extends Controller
         ]);
 
         // Redirect to a specific page after saving
-        return redirect()->route('/admin/user-list')->with('success', 'User added successfully!');
+        return redirect()->route('admin/user-list')->with('success', 'User added successfully!');
     }
 
     public function edit($id)
