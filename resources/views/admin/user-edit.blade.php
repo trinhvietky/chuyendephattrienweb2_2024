@@ -51,7 +51,7 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{ route('user.update', $user->id) }}" method="POST">
+                                    <form action="{{ route('user.update', $user->id) }}" method="POST" novalidate>
                                         @csrf
                                         @method('PUT')
 
@@ -59,6 +59,9 @@
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
                                             <input type="text" name="name" class="form-control" placeholder="Full name" value="{{ $user->name }}" required style="background: #152036;
                                             font-size: 17px;">
+                                            @error('name')
+                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="input-group mg-b-pro-edt">
@@ -81,7 +84,10 @@
                                             <input type="password" name="password" class="form-control" placeholder="Mật khẩu" value="{{ $user->password }}" required style="background: #152036; font-size: 17px;">
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                        <div class="text-center custom-pro-edt-ds">
+                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                        </div>
+                                        
                                     </form>
 
                                 </div>

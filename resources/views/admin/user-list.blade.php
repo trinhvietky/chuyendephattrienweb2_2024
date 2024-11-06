@@ -2,12 +2,20 @@
 @section('menu-footer')
 
 @if(session('success'))
-<div class="alert alert-success">
+<div class="alert alert-success" style="margin: 80px 0px -80px 0px" id="success">
     {{ session('success') }}
 </div>
+<script>
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(function() {
+        document.getElementById('success').style.display = 'none';
+    }, 5000);
+</script>
 @endif
 
 <div class="breadcome-area">
+
+
     <div class="container-fluid" style="margin-top: 70px;">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -60,7 +68,12 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->phone}}</td>
-                            <td>{{$user->usertype}}</td>
+                            <td>
+                                @if($user->usertype === '1')
+                                Admin
+                                @else
+                                User
+                                @endif</td>
                             <td>
                                 <div style="display: flex; margin-left: -12px;">
                                     <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
