@@ -15,11 +15,14 @@ class ContactController extends Controller
             'email.required' => 'Vui lòng nhập địa chỉ email.',
             'email.email' => 'Địa chỉ email không hợp lệ.',
             'email.max:500' => 'không được nhập quá 500 ký tự.',
+            'g-recaptcha-response.required' => 'Vui lòng xác minh reCAPTCHA.', 
+            'g-recaptcha-response.captcha' => 'Xác minh reCAPTCHA không hợp lệ.',
         ];
         // Xác thực dữ liệu
         $request->validate([
             'email' => 'required|email',
-            'msg' => 'required|max:500'
+            'msg' => 'required|max:500',
+            'g-recaptcha-response' => 'required|captcha',
         ], $messages);
 
         // Lưu thông tin vào database (nếu cần)
