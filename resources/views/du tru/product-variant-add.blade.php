@@ -1,5 +1,5 @@
-@extends('admin/app')
-@section('menu-footer')
+@extends('header')
+@section('text')
 
 @if (session('success'))
 <div class="alert alert-success">
@@ -122,7 +122,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="button" id="add-size" class="btn btn-primary">Thêm size</button>
+                                                <button type="button" id="add-size" class="btn btn-secondary">Thêm size</button>
                                             </div>
                                         </div>
                                         <div class="text-center custom-pro-edt-ds mt2">

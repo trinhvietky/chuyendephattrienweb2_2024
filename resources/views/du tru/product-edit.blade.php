@@ -1,5 +1,5 @@
-@extends('admin/app')
-@section('menu-footer')
+@extends('header')
+@section('text')
 
 @if (session('success'))
 <div class="alert alert-success">

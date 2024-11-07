@@ -1,5 +1,5 @@
-@extends('admin/app')
-@section('menu-footer')
+@extends('header')
+@section('text')
 
 @if(session('success'))
 <div class="alert alert-success">
@@ -7,7 +7,7 @@
 </div>
 @endif
 
-<div class="breadcome-area" style="margin-top: 50px;">
+<div class="breadcome-area">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

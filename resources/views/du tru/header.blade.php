@@ -120,11 +120,8 @@
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Inbox" href="{{route('product_variants.index')}}"><span class="mini-sub-pro">Product list</span></a></li>
                             </ul>
-<<<<<<< HEAD
-=======
 
                            
->>>>>>> main
                         </li>
                         <!-- <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Mailbox</span></a>
@@ -990,15 +987,11 @@
 <<<<<<< HEAD
         <script src="{{asset('js/main.js')}}"></script>
 =======
-<<<<<<< HEAD
-        <script src="{{asset('js/main.js')}}"></script>
-=======
     <script src="{{asset('js/main.js')}}"></script>
 
     <script src="https://kit.fontawesome.com/f1d7b33898.js" crossorigin="anonymous"></script>
 
 >>>>>>> CRUD-Voucher-thang
->>>>>>> main
 </body>
 
 </html>

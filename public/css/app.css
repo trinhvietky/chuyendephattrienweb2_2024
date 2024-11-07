@@ -1468,7 +1468,7 @@ select {
   }
 
   .sm\:block {
-    display: block;
+    display: contents;
   }
 
   .sm\:flex {
