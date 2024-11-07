@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
     $request->session()->regenerate();
 
     // Kiểm tra vai trò của người dùng
-    if (Auth::user()->usertype === '1') {
+    if (Auth::user()->usertype === 'admin') {
         return redirect()->intended(RouteServiceProvider::ADMIN);
     }
 
