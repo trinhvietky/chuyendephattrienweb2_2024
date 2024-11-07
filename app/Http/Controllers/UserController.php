@@ -12,7 +12,6 @@ class UserController extends Controller
 {
     public function index()
     {
-        // Logic cho user home page
-        return view('users.home');
+        return view('user.home');
     }
 }

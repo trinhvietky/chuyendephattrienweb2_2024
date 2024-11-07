@@ -6,8 +6,13 @@
     {{ session('success') }}
 </div>
 @endif
+<<<<<<< HEAD
 <div class="breadcome-area">
     <div class="container-fluid" style="margin-top: 30px;">
+=======
+<div class="breadcome-area" style="margin-top: 40px;">
+    <div class="container-fluid">
+>>>>>>> main
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="breadcome-list">
@@ -122,7 +127,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
+<<<<<<< HEAD
                                                 <button type="button" style="background-color: white;" id="add-size" class="btn btn-secondary">Thêm size</button>
+=======
+                                                <button type="button" id="add-size" class="btn btn-secondary">Thêm size</button>
+>>>>>>> main
                                             </div>
                                         </div>
                                         <div class="text-center custom-pro-edt-ds mt2">

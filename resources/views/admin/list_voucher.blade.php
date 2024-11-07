@@ -19,7 +19,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Product list</h2>
+                                    <h2>Voucher list</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -35,50 +35,60 @@
         </div>
     </div>
 </div>
-
+</div>
 <div class="product-status mg-b-30">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
-                    <h4>Product List</h4>
+                    <h4>User List</h4>
                     <div class="add-product">
-                        <a href="{{ route('products.create') }}">Add Product</a>
+                        <a href="{{ route('Voucher-create') }}">Add Voucher</a>
                     </div>
                     <table>
                         <tr>
                             <th>ID</th>
-                            <th>Sản phẩm</th>
-                            <th>Hình ảnh</th>
-                            <th>Màu sắc</th>
-                            <th>Kích thước</th>
-                            <th>Số lượng</th>
-                            <th>Thao tác</th>
+                            <th>Voucher Code</th>
+                            <th>Mô tả</th>
+                            <th>giảm giá</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                            <th>giá tối thiểu AD</th>
+                            <th>Lần sử dụng</th>
+                            <th>trạng thái đơn hàng</th>
+                            <th>Công cụ</th>
                         </tr>
-                        @foreach ($productVariants as $index => $variant)
-                        <tr>
-                            <td>{{ $variant->productVariant_id }}</td>
-                            <td>{{ $variant->product->product_name }}</td>
-                            <td><img src="{{ asset( $images[$index]->image_path) }}" alt=""></td>
-                            <td>{{ $variant->color->color_name }}</td>
-                            <td>{{ $variant->size->size_name }}</td>
-                            <td>{{ $variant->stock }}</td>
-                            <td>
-                                <div style="display: flex; margin-left: -12px;">
-                                    <form action="{{ route('product_variants.destroy', $variant->productVariant_id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="background: none; border: none;">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                        </button>
-                                    </form>
-                                    <a href="{{ route('product_variants.edit', $variant->productVariant_id) }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
+                        @foreach ($voucher as $voucher)
+                    <tr>
+                        <td>{{ $voucher->id }}</td>
+                        <td>{{ $voucher->voucher_code }}</td>
+                        <td>{{ $voucher->description }}</td>
+                        <td>{{ $voucher->discount_amount }}</td>
+                        {{-- <td>{{ $voucher->start_date }}</td>
+                        <td>{{ $voucher->end_date }}</td> --}}
+                        <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
+                        <td>{{ $voucher->minimum_order }}</td>
+                        <td>{{ $voucher->usage_limit }}</td>
+                        <td>{{ $voucher->status }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <a href="{{ route('edit_voucher', $voucher->id) }}"><i class='far fa-edit  mr-2'></i></a>
+                                <form action="{{ route('delete_voucher', $voucher->id) }}" method="POST"
+                                    onsubmit="return confirm('Bạn có chắc chắn muốn xóa voucher này?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="" style="border:none; background:none;">
+                                        <i class='far fa-trash-alt' style="color: red"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                @endforeach
                     </table>
                     <div class="custom-pagination">
                         <ul class="pagination">

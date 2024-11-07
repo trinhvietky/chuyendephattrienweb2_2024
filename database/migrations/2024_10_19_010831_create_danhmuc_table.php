@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('register_authentic', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone');
-            $table->string('password');
-            $table->string('otp');
-            $table->timestamp('otp_expires_at')->nullable();
+        Schema::create('danhmuc', function (Blueprint $table) {
+            $table->id('danhmuc_ID');
+            $table->string('danhmuc_Ten');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('register_authentic');
+        Schema::dropIfExists('danhmuc');
     }
 };

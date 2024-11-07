@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\DanhMuc;
+use App\Http\Controllers\DanhmucController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('*', function ($view) {
+            $danhmucs = app(DanhmucController::class)->getAllDanhMuc();
+            $view->with('danhmucs', $danhmucs);
+        });
     }
 }

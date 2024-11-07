@@ -2,9 +2,21 @@
 @section('menu-footer')
 
 @if (session('success'))
+<<<<<<< HEAD
 <div class="alert alert-success">
     {{ session('success') }}
 </div>
+=======
+<<<<<<< HEAD
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+=======
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+>>>>>>> maitrananhtuan_crud_product_voucher_thang_tai
+>>>>>>> main
 @endif
 
 <div class="breadcome-area">

@@ -1,13 +1,20 @@
 <?php
 
+
 use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\CrudVoucherController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DanhmucController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
+
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +26,7 @@ use App\Http\Controllers\ProductController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 
 Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
@@ -64,7 +72,7 @@ Route::get('/product', function () {
 
 Route::get('/product-detail', function () {
     return view('product-detail');
-})->name('product-');
+})->name('product-detail');
 
 Route::get('/shoping-cart', function () {
     return view('shoping-cart');
@@ -143,6 +151,7 @@ Route::delete('/admin/user/{id}', [AdminController::class, 'destroy'])->name('us
 
 Route::get('/admin/user-list', [AdminController::class, 'AllUser'])->name('admin/user-list');
 
+
 //Them user
 Route::post('/admin/users', [AdminController::class, 'store'])->name('users.store');
 
@@ -152,7 +161,20 @@ Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('use
 
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
 
+//Danh muc
+Route::get('/admin/danhmuc-list', [DanhmucController::class, 'index'])->name('danhmuc.index');
 
+Route::get('/admin/danhmuc-add', function () {
+    return view('/admin/danhmuc-add');
+});
+
+Route::post('/admin/danhmuc-add', [DanhmucController::class, 'store'])->name('danhmuc.store');
+
+Route::get('/admin/danhmuc/{danhmuc_ID}/edit', [DanhmucController::class, 'edit'])->name('danhmuc.edit');
+
+Route::put('/admin/danhmuc/{danhmuc_ID}', [DanhmucController::class, 'update'])->name('danhmuc.update');
+
+Route::delete('/admin/danhmuc/{id}', [DanhmucController::class, 'destroy'])->name('danhmuc.destroy');
 
 //Quan ly product
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
@@ -166,3 +188,20 @@ Route::put('admin/product_variants/{productVariant_id}', [ProductVariantControll
 Route::delete('admin/product_variants/{productVariant_id}', [ProductVariantController::class, 'destroy'])->name('product_variants.destroy');
 
 Route::get('/sizes', [SizeController::class, 'getSizes'])->name('sizes.get');
+
+
+
+// quản lý voucher
+Route::get('admin/voucher-list', [CrudVoucherController::class, 'listVoucher'])->name('voucher_list');
+
+// thêm voucher
+Route::post('admin/create-voucher', [CrudVoucherController::class, 'postVoucher'])->name('create_voucher');
+Route::get('admin/create-Voucher', function () {
+    return view('admin.voucher-add');
+})->name('Voucher-create');
+
+// sửa voucher
+Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->name('edit_voucher');
+Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
+// xóa voucher
+Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
