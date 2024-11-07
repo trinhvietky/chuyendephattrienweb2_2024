@@ -32,13 +32,8 @@ Route::get('/', function() {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
-<<<<<<< HEAD
         if (Auth::user()->usertype === '1') {
             return redirect('/admin/home');
-=======
-        if (Auth::user()->usertype === 'admin') {
-            return redirect('/dashboard');
->>>>>>> main
         } else {
             return redirect('/home');
         }
