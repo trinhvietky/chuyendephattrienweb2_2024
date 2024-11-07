@@ -12,7 +12,7 @@ class AdminController extends Controller
     public function index()
     {
         // Logic cho admin home page
-        return view('admin/dashboard');
+        return view('admin/home');
     }
     // Phương thức xóa user
     public function AllUser()

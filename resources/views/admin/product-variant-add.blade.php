@@ -122,7 +122,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="button" id="add-size" class="btn btn-secondary">Thêm size</button>
+                                                <button type="button" id="add-size" class="btn btn-primary">Thêm size</button>
                                             </div>
                                         </div>
                                         <div class="text-center custom-pro-edt-ds mt2">
