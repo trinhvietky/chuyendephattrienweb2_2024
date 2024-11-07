@@ -62,7 +62,7 @@
                                        
                                     <div style="display: flex; margin-left: -12px;">
                                         <form action="{{ route('danhmuc.destroy', $danhmuc->danhmuc_ID) }}" method="POST"
-                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục {{ $danhmuc->danhmuc_Ten }} không ?');"
                                             style="margin-right: 5px;">
                                             @csrf
                                             @method('DELETE')
