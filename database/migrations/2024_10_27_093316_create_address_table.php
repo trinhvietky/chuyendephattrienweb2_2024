@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('address', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
             $table->string('phone');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('usertype')->default('0');
-            $table->rememberToken();
+            $table->unsignedBigInteger('user_id');
+            $table->string('tinh');   // Province
+            $table->string('quan');   // District
+            $table->string('phuong'); // Ward
+            $table->string('address');
+            $table->boolean('is_default')->default(false); // Default address flag
             $table->timestamps();
-
-        });
+        });       
     }
 
     /**
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('address');
     }
 };
