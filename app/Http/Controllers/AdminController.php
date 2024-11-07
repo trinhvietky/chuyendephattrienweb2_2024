@@ -130,7 +130,7 @@ class AdminController extends Controller
                 'required',
                 'email',
                 'max:100',
-                'unique:users',
+                'unique:users,email,' . $id, // Unique trừ user đang cập nhật
                 'regex:/^[^\s@<>()[\],;:\\"]+@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+$/', // Định dạng email
             ],
             'phone' => [
@@ -140,7 +140,7 @@ class AdminController extends Controller
             ],
             'role' => 'required|in:0,1',
             'password' => [
-                'required',
+                'nullable',
                 'min:5',
                 'max:20',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{5,20}$/',
@@ -169,7 +169,6 @@ class AdminController extends Controller
             'role.in' => 'Quyền phải là 0 (user) hoặc 1 (admin).',
 
             // Mật khẩu
-            'password.required' => 'Mật khẩu không được để trống.',
             'password.min' => 'Mật khẩu phải có ít nhất 5 ký tự.',
             'password.max' => 'Mật khẩu không được vượt quá 20 ký tự.',
             'password.regex' => 'Mật khẩu phải bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.',
@@ -183,7 +182,7 @@ class AdminController extends Controller
         $user->phone = $request->input('phone');
 
         // Nếu admin nhập mật khẩu mới thì hash và lưu lại
-        if ($request->filled('password')) {
+        if ($request->filled('password') && strlen($request->input('password')) <= 20) {
             $user->password = Hash::make($request->input('password'));
         }
 
@@ -191,6 +190,6 @@ class AdminController extends Controller
         $user->save();
 
         // Chuyển hướng lại trang danh sách với thông báo thành công
-        return redirect()->route('/admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
+        return redirect()->route('admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
     }
 }
