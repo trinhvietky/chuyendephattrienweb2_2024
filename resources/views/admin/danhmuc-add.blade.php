@@ -19,7 +19,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Danh muc Administrator</h2>
+                                    <h2>Quản lí danh mục</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                     <div class="review-tab-pro-inner">
                         <ul id="myTab3" class="tab-review-design">
                             <li class="active"><a href="#description"><i class="icon nalika-edit"
-                                        aria-hidden="true"></i> Add Danh muc</a></li>
+                                        aria-hidden="true"></i>Thêm Danh muc</a></li>
 
                         </ul>
                         <div id="myTabContent" class="tab-content custom-product-edit">

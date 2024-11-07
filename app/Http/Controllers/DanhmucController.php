@@ -28,11 +28,11 @@ class DanhmucController extends Controller
         $messages = [
             'danhmuc_Ten.required' => 'Vui lòng điền đầy đủ thông tin.',
             'danhmuc_Ten.max' => 'Thông tin tối đa 20 ký tự.',
-            'danhmuc_Ten.regex' => 'Danh mục không được bao gồm số hay ký tự đặc biệt..',
+            'danhmuc_Ten.regex' => 'Danh mục không được bao gồm số hay ký tự đặc biệt.',
         ];
 
         $request->validate([
-            'danhmuc_Ten' => 'required|string|max:20|regex:/^[A-Z a-z]+$/',
+            'danhmuc_Ten' => 'required|string|max:20|regex:/^[A-Z a-zÀ-ỹ]+$/',
         ], $messages);
         $data = $request->all();
         Danhmuc::create([
@@ -56,7 +56,7 @@ class DanhmucController extends Controller
         ];
 
         $request->validate([
-            'danhmuc_Ten' => 'required|string|max:20|regex:/^[A-Z a-z]+$/',
+            'danhmuc_Ten' => 'required|string|max:20|regex:/^[A-Z a-zÀ-ỹ]+$/',
         ], $messages);
 
 
