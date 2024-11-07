@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\AddressController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,15 +33,15 @@ Route::get('/', function() {
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
         if (Auth::user()->usertype === 'admin') {
-            return redirect('/dashboard');
+            return redirect('/admin/home');
         } else {
-            return redirect('/home');
+            return redirect('/users/home');
         }
     }
 
     // Nếu chưa đăng nhập, trả về trang index (trang chủ)
-    return view('/users/home');
-})->name('home');
+    return view('index');
+})->name('index');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
     Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
@@ -56,44 +56,70 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+
+// Các trang khác (ví dụ Blog, About, Contact)
+Route::get('/blog', function () {
+    return view('blog');
+})->name('blog');
+
+Route::get('/blog-detail', function () {
+    return view('blog-detail');
+})->name('blog-');
+
+Route::get('/product', function () {
+    return view('product');
+})->name('product');
+
+Route::get('/product-detail', function () {
+    return view('product-detail');
+})->name('product-detail');
+
+Route::get('/shoping-cart', function () {
+    return view('shoping-cart');
+})->name('shoping-cart');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
 //users
 //user/home
-Route::get('/home', function () {
+Route::get('/users/home', function () {
     return view('users/home');
 })->name('users/home');
 
-Route::get('/dashboard', function () {
-    return view('admin/dashboard');
-})->name('admin/dashboard');
-
 //user/blog
-Route::get('/blog', function () {
+Route::get('/users/blog', function () {
     return view('users/blog');
 })->name('users/blog');
 
 //user/blog-detail
-Route::get('/blog-detail', function () {
+Route::get('/users/blog-detail', function () {
     return view('/users/blog-detail');
 })->name('users/blog-detail');
 
 //user/product
-Route::get('/product', function () {
+Route::get('/users/product', function () {
     return view('/users/product');
 })->name('users/product');
 
 //user/contact
-Route::get('/contact', function () {
+Route::get('/users/contact', function () {
     return view('/users/contact');
 })->name('users/contact');
 
 //user/about
-Route::get('/about', function () {
+Route::get('/users/about', function () {
     return view('/users/about');
 })->name('users/about');
 
 //user/product-detail
-Route::get('/product-detail', function () {
-    return view('users/product-detail');
+Route::get('/users/product-detail', function () {
+    return view('users/productproduct-detail');
 })->name('users/product-detail');
 
 // Những route của những trang chưa đăng nhập
@@ -101,20 +127,13 @@ Route::get('/shoping-cart', function () {
     return view('shoping-cart');
 })->name('shoping-cart');
 
-Route::get('/address', function () {
-    return view('users/address');
-})->name('users/address');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
-Route::get('/diachi', function () {
-    return view('users/diachi');
-})->name('users/diachi');
-
-Route::post('/address/form', [AddressController::class, 'showForm'])->name('address.form');
-Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('address.save');
-// Route để cập nhật địa chỉ
-// Route để cập nhật địa chỉ
-Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
-
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
 
 // Route::get('/admin/home', function () {

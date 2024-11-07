@@ -1,45 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<title>Home</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
-	<!--===============================================================================================-->
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->	
 	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css-home/util.css">
 	<link rel="stylesheet" type="text/css" href="css-home/main.css">
-	<link rel="stylesheet" href="{{asset('/css/app.css')}}">
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 </head>
-
 <body class="animsition">
-
+	
 	<!-- Header -->
 	<header>
 		<!-- Header desktop -->
@@ -73,8 +70,8 @@
 
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-
-					<!-- Logo desktop -->
+					
+					<!-- Logo desktop -->		
 					<a href="#" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
@@ -83,15 +80,15 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="{{route('home')}}">Home</a>
+								<a href="{{route('index')}}">Home</a>
 							</li>
 
 							<li>
 								<a href="{{route('product')}}">Shop</a>
 								<ul class="sub-menu">
-									@foreach($danhmucs as $danhmuc)
+								@foreach($danhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
-									@endforeach
+								@endforeach
 								</ul>
 							</li>
 
@@ -111,95 +108,28 @@
 								<a href="{{route('contact')}}">Contact</a>
 							</li>
 						</ul>
-					</div>
+					</div>	
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
-						<!-- Check if the user is authenticated -->
-						@if (Route::has('login'))
-						<div class="fixed top-0 right-0 px-6 py-4 sm:block">
-							@auth
-							<!-- User is authenticated: Show the dropdown menu -->
-							<nav x-data="{ open: false }">
-								<div class="flex justify-between h-16">
-									<!-- Settings Dropdown -->
-									<div class="hidden sm:flex sm:items-center sm:ml-6">
-										<x-dropdown align="right" width="48">
-											<x-slot name="trigger">
-												<button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-													<div>{{ Auth::user()->name }}</div>
-													<div class="ml-1">
-														<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-															<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-														</svg>
-													</div>
-												</button>
-											</x-slot>
-											<x-slot name="content">
-												<x-dropdown-link :href="route('profile.edit')">
-													{{ __('Profile') }}
-												</x-dropdown-link>
-												<form method="POST" action="{{ route('logout') }}">
-													@csrf
-													<x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-														{{ __('Log Out') }}
-													</x-dropdown-link>
-												</form>
-											</x-slot>
-										</x-dropdown>
-									</div>
-									<!-- Hamburger for mobile -->
-									<div class="-mr-2 flex items-center sm:hidden">
-										<button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-											<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-												<path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-												<path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-											</svg>
-										</button>
-									</div>
-								</div>
-								<!-- Responsive Navigation Menu -->
-								<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-									<div class="pt-2 pb-3 space-y-1">
-										<x-responsive-nav-link :href="route('users/home')" :active="request()->routeIs('users/home')">
-											{{ __('Dashboard') }}
-										</x-responsive-nav-link>
-									</div>
-									<!-- Responsive Settings Options -->
-									<div class="pt-4 pb-1 border-t border-gray-200">
-										<div class="px-4">
-											<div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-											<div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-										</div>
-										<div class="mt-3 space-y-1">
-											<x-responsive-nav-link :href="route('profile.edit')">
-												{{ __('Profile') }}
-											</x-responsive-nav-link>
-											<form method="POST" action="{{ route('logout') }}">
-												@csrf
-												<x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-													{{ __('Log Out') }}
-												</x-responsive-nav-link>
-											</form>
-										</div>
-									</div>
-								</div>
-							</nav>
-							@else
-							<!-- User is not authenticated: Show login and register links -->
-							<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
-							<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
-							@endauth
-						</div>
-						@endif
+					@if (Route::has('login'))
+               	 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="text-sm underline">Log in</a>
+                        <a href="{{ route('auth.register') }}" class="ml-4 text-sm underline">Register</a>
+                    @endauth
+                </div>
+            @endif
 					</div>
 				</nav>
-			</div>
+			</div>	
 		</div>
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->
+			<!-- Logo moblie -->		
 			<div class="logo-mobile">
 				<a href="index.html"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
 			</div>
@@ -260,7 +190,7 @@
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="{{route('home')}}">Home</a>
+					<a href="{{route('index')}}">Home</a>
 					<ul class="sub-menu-m">
 						<li><a href="index.html">Homepage 1</a></li>
 						<li><a href="home-02.html">Homepage 2</a></li>
@@ -309,7 +239,7 @@
 			</div>
 		</div>
 	</header>
-	@yield('menu-footer')
+    @yield('menu-footer')
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
@@ -360,7 +290,7 @@
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Returns
+								Returns 
 							</a>
 						</li>
 
@@ -447,10 +377,8 @@
 
 				<p class="stext-107 cl6 txt-center">
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					Copyright &copy;<script>
-						document.write(new Date().getFullYear());
-					</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 				</p>
 			</div>
@@ -516,7 +444,7 @@
 							</div>
 						</div>
 					</div>
-
+					
 					<div class="col-md-6 col-lg-5 p-b-30">
 						<div class="p-r-50 p-t-5 p-lr-0-lg">
 							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
@@ -530,7 +458,7 @@
 							<p class="stext-102 cl3 p-t-23">
 								Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
 							</p>
-
+							
 							<!--  -->
 							<div class="p-t-33">
 								<div class="flex-w flex-r-m p-b-10">
@@ -589,7 +517,7 @@
 											Add to cart
 										</button>
 									</div>
-								</div>
+								</div>	
 							</div>
 
 							<!--  -->
@@ -619,60 +547,60 @@
 		</div>
 	</div>
 
-	<!--===============================================================================================-->
+<!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/animsition/js/animsition.min.js"></script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
-		$(".js-select2").each(function() {
+		$(".js-select2").each(function(){
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
 			});
 		})
 	</script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/daterangepicker/moment.min.js"></script>
 	<script src="vendor/daterangepicker/daterangepicker.js"></script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/slick/slick.min.js"></script>
 	<script src="js-home/slick-custom.js"></script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/parallax100/parallax100.js"></script>
 	<script>
-		$('.parallax100').parallax100();
+        $('.parallax100').parallax100();
 	</script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<script>
 		$('.gallery-lb').each(function() { // the containers for all your galleries
 			$(this).magnificPopup({
-				delegate: 'a', // the selector for gallery item
-				type: 'image',
-				gallery: {
-					enabled: true
-				},
-				mainClass: 'mfp-fade'
-			});
+		        delegate: 'a', // the selector for gallery item
+		        type: 'image',
+		        gallery: {
+		        	enabled:true
+		        },
+		        mainClass: 'mfp-fade'
+		    });
 		});
 	</script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.js-addwish-b2').on('click', function(e) {
+		$('.js-addwish-b2').on('click', function(e){
 			e.preventDefault();
 		});
 
-		$('.js-addwish-b2').each(function() {
+		$('.js-addwish-b2').each(function(){
 			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function() {
+			$(this).on('click', function(){
 				swal(nameProduct, "is added to wishlist !", "success");
 
 				$(this).addClass('js-addedwish-b2');
@@ -680,10 +608,10 @@
 			});
 		});
 
-		$('.js-addwish-detail').each(function() {
+		$('.js-addwish-detail').each(function(){
 			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
 
-			$(this).on('click', function() {
+			$(this).on('click', function(){
 				swal(nameProduct, "is added to wishlist !", "success");
 
 				$(this).addClass('js-addedwish-detail');
@@ -693,33 +621,33 @@
 
 		/*---------------------------------------------*/
 
-		$('.js-addcart-detail').each(function() {
+		$('.js-addcart-detail').each(function(){
 			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function() {
+			$(this).on('click', function(){
 				swal(nameProduct, "is added to cart !", "success");
 			});
 		});
+	
 	</script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
-		$('.js-pscroll').each(function() {
-			$(this).css('position', 'relative');
-			$(this).css('overflow', 'hidden');
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
 			var ps = new PerfectScrollbar(this, {
 				wheelSpeed: 1,
 				scrollingThreshold: 1000,
 				wheelPropagation: false,
 			});
 
-			$(window).on('resize', function() {
+			$(window).on('resize', function(){
 				ps.update();
 			})
 		});
 	</script>
-	<!--===============================================================================================-->
+<!--===============================================================================================-->
 	<script src="js-home/main.js"></script>
 
 </body>
-
 </html>
