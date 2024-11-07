@@ -33,14 +33,5 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        DB::table('users')->insert([
-            'name' => 'User',
-            'email' => '22211tt0960@mail.tdc.edu.vn',
-            'phone' => '0987654321',
-            'password' => bcrypt('123456'), // Mã hóa mật khẩu cho admin
-            'usertype' => 'user', // Đặt role thành admin
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 }

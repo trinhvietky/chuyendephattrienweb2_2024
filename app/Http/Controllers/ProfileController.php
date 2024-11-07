@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Models\Address;
 
 class ProfileController extends Controller
 {
@@ -17,12 +16,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $user = $request->user();
-        $address = Address::where('user_id', $user->id)->get();
-    
         return view('profile.edit', [
-        'user' => $user,
-        'addresses' => $address,
+            'user' => $request->user(),
         ]);
     }
 
