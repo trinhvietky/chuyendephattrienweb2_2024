@@ -33,7 +33,7 @@ Route::get('/', function() {
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
         if (Auth::user()->usertype === '1') {
-            return redirect('/admin/home');
+            return redirect('/dashboard');
         } else {
             return redirect('/home');
         }
