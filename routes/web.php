@@ -51,7 +51,9 @@ Route::get('create-Voucher', function () {
     return view('crud_voucher.add_voucher');
 })->name('Voucher-create');
 
-
+// Route::get('update-Voucher', function () {
+//     return view('crud_voucher.update_voucher');
+// })->name('Voucher-update');
 Route::get('edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->name('edit_voucher');
 Route::post('update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 
