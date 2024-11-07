@@ -162,7 +162,7 @@ Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('use
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
 
 //Danh muc
-Route::get('/admin/danhmuc-list', [DanhmucController::class, 'AllDanhMuc'])->name('danhmuc.index');
+Route::get('/admin/danhmuc-list', [DanhmucController::class, 'index'])->name('danhmuc.index');
 
 Route::get('/admin/danhmuc-add', function () {
     return view('/admin/danhmuc-add');
