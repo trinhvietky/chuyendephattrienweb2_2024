@@ -1,4 +1,4 @@
-@extends('users/app')
+@extends('app')
 @section('menu-footer')
 
 	<!-- breadcrumb -->
