@@ -22,15 +22,9 @@
 						<img src="/images/item-cart-01.jpg" alt="IMG">
 					</div>
 
-<<<<<<< HEAD
-					<div class="header-cart-item-txt p-t-8">
-						<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-							White Shirt Pleat
-=======
 					<div class="header-cart-buttons flex-w w-full">
 						<a href="{{route('shoping-cart')}}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							View Cart
->>>>>>> maitrananhtuan_thongtindiachi_chua_hoan_thien
 						</a>
 
 						<span class="header-cart-item-info">
@@ -279,9 +273,9 @@
 					All Products
 				</button>
 				@foreach($danhmucs as $danhmuc)
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{ $danhmuc->danhmuc_ID }}">
-						{{ $danhmuc->danhmuc_Ten }}
-					</button>
+				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{ $danhmuc->danhmuc_ID }}">
+					{{ $danhmuc->danhmuc_Ten }}
+				</button>
 				@endforeach
 			</div>
 

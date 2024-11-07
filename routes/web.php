@@ -28,25 +28,21 @@ use App\Http\Controllers\AddressController;
 */
 
 
-Route::get('/', function() {
+Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
-<<<<<<< HEAD
+
         if (Auth::user()->usertype === 'admin') {
             return redirect('/dashboard');
-<<<<<<< HEAD
-=======
-=======
-        if (Auth::user()->usertype === '1') {
-            return redirect('/admin/home');
->>>>>>> Validation_User_VietKy
->>>>>>> main
-        } else {
-            return redirect('/home');
+
+            if (Auth::user()->usertype === '1') {
+                return redirect('/admin/home');
+            } else {
+                return redirect('/home');
+            }
         }
     }
-
     // Nếu chưa đăng nhập, trả về trang index (trang chủ)
     return view('/users/home');
 })->name('home');
@@ -194,4 +190,3 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
-
