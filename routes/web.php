@@ -28,7 +28,7 @@ use App\Http\Controllers\TestController;
 */
 
 
-Route::get('/', function() {
+Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
@@ -162,7 +162,7 @@ Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('use
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
 
 //Danh muc
-Route::get('/admin/danhmuc-list', [DanhmucController::class, 'AllDanhMuc'])->name('danhmuc.index');
+Route::get('/admin/danhmuc-list', [DanhmucController::class, 'index'])->name('danhmuc.index');
 
 Route::get('/admin/danhmuc-add', function () {
     return view('/admin/danhmuc-add');
@@ -205,4 +205,3 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
-

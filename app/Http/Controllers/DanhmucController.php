@@ -12,11 +12,6 @@ class DanhmucController extends Controller
         return DanhMuc::all();
     }
 
-    public function AllDanhMuc()
-    {
-        $danhmucs = DanhMuc::all();
-        return view('/admin/danhmuc-list', compact('danhmucs'));
-    }
 
     // public function create()
     // {
@@ -25,19 +20,11 @@ class DanhmucController extends Controller
 
     public function store(Request $request)
     {
-        $messages = [
-            'danhmuc_Ten.required' => 'Vui lòng điền đầy đủ thông tin.',
-            'danhmuc_Ten.max' => 'Thông tin tối đa 20 ký tự.',
-            'danhmuc_Ten.regex' => 'Danh mục không được bao gồm số hay ký tự đặc biệt..',
-        ];
-
         $request->validate([
-            'danhmuc_Ten' => 'required|string|max:20|regex:/^[A-Z a-z]+$/',
-        ], $messages);
-        $data = $request->all();
-        Danhmuc::create([
-            'danhmuc_Ten' => $data['danhmuc_Ten'],
+            'danhmuc_Ten' => 'required|string|max:255',
         ]);
+
+        Danhmuc::create($request->all());
         return redirect()->route('danhmuc.index')->with('success', 'Thêm thành công');
     }
 
@@ -49,21 +36,12 @@ class DanhmucController extends Controller
 
     public function update(Request $request, $id)
     {
-        $messages = [
-            'danhmuc_Ten.required' => 'Vui lòng điền đầy đủ thông tin.',
-            'danhmuc_Ten.max' => 'Thông tin tối đa 20 ký tự.',
-            'danhmuc_Ten.regex' => 'Danh mục không được bao gồm số hay ký tự đặc biệt.',
-        ];
-
         $request->validate([
-            'danhmuc_Ten' => 'required|string|max:20|regex:/^[A-Z a-z]+$/',
-        ], $messages);
-
+            'danhmuc_Ten' => 'required|string|max:255',
+        ]);
 
         $danhmuc = Danhmuc::findOrFail($id);
-        $danhmuc->danhmuc_Ten = $request->input('danhmuc_Ten');
-        $danhmuc->save();
-        
+        $danhmuc->update($request->all());
         return redirect()->route('danhmuc.index')->with('success', 'Sửa thành công');
     }
 
