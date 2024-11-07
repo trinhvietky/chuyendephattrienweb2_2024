@@ -22,12 +22,12 @@ class CheckUserType
         $usertype = Auth::user()->usertype;
 
         // Nếu user cố truy cập vào trang admin, trả về 404
-        if ($request->is('admin/*') && $usertype !== 'admin') {
+        if ($request->is('admin/*') && $usertype !== '1') {
             abort(404);
         }
 
         // Nếu admin cố truy cập vào trang user, trả về 404
-        if ($request->is('users/*') && $usertype !== 'user') {
+        if ($request->is('users/*') && $usertype !== '0') {
             abort(404);
         }
     }
