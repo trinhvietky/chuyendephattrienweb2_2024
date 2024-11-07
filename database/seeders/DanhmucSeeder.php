@@ -19,11 +19,11 @@ class DanhmucSeeder extends Seeder
     {
 
         DB::table('danhmuc')->insert([
-            ['danhmuc_Ten' => 'Áo'],
-            ['danhmuc_Ten' => 'Quần'],
-            ['danhmuc_Ten' => 'Giày'],
-            ['danhmuc_Ten' => 'Phụ kiện'],
-            ['danhmuc_Ten' => 'Mũ'],
+            ['danhmuc_Ten' => 'Ao'],
+            ['danhmuc_Ten' => 'Quan'],
+            ['danhmuc_Ten' => 'Giay'],
+            ['danhmuc_Ten' => 'Phu kien'],
+            ['danhmuc_Ten' => 'Mu'],
         ]);
     }
 }
