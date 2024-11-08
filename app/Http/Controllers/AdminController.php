@@ -12,7 +12,7 @@ class AdminController extends Controller
     public function index()
     {
         // Logic cho admin home page
-        return view('admin/home');
+        return view('admin/dashboard');
     }
     // Phương thức xóa user
     public function AllUser()
@@ -71,7 +71,7 @@ class AdminController extends Controller
         // Lấy thông tin user theo id
         $user = User::findOrFail($id);
         // Trả dữ liệu về view edit
-        return view('admin/user-edit', compact('user'));
+        return view('/admin/user-edit', compact('user'));
     }
 
     public function update(Request $request, $id)

@@ -1,7 +1,7 @@
 @extends('users/app')
 @section('menu-footer')
 <!-- Cart -->
-<div class="wrap-header-cart js-panel-cart">
+<!-- <div class="wrap-header-cart js-panel-cart">
 	<div class="s-full js-hide-cart"></div>
 
 	<div class="header-cart flex-col-l p-l-65 p-r-25">
@@ -71,9 +71,9 @@
 					Total: $75.00
 				</div>
 
-				<div class="header-cart-item-txt p-t-8">
-					<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-						White Shirt Pleat
+				<div class="header-cart-buttons flex-w w-full">
+					<a href="{{route('shoping-cart')}}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+						View Cart
 					</a>
 
 					<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
@@ -83,7 +83,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 
 

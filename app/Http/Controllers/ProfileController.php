@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Address;
 
 class ProfileController extends Controller
 {
@@ -16,9 +17,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = $request->user();
+    
+    // Lấy địa chỉ tương ứng với người dùng
+    $address = Address::where('user_id', $user->id)->first(); // Hoặc có thể dùng ->get() nếu có nhiều địa chỉ
+
+    return view('profile.edit', [
+        'user' => $user,
+        'address' => $address,
+    ]);
     }
 
     /**
@@ -26,15 +33,24 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    // Update user information
+    $user->fill($request->validated());
 
-        $request->user()->save();
+    if ($user->isDirty('email')) {
+        $user->email_verified_at = null;
+    }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    $user->save();
+
+    // Save or update the address in the `adress` table
+    Address::updateOrCreate(
+        ['user_id' => $user->id],
+        ['name' => $request->input('address')]
+    );
+
+    return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
