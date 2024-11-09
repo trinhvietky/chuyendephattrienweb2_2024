@@ -1,5 +1,5 @@
-@extends('admin/app')
-@section('menu-footer')
+@extends('header')
+@section('text')
 
 @if (session('success'))
 <div class="alert alert-success">
@@ -7,8 +7,8 @@
 </div>
 @endif
 
-<div class="breadcome-area">
-    <div class="container-fluid" style="margin-top: 70px;">
+<div class="breadcome-area" style="margin-top: 40px;">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="breadcome-list">
@@ -19,7 +19,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>User Administrator</h2>
+                                    <h2>Product Administrator</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -35,7 +35,6 @@
         </div>
     </div>
 </div>
-</div>
 <!-- Single pro tab start-->
 <div class="single-product-tab-area mg-b-30">
     <!-- Single pro tab review Start-->
@@ -45,61 +44,43 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="review-tab-pro-inner">
                         <ul id="myTab3" class="tab-review-design">
-                            <li class="active"><a href="#description"><i class="icon nalika-edit" aria-hidden="true"></i> Edit User</a></li>
+                            <li class="active"><a href="#description"><i class="icon nalika-edit" aria-hidden="true"></i> Add Product</a></li>
 
                         </ul>
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{ route('user.update', $user->id) }}" method="POST" novalidate>
+                                    <form action="{{ route('products.store') }}" method="POST">
                                         @csrf
-                                        @method('PUT')
-
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                            <input type="text" name="name" class="form-control" placeholder="Full name" value="{{ $user->name }}" required style="background: #152036;
-                                            font-size: 17px;">
-                                            @error('name')
-                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
-                                            @enderror
+                                            <input type="text" name="product_name" class="form-control" placeholder="Product Name" id="product_name" value="{{ old('product_name') }}" required>
                                         </div>
-
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
-                                            <input type="email" name="email" class="form-control" placeholder="Email" value="{{ $user->email }}" required style="background: #152036; font-size: 17px;">
-                                            @error('email')
-                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
-                                            @enderror
+                                            <textarea name="description" class="form-control" placeholder="Product Description" id="description" rows="4" required>{{ old('description') }}</textarea>
                                         </div>
-
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                            <input type="text" name="phone" class="form-control" placeholder="Phone" value="{{ $user->phone }}" required style="background: #152036; font-size: 17px;">
-                                            @error('phone')
-                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
-                                            @enderror
+                                            <input type="number" name="price" class="form-control" placeholder="Price" id="price" value="{{ old('price') }}" required step="1">
                                         </div>
-
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                            <input type="text" name="role" class="form-control" placeholder="Quyền" value="{{ $user->usertype }}" required style="background: #152036; font-size: 17px;">
-                                            @error('role')
-                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                            <select name="subCategory_id" class="form-control" id="sub_category_id" required>
+                                                <option value="" selected disabled>Category</option>
 
-                                        <div class="input-group mg-b-pro-edt">
-                                            <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
-                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu" value="{{ $user->password }}" required style="background: #152036; font-size: 17px;">
-                                            @error('password')
-                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
-                                            @enderror
+                                                @foreach ($subCategories as $subCategory)
+                                                <option value="{{ $subCategory->subCategory_id }}" {{ old('sub_category_id') == $subCategory->id ? 'selected' : '' }}>
+                                                    {{ $subCategory->subCategory_name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
                                         <div class="text-center custom-pro-edt-ds">
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                            <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
+                                            <button type="reset" class="btn btn-ctl-bt waves-effect waves-light">Discard</button>
                                         </div>
-                                        
                                     </form>
 
                                 </div>
@@ -111,4 +92,5 @@
             </div>
         </div>
     </div>
-    @endsection
+</div>
+@endsection

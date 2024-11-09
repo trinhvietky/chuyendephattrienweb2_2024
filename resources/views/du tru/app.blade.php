@@ -8,32 +8,32 @@
 	<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=" {{asset('/vendor/bootstrap/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/fonts/iconic/css/material-design-iconic-font.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/fonts/linearicons-v1.0.0/icon-font.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/animate/animate.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/css-hamburgers/hamburgers.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/animsition/css/animsition.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/select2/select2.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/daterangepicker/daterangepicker.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/slick/slick.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/MagnificPopup/magnific-popup.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/vendor/perfect-scrollbar/perfect-scrollbar.css')}}">
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{asset('/css-home/util.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('/css-home/main.css')}}">
+	<link rel="stylesheet" type="text/css" href="css-home/util.css">
+	<link rel="stylesheet" type="text/css" href="css-home/main.css">
 	<link rel="stylesheet" href="{{asset('/css/app.css')}}">
 	<!--===============================================================================================-->
 </head>
@@ -76,22 +76,22 @@
 
 					<!-- Logo desktop -->
 					<a href="#" class="logo">
-						<img src="/images/icons/logo-01.png" alt="IMG-LOGO">
+						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="{{route('users/home')}}">Home</a>
+								<a href="{{route('home')}}">Home</a>
 							</li>
 
 							<li>
-								<a href="{{route('users/product')}}">Shop</a>
+								<a href="{{route('product')}}">Shop</a>
 								<ul class="sub-menu">
-								@foreach($danhmucs as $danhmuc)
+									@foreach($danhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
-								@endforeach
+									@endforeach
 								</ul>
 							</li>
 
@@ -100,38 +100,26 @@
 							</li>
 
 							<li>
-								<a href="{{route('users/blog')}}">Blog</a>
+								<a href="{{route('blog')}}">Blog</a>
 							</li>
 
 							<li>
-								<a href="{{route('users/about')}}">About</a>
+								<a href="{{route('about')}}">About</a>
 							</li>
 
 							<li>
-								<a href="{{route('users/contact')}}">Contact</a>
+								<a href="{{route('contact')}}">Contact</a>
 							</li>
 						</ul>
 					</div>
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
-						<div class="wrap-icon-header flex-w flex-r-m">
 						<!-- Check if the user is authenticated -->
 						@if (Route::has('login'))
 						<div class="fixed top-0 right-0 px-6 py-4 sm:block">
 							@auth
 							<!-- User is authenticated: Show the dropdown menu -->
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
-						</div>
-
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
-
-						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</a>
 							<nav x-data="{ open: false }">
 								<div class="flex justify-between h-16">
 									<!-- Settings Dropdown -->
@@ -205,7 +193,6 @@
 						</div>
 						@endif
 					</div>
-					</div>
 				</nav>
 			</div>
 		</div>
@@ -214,7 +201,7 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->
 			<div class="logo-mobile">
-				<a href="index.html"><img src="/images/icons/logo-01.png" alt="IMG-LOGO"></a>
+				<a href="index.html"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
@@ -273,7 +260,7 @@
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="{{route('home')}}">Home</a>
 					<ul class="sub-menu-m">
 						<li><a href="index.html">Homepage 1</a></li>
 						<li><a href="home-02.html">Homepage 2</a></li>
@@ -285,7 +272,7 @@
 				</li>
 
 				<li>
-					<a href="product.html">Shop</a>
+					<a href="{{route('product')}}">Shop</a>
 				</li>
 
 				<li>
@@ -293,15 +280,15 @@
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
+					<a href="{{route('blog')}}">Blog</a>
 				</li>
 
 				<li>
-					<a href="about.html">About</a>
+					<a href="{{route('about')}}">About</a>
 				</li>
 
 				<li>
-					<a href="contact.html">Contact</a>
+					<a href="{{route('contact')}}">Contact</a>
 				</li>
 			</ul>
 		</div>
@@ -310,7 +297,7 @@
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
 			<div class="container-search-header">
 				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-					<img src="/images/icons/icon-close2.png" alt="CLOSE">
+					<img src="images/icons/icon-close2.png" alt="CLOSE">
 				</button>
 
 				<form class="wrap-search-header flex-w p-l-15">
@@ -322,7 +309,6 @@
 			</div>
 		</div>
 	</header>
-
 	@yield('menu-footer')
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
@@ -439,23 +425,23 @@
 			<div class="p-t-40">
 				<div class="flex-c-m flex-w p-b-18">
 					<a href="#" class="m-all-1">
-						<img src="/images/icons/icon-pay-01.png" alt="ICON-PAY">
+						<img src="images/icons/icon-pay-01.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="/images/icons/icon-pay-02.png" alt="ICON-PAY">
+						<img src="images/icons/icon-pay-02.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="/images/icons/icon-pay-03.png" alt="ICON-PAY">
+						<img src="images/icons/icon-pay-03.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="/images/icons/icon-pay-04.png" alt="ICON-PAY">
+						<img src="images/icons/icon-pay-04.png" alt="ICON-PAY">
 					</a>
 
 					<a href="#" class="m-all-1">
-						<img src="/images/icons/icon-pay-05.png" alt="ICON-PAY">
+						<img src="images/icons/icon-pay-05.png" alt="ICON-PAY">
 					</a>
 				</div>
 
@@ -486,7 +472,7 @@
 		<div class="container">
 			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
 				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
-					<img src="/images/icons/icon-close.png" alt="CLOSE">
+					<img src="images/icons/icon-close.png" alt="CLOSE">
 				</button>
 
 				<div class="row">
@@ -497,9 +483,9 @@
 								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
 								<div class="slick3 gallery-lb">
-									<div class="item-slick3" data-thumb="/images/product-detail-01.jpg">
+									<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
 										<div class="wrap-pic-w pos-relative">
-											<img src="/images/product-detail-01.jpg" alt="IMG-PRODUCT">
+											<img src="images/product-detail-01.jpg" alt="IMG-PRODUCT">
 
 											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
 												<i class="fa fa-expand"></i>
@@ -509,19 +495,19 @@
 
 									<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
 										<div class="wrap-pic-w pos-relative">
-											<img src="/images/product-detail-02.jpg" alt="IMG-PRODUCT">
+											<img src="images/product-detail-02.jpg" alt="IMG-PRODUCT">
 
-											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/images/product-detail-02.jpg">
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-02.jpg">
 												<i class="fa fa-expand"></i>
 											</a>
 										</div>
 									</div>
 
-									<div class="item-slick3" data-thumb="/images/product-detail-03.jpg">
+									<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
 										<div class="wrap-pic-w pos-relative">
-											<img src="/images/product-detail-03.jpg" alt="IMG-PRODUCT">
+											<img src="images/product-detail-03.jpg" alt="IMG-PRODUCT">
 
-											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/images/product-detail-03.jpg">
+											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-03.jpg">
 												<i class="fa fa-expand"></i>
 											</a>
 										</div>
@@ -632,13 +618,14 @@
 			</div>
 		</div>
 	</div>
+
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/animsition/js/animsition.min.js')}}"></script>
+	<script src="vendor/animsition/js/animsition.min.js"></script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/bootstrap/js/popper.js')}}"></script>
-	<script src="{{asset('/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
@@ -650,18 +637,18 @@
 		})
 	</script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/daterangepicker/moment.min.js')}}"></script>
-	<script src="{{asset('/vendor/daterangepicker/daterangepicker.js')}}"></script>
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/slick/slick.min.js')}}"></script>
-	<script src="{{asset('/js-home/slick-custom.js')}}"></script>
+	<script src="vendor/slick/slick.min.js"></script>
+	<script src="js-home/slick-custom.js"></script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/parallax100/parallax100.js')}}"></script>
+	<script src="vendor/parallax100/parallax100.js"></script>
 	<script>
 		$('.parallax100').parallax100();
 	</script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/MagnificPopup/jquery.magnific-popup.min.js')}}"></script>
+	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<script>
 		$('.gallery-lb').each(function() { // the containers for all your galleries
 			$(this).magnificPopup({
@@ -675,9 +662,9 @@
 		});
 	</script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/isotope/isotope.pkgd.min.js')}}"></script>
+	<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/sweetalert/sweetalert.min.js')}}"></script>
+	<script src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script>
 		$('.js-addwish-b2').on('click', function(e) {
 			e.preventDefault();
@@ -714,7 +701,7 @@
 		});
 	</script>
 	<!--===============================================================================================-->
-	<script src="{{asset('/vendor/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
 		$('.js-pscroll').each(function() {
 			$(this).css('position', 'relative');
@@ -731,8 +718,8 @@
 		});
 	</script>
 	<!--===============================================================================================-->
-	<script src="/js-home/main.js"></script>
-	<script src="{{asset(path: '/js/app.js')}}"></script>
+	<script src="js-home/main.js"></script>
+
 </body>
 
 </html>
