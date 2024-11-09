@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTP</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href=" {{asset('/vendor/bootstrap/css/bootstrap.min.css')}}">
 </head>
 
 <body>
@@ -17,7 +18,7 @@
                         <h2 class="card-title text-center mb-4">Xác nhận mã OTP</h2>
                         <!-- Thông báo đếm ngược thời gian -->
                         <div class="alert alert-warning text-center">
-                            Mã OTP sẽ hết hạn sau <span id="timer">01:00</span> phút.
+                            Mã OTP sẽ hết hạn sau <span id="timer">00:15</span> phút.
                         </div>
                         <form method="POST" action="{{ route('password.checkOtp') }}">
                             @csrf
@@ -54,11 +55,12 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="{{asset('/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
     <script>
        // Khởi tạo biến thời gian đếm ngược
-       let timeLeft = 60;
+    let timeLeft = 15;
     let countdown;  // Đặt biến countdown ở ngoài để có thể điều khiển clearInterval
 
     // Tìm phần tử hiển thị bộ đếm thời gian và nút gửi lại OTP
@@ -112,7 +114,7 @@
             if (data.status) {
                 alert(data.status);  // Hoặc hiển thị thông báo khác cho người dùng
                 // Đặt lại thời gian đếm ngược
-                timeLeft = 60; 
+                timeLeft = 15; 
                 timerElement.textContent = formatTime(timeLeft);
                 startCountdown();  // Bắt đầu lại quá trình đếm ngược
             }
