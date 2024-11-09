@@ -16,15 +16,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'user1',
-            'email' => 'user1@gmail.com',
-            'phone' => '0123456789',
-            'password' => '0123456',
-            'usertype' => '0',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('users')->insert([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'phone' => '0987654321',
@@ -38,7 +29,7 @@ class UserSeeder extends Seeder
             'email' => 'user@example.com',
             'phone' => '0987654321',
             'password' => bcrypt('123456'), // Mã hóa mật khẩu cho admin
-            'usertype' => 'user', // Đặt role thành admin
+            'usertype' => '0', // Đặt role thành admin
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -47,7 +38,7 @@ class UserSeeder extends Seeder
             'email' => '22211tt0960@mail.tdc.edu.vn',
             'phone' => '0987654321',
             'password' => bcrypt('123456'), // Mã hóa mật khẩu cho admin
-            'usertype' => 'user', // Đặt role thành admin
+            'usertype' => '0', // Đặt role thành admin
             'created_at' => now(),
             'updated_at' => now(),
         ]);
