@@ -52,3 +52,6 @@ class DanhmucController extends Controller
         return redirect()->route('danhmuc.index')->with('success', 'Xóa thành công');
     }
 }
+
+
+
