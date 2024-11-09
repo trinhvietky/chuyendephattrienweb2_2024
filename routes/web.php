@@ -186,4 +186,7 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
+ 
+
+
 
