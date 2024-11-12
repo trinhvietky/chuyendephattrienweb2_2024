@@ -309,7 +309,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- <script>
+<script>
         $(document).ready(function() {
             // Fetch provinces
             $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function(data_tinh) {
@@ -404,7 +404,7 @@
                 }
             }
         });
-    </script> -->
+    </script>
 
 <script>
     $(document).ready(function() {

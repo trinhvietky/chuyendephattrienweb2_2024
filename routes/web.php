@@ -115,14 +115,6 @@ Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('a
 // Route để cập nhật địa chỉ
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
 
-
-
-// Route::get('/admin/home', function () {
-//     return view('admin/home');
-// })->name('admin/home');
-// Route::get('/admin/user-list', function () {
-//     return view('/admin/user-list');
-// });
 Route::get('/admin/user-add', function () {
     return view('/admin/user-add');
 });
