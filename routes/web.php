@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile', [ProfileController::class, 'edit'])->name('address.edit');
 });
 
 require __DIR__ . '/auth.php';
@@ -114,6 +115,8 @@ Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('a
 // Route để cập nhật địa chỉ
 // Route để cập nhật địa chỉ
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
+Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('address.destroy');
+
 
 Route::get('/admin/user-add', function () {
     return view('/admin/user-add');
