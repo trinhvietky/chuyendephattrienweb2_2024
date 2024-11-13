@@ -156,7 +156,7 @@
 													<!-- <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" >  -->
 													<!-- <div>{{ Auth::user()->name }}</div> -->
 													@if(Auth::user()->usertype === '0')
-													<img src="/img/notification/4.jpg" alt="" style="width: 50px; height: 50px; border-radius: 50%;
+													<img src="{{ asset(Auth::user()->image) }}" alt="" style="width: 50px; height: 50px; border-radius: 50%;
 													cursor: pointer;" />
 													@endif
 
