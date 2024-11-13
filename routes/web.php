@@ -8,7 +8,11 @@ use App\Http\Controllers\CrudVoucherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\DanhmucController;
+
+use App\Http\Controllers\ContactController;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ProductVariantController;
@@ -158,6 +162,9 @@ Route::put('/admin/danhmuc/{danhmuc_ID}', [DanhmucController::class, 'update'])-
 
 Route::delete('/admin/danhmuc/{id}', [DanhmucController::class, 'destroy'])->name('danhmuc.destroy');
 
+
+
+
 //Quan ly product
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('products', [ProductController::class, 'store'])->name('products.store');
@@ -187,6 +194,7 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
+
 
 
 //-------SIZE
@@ -241,5 +249,10 @@ Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('co
 Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
  
 
+
+
+
+//contact
+Route::post('/send', [ContactController::class, 'send'])->name('contact.send');
 
 

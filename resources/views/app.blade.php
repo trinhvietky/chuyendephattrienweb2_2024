@@ -649,5 +649,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <!--===============================================================================================-->
 	<script src="js-home/main.js"></script>
 
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	
 </body>
 </html>
