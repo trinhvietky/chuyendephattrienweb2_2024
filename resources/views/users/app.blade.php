@@ -89,9 +89,9 @@
 							<li>
 								<a href="{{route('users/product')}}">Shop</a>
 								<ul class="sub-menu">
-									@foreach($danhmucs as $danhmuc)
+								@foreach($danhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
-									@endforeach
+								@endforeach
 								</ul>
 							</li>
 
@@ -116,95 +116,95 @@
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="wrap-icon-header flex-w flex-r-m">
-							<!-- Check if the user is authenticated -->
-							@if (Route::has('login'))
-							<div class="fixed top-0 right-0 px-6 py-4 sm:block">
-								@auth
-								<!-- User is authenticated: Show the dropdown menu -->
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-									<i class="zmdi zmdi-search"></i>
-								</div>
+						<!-- Check if the user is authenticated -->
+						@if (Route::has('login'))
+						<div class="fixed top-0 right-0 px-6 py-4 sm:block">
+							@auth
+							<!-- User is authenticated: Show the dropdown menu -->
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+							<i class="zmdi zmdi-search"></i>
+						</div>
 
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-									<a href="{{route('shoping-cart')}}"><i class="zmdi zmdi-shopping-cart"></i></a>
-								</div>
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</div>
 
-								<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-									<i class="zmdi zmdi-favorite-outline"></i>
-								</a>
-								<nav x-data="{ open: false }">
-									<div class="flex justify-between h-16">
-										<!-- Settings Dropdown -->
-										<div class="hidden sm:flex sm:items-center sm:ml-6">
-											<x-dropdown align="right" width="48">
-												<x-slot name="trigger">
-													<button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-														<div>{{ Auth::user()->name }}</div>
-														<div class="ml-1">
-															<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-																<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-															</svg>
-														</div>
-													</button>
-												</x-slot>
-												<x-slot name="content">
-													<x-dropdown-link :href="route('profile.edit')">
-														{{ __('Profile') }}
-													</x-dropdown-link>
-													<form method="POST" action="{{ route('logout') }}">
-														@csrf
-														<x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-															{{ __('Log Out') }}
-														</x-dropdown-link>
-													</form>
-												</x-slot>
-											</x-dropdown>
-										</div>
-										<!-- Hamburger for mobile -->
-										<div class="-mr-2 flex items-center sm:hidden">
-											<button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-												<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-													<path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-													<path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-												</svg>
-											</button>
-										</div>
-									</div>
-									<!-- Responsive Navigation Menu -->
-									<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-										<div class="pt-2 pb-3 space-y-1">
-											<x-responsive-nav-link :href="route('users/home')" :active="request()->routeIs('users/home')">
-												{{ __('Dashboard') }}
-											</x-responsive-nav-link>
-										</div>
-										<!-- Responsive Settings Options -->
-										<div class="pt-4 pb-1 border-t border-gray-200">
-											<div class="px-4">
-												<div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-												<div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-											</div>
-											<div class="mt-3 space-y-1">
-												<x-responsive-nav-link :href="route('profile.edit')">
+						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+							<i class="zmdi zmdi-favorite-outline"></i>
+						</a>
+							<nav x-data="{ open: false }">
+								<div class="flex justify-between h-16">
+									<!-- Settings Dropdown -->
+									<div class="hidden sm:flex sm:items-center sm:ml-6">
+										<x-dropdown align="right" width="48">
+											<x-slot name="trigger">
+												<button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+													<div>{{ Auth::user()->name }}</div>
+													<div class="ml-1">
+														<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+															<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+														</svg>
+													</div>
+												</button>
+											</x-slot>
+											<x-slot name="content">
+												<x-dropdown-link :href="route('profile.edit')">
 													{{ __('Profile') }}
-												</x-responsive-nav-link>
+												</x-dropdown-link>
 												<form method="POST" action="{{ route('logout') }}">
 													@csrf
-													<x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+													<x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
 														{{ __('Log Out') }}
-													</x-responsive-nav-link>
+													</x-dropdown-link>
 												</form>
-											</div>
+											</x-slot>
+										</x-dropdown>
+									</div>
+									<!-- Hamburger for mobile -->
+									<div class="-mr-2 flex items-center sm:hidden">
+										<button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+											<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+												<path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+												<path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+											</svg>
+										</button>
+									</div>
+								</div>
+								<!-- Responsive Navigation Menu -->
+								<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+									<div class="pt-2 pb-3 space-y-1">
+										<x-responsive-nav-link :href="route('users/home')" :active="request()->routeIs('users/home')">
+											{{ __('Dashboard') }}
+										</x-responsive-nav-link>
+									</div>
+									<!-- Responsive Settings Options -->
+									<div class="pt-4 pb-1 border-t border-gray-200">
+										<div class="px-4">
+											<div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+											<div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+										</div>
+										<div class="mt-3 space-y-1">
+											<x-responsive-nav-link :href="route('profile.edit')">
+												{{ __('Profile') }}
+											</x-responsive-nav-link>
+											<form method="POST" action="{{ route('logout') }}">
+												@csrf
+												<x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+													{{ __('Log Out') }}
+												</x-responsive-nav-link>
+											</form>
 										</div>
 									</div>
-								</nav>
-								@else
-								<!-- User is not authenticated: Show login and register links -->
-								<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
-								<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
-								@endauth
-							</div>
-							@endif
+								</div>
+							</nav>
+							@else
+							<!-- User is not authenticated: Show login and register links -->
+							<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
+							<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
+							@endauth
 						</div>
+						@endif
+					</div>
 					</div>
 				</nav>
 			</div>
@@ -322,7 +322,6 @@
 			</div>
 		</div>
 	</header>
-
 
 	@yield('menu-footer')
 	<!-- Footer -->

@@ -59,6 +59,9 @@
                                             <label for="danhmuc_Ten" style="color: aliceblue">Tên danh mục</label>
                                             <input type="text" name="danhmuc_Ten" class="form-control" required style="background: #152036;
                                             font-size: 17px;">
+                                            @error('danhmuc_Ten')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <button type="submit" class="btn btn-primary">Thêm</button>
                                     </form>

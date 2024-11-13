@@ -18,14 +18,12 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user = $request->user();
+        $address = Address::where('user_id', $user->id)->get();
     
-    // Lấy địa chỉ tương ứng với người dùng
-    $address = Address::where('user_id', $user->id)->first(); // Hoặc có thể dùng ->get() nếu có nhiều địa chỉ
-
-    return view('profile.edit', [
+        return view('profile.edit', [
         'user' => $user,
-        'address' => $address,
-    ]);
+        'addresses' => $address,
+        ]);
     }
 
     /**
@@ -33,24 +31,15 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $user = $request->user();
+        $request->user()->fill($request->validated());
 
-    // Update user information
-    $user->fill($request->validated());
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
 
-    if ($user->isDirty('email')) {
-        $user->email_verified_at = null;
-    }
+        $request->user()->save();
 
-    $user->save();
-
-    // Save or update the address in the `adress` table
-    Address::updateOrCreate(
-        ['user_id' => $user->id],
-        ['name' => $request->input('address')]
-    );
-
-    return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**

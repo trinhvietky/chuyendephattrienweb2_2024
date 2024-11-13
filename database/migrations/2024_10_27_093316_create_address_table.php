@@ -16,12 +16,15 @@ return new class extends Migration
         Schema::create('address', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('phone');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('tinh_id');
-            $table->unsignedBigInteger('quan_id');
-            $table->unsignedBigInteger('phuong_id');
+            $table->string('tinh');   // Province
+            $table->string('quan');   // District
+            $table->string('phuong'); // Ward
+            $table->string('address');
+            $table->boolean('is_default')->default(false); // Default address flag
             $table->timestamps();
-        });
+        });       
     }
 
     /**

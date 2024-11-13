@@ -53,15 +53,6 @@
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
-        @if (auth()->user()->usertype !== 'admin')
-        <div>
-            <x-input-label for="address" :value="__('Địa chỉ')" />
-            <x-text-input id="address" name="address" type="text" class="mt-1 block w-full"
-                :value="old('address', $address->name ?? '')" required autofocus autocomplete="address" />
-            <x-input-error class="mt-2" :messages="$errors->get('address')" />
-        </div>
-        @endif
-
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -74,14 +65,5 @@
                 class="text-sm text-gray-600">{{ __('Saved.') }}</p>
             @endif
         </div>
-
-        @if (auth()->user()->usertype !== 'admin')
-        <div style="margin-left: 200px;">
-            <a href="{{route('users/address')}}">
-            <button style="width: 25px; height: 25px; border: 1px solid black; border-radius: 50px;">+</button>    
-            Thêm địa chỉ mới
-            </a>
-        </div>
-        @endif
     </form>
 </section>

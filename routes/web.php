@@ -15,8 +15,6 @@ use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\OrderItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +32,7 @@ Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
-        if (Auth::user()->usertype === 'admin') {
+        if (Auth::user()->usertype === '1') {
             return redirect('/dashboard');
         } else {
             return redirect('/home');
@@ -79,9 +77,9 @@ Route::get('/blog-detail', function () {
 })->name('users/blog-detail');
 
 //user/product
-Route::get('/product', function () {
-    return view('/users/product');
-})->name('users/product');
+// Route::get('/product', function () {
+//     return view('/users/product');
+// })->name('users/product');
 
 //user/contact
 Route::get('/contact', function () {
@@ -94,14 +92,32 @@ Route::get('/about', function () {
 })->name('users/about');
 
 //user/product-detail
-Route::get('/product-detail', function () {
-    return view('users/product-detail');
-})->name('users/product-detail');
+// Route::get('/product-detail', function () {
+//     return view('users/product-detail');
+// })->name('users/product-detail');
 
 // Những route của những trang chưa đăng nhập
-// Route::get('/shoping-cart', function () {
-//     return view('users/shoping-cart');
-// })->name('shoping-cart');
+Route::get('/shoping-cart', function () {
+    return view('shoping-cart');
+})->name('shoping-cart');
+
+Route::get('/address', function () {
+    return view('users/address');
+})->name('users/address');
+
+Route::get('/diachi', function () {
+    return view('users/diachi');
+})->name('users/diachi');
+
+Route::post('/address/form', [AddressController::class, 'showForm'])->name('address.form');
+Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('address.save');
+// Route để cập nhật địa chỉ
+// Route để cập nhật địa chỉ
+Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
+
+//Test
+Route::get('/product', [ProductController::class, 'index'])->name('users/product');
+Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
 
 
 // Route::get('/admin/home', function () {
@@ -130,7 +146,7 @@ Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('use
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
 
 //Danh muc
-Route::get('/admin/danhmuc-list', [DanhmucController::class, 'index'])->name('danhmuc.index');
+Route::get('/admin/danhmuc-list', [DanhmucController::class, 'AllDanhMuc'])->name('danhmuc.index');
 
 Route::get('/admin/danhmuc-add', function () {
     return view('/admin/danhmuc-add');
@@ -173,6 +189,3 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
-
-
-Route::get('/shoping-cart', [OrderItemController::class, 'index'])->name('shoping-cart');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,13 @@ class ProductController extends Controller
     public function index()
     {
         // Lấy tất cả sản phẩm từ database
-        $products = Product::with('subCategory')->get(); // 'subCategory' là quan hệ giữa Product và Category
-        return view('admin/products.index', compact('products'));
+        $products = Product::all();
+        $images = [];
+        foreach ($products as $product) {
+            $images[] = ProductImage::where('product_id', $product->product_id)
+                ->first();
+        }
+        return view('users/product', compact('products', 'images'));
     }
 
     // Hiển thị form thêm sản phẩm
@@ -48,7 +54,7 @@ class ProductController extends Controller
     {
         // Lấy sản phẩm theo ID
         $product = Product::findOrFail($id);
-        return view('products.show', compact('product'));
+        return view('users\product-detail', compact('product'));
     }
 
     // Hiển thị form chỉnh sửa sản phẩm
