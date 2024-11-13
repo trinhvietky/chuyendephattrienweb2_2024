@@ -23,7 +23,7 @@ class CheckUserType
 
         // Kiểm tra nếu người dùng là user và cố truy cập trang dashboard (admin)
         if ($usertype === '0' && $request->is('dashboard')) {
-            if ($request->is('admin/*') && $usertype !== '1') {
+            if ($request->is('dashboard') && $usertype !== '1') {
                 return redirect('/home');
             }
         }
