@@ -73,12 +73,12 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="{{route('admin.home')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
+                <a href="{{route('admin/dashboard')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
                 <strong><img src="/img/logo/logosn.png" alt="" /></strong>
             </div>
             <div class="nalika-profile">
                 <div class="profile-dtl">
-                    <a href="#"><img src="/img/notification/4.jpg" alt="" style="margin-left: 45px;" /></a>
+                    <a href="{{route('users/home')}}"><img src="/img/notification/4.jpg" alt="" style="margin-left: 45px;" /></a>
                     <h2>{{ Auth::user()->name }}</h2>
                 </div>
                 <div class="profile-social-dtl">

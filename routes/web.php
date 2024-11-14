@@ -45,27 +45,29 @@ Route::get('/', function() {
 })->name('home');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
-    Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
-    Route::get('/users/home', [UserController::class, 'index'])->name('users.home');
+    Route::get('/dashboard', function () {
+        return view('admin/dashboard');
+    })->name('admin/dashboard');
+    Route::get('/home', function () {
+        return view('users/home');
+    })->name('users/home');
 });
+
+Route::get('/admin/home', [AdminController::class, 'index'])->name('dashboard');
+Route::get('/users/home', [UserController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.update-avatar');
+    Route::post('/profile', [ProfileController::class, 'edit'])->name('address.edit');
 });
 
 require __DIR__ . '/auth.php';
 
 //users
 //user/home
-Route::get('/home', function () {
-    return view('users/home');
-})->name('users/home');
-
-Route::get('/dashboard', function () {
-    return view('admin/dashboard');
-})->name('admin/dashboard');
 
 //user/blog
 Route::get('/blog', function () {
@@ -115,15 +117,9 @@ Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('a
 // Route để cập nhật địa chỉ
 // Route để cập nhật địa chỉ
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
+Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('address.destroy');
 
 
-
-// Route::get('/admin/home', function () {
-//     return view('admin/home');
-// })->name('admin/home');
-// Route::get('/admin/user-list', function () {
-//     return view('/admin/user-list');
-// });
 Route::get('/admin/user-add', function () {
     return view('/admin/user-add');
 });

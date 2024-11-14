@@ -21,14 +21,11 @@ class CheckUserType
     if (Auth::check()) {
         $usertype = Auth::user()->usertype;
 
-        // Nếu user cố truy cập vào trang admin, trả về 404
-        if ($request->is('admin/*') && $usertype !== '1') {
-            abort(404);
-        }
-
-        // Nếu admin cố truy cập vào trang user, trả về 404
-        if ($request->is('users/*') && $usertype !== '0') {
-            abort(404);
+        // Kiểm tra nếu người dùng là user và cố truy cập trang dashboard (admin)
+        if ($usertype === '0' && $request->is('dashboard')) {
+            if ($request->is('dashboard') && $usertype !== '1') {
+                return redirect('/home');
+            }
         }
     }
 
