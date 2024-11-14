@@ -65,9 +65,13 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+use App\Http\Controllers\WishlistController;
 
-//users
-//user/home
+
+Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
+// Route to add product to wishlist
+Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->middleware('auth');
+Route::post('/remove-from-wishlist', [WishlistController::class, 'removeFromWishlist']);
 
 //user/blog
 Route::get('/blog', function () {

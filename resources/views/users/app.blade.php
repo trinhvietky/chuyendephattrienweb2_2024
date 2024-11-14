@@ -89,7 +89,7 @@
 							<li>
 								<a href="{{route('users/product')}}">Shop</a>
 								<ul class="sub-menu">
-								@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
+									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
 									@endforeach
@@ -135,6 +135,7 @@
 										margin-left: 30px;
 										color: black;
 									}
+
 									.btn-link:hover {
 										color: blue;
 										text-decoration: none;
@@ -697,40 +698,103 @@
 	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/sweetalert/sweetalert.min.js')}}"></script>
 	<script>
-		$('.js-addwish-b2').on('click', function(e) {
-			e.preventDefault();
-		});
+		$(document).ready(function() {
+    // Fetch the user's wishlist from the backend when the page loads
+    fetchWishlist();
 
-		$('.js-addwish-b2').each(function() {
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function() {
-				swal(nameProduct, "is added to wishlist !", "success");
+    // Function to fetch wishlist and update UI
+    function fetchWishlist() {
+        fetch('/get-wishlist')
+            .then(response => response.json())
+            .then(data => {
+                var wishlist = data.wishlist;
 
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
-			});
-		});
+                // Add 'added' state to products already in the wishlist
+                $('.js-addwish-b2').each(function() {
+                    var productId = $(this).data('product-id'); // Get the product ID
+                    if (wishlist.includes(productId)) {
+                        $(this).addClass('js-addedwish-b2'); // Highlight the button if product is in wishlist
+                        $(this).off('click'); // Disable button to prevent re-clicking
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching wishlist:', error));
+    }
 
-		$('.js-addwish-detail').each(function() {
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+    // Function to add product to wishlist
+function addToWishlist(e) {
+    e.preventDefault();
+    var $button = $(this);
+    var productId = $button.data('product-id'); // Get the product ID
+    var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Get the product name
 
-			$(this).on('click', function() {
-				swal(nameProduct, "is added to wishlist !", "success");
+    // Send request to add the product to wishlist
+    fetch('/add-to-wishlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token
+            },
+            body: JSON.stringify({
+                product_id: productId
+            }) // Send the product ID to add
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                swal(nameProduct, "Thêm sản phẩm vào danh sách yêu thích thành công", "success");
 
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
-			});
-		});
+                // Add the 'added' state to the button and disable it
+                $button.addClass('js-addedwish-b2');
+                $button.off('click'); // Disable further clicks on the button
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            swal("Oops!", "There was an error adding the product to your wishlist.", "error");
+        });
+}
 
-		/*---------------------------------------------*/
+// Function to remove product from wishlist
+function removeFromWishlist(e) {
+    e.preventDefault();
+    var $button = $(this);
+    var productId = $button.data('product-id'); // Get the product ID
+    var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Get the product name
 
-		$('.js-addcart-detail').each(function() {
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function() {
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
+    // Send request to remove the product from wishlist
+    fetch('/remove-from-wishlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token
+            },
+            body: JSON.stringify({
+                product_id: productId
+            }) // Send the product ID to remove
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                swal(nameProduct, "Xóa sản phẩm yêu thích thành công", "success");
+
+                // Remove the 'added' state from the button and re-enable it
+                $button.removeClass('js-addedwish-b2');
+                $button.on('click', addToWishlist);  // Re-enable the 'add to wishlist' function
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            swal("Oops!", "There was an error removing the product from your wishlist.", "error");
+        });
+}
+
+    // Attach event listeners for both adding and removing items from wishlist
+    $(document).on('click', '.js-addwish-b2', addToWishlist);
+    $(document).on('click', '.js-addedwish-b2', removeFromWishlist);
+});
 	</script>
+
 	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 	<script>
