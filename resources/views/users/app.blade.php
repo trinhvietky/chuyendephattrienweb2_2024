@@ -36,6 +36,8 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('/css-home/main.css')}}">
 	<link rel="stylesheet" href="{{asset('/css/app.css')}}">
 	<!--===============================================================================================-->
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body class="animsition">
@@ -89,7 +91,7 @@
 							<li>
 								<a href="{{route('users/product')}}">Shop</a>
 								<ul class="sub-menu">
-								@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
+									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
 									@endforeach
@@ -123,8 +125,8 @@
 									<i class="zmdi zmdi-search"></i>
 								</div>
 
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-									<i class="zmdi zmdi-shopping-cart"></i>
+								<div id="cart-notify" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
+									<a href="{{route('users/shoping-cart', ['user_id' => Auth::user()->id])}}"><i class="zmdi zmdi-shopping-cart"></i></a>
 								</div>
 
 								<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
@@ -135,6 +137,7 @@
 										margin-left: 30px;
 										color: black;
 									}
+
 									.btn-link:hover {
 										color: blue;
 										text-decoration: none;

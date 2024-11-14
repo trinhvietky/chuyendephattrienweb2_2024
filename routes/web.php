@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ColorController;
 
 /*
@@ -100,9 +101,9 @@ Route::get('/about', function () {
 // })->name('users/product-detail');
 
 // Những route của những trang chưa đăng nhập
-Route::get('/shoping-cart', function () {
-    return view('users/shoping-cart');
-})->name('user/shoping-cart');
+// Route::get('/shoping-cart', function () {
+//     return view('users/shoping-cart');
+// })->name('users/shoping-cart');
 
 Route::get('/address', function () {
     return view('users/address');
@@ -122,6 +123,16 @@ Route::put('/address/update', [AddressController::class, 'update'])->name('addre
 //Test
 Route::get('/product', [ProductController::class, 'index'])->name('users/product');
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
+
+//Shoping-cart
+Route::get('/shoping-cart/{user_id}', [CartController::class, 'show'])->name('users/shoping-cart');
+
+Route::patch('/shoping-cart/update/{cartId}', [CartController::class, 'update'])->name('shoping-cart.update');
+
+Route::delete('/shoping-cart/{id}', [CartController::class, 'destroy'])->name('shoping-cart.destroy');
+
+Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+
 
 
 // Route::get('/admin/home', function () {

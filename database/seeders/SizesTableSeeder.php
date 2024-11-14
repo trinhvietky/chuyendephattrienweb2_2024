@@ -16,10 +16,10 @@ class SizesTableSeeder extends Seeder
     public function run()
     {
         DB::table('sizes')->insert([
-            ['size_name' => 'Small', 'created_at' => now(), 'updated_at' => now()],
-            ['size_name' => 'Medium', 'created_at' => now(), 'updated_at' => now()],
-            ['size_name' => 'Large', 'created_at' => now(), 'updated_at' => now()],
-            ['size_name' => 'X-Large', 'created_at' => now(), 'updated_at' => now()],
+            ['size_name' => 'S', 'created_at' => now(), 'updated_at' => now()],
+            ['size_name' => 'M', 'created_at' => now(), 'updated_at' => now()],
+            ['size_name' => 'L', 'created_at' => now(), 'updated_at' => now()],
+            ['size_name' => 'XL', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
