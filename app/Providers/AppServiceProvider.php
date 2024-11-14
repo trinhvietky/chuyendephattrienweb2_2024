@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('*', function ($view) {
+        view()->composer('users/*', function ($view): void {
             $danhmucs = app(DanhmucController::class)->getAllDanhMuc();
             $view->with('danhmucs', $danhmucs);
         });
