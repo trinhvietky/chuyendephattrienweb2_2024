@@ -98,8 +98,8 @@
                                         </div>
 
                                         <div class="text-center custom-pro-edt-ds">
-                                            <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
-                                            <button type="reset" class="btn btn-ctl-bt waves-effect waves-light">Discard</button>
+                                            <button type="submit" style="background-color: #337ab7;" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
+                                            <button type="reset" style="background-color: #337ab7;" class="btn btn-ctl-bt waves-effect waves-light">Discard</button>
                                         </div>
                                     </form>
 

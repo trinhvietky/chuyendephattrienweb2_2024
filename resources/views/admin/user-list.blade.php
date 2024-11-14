@@ -13,6 +13,7 @@
 </script>
 @endif
 
+
 <div class="breadcome-area">
 
 
@@ -27,7 +28,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>User list</h2>
+                                    <h2>User Administrator</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -50,8 +51,8 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
                     <h4>User List</h4>
-                    <div class="add-product">
-                        <a href="user-add">Add User</a>
+                    <div class="add-product" >
+                        <a style="background-color: #337ab7;" href="user-add">Add User</a>
                     </div>
                     <table>
                         <tr>
@@ -91,14 +92,9 @@
                         </tr>
                         @endforeach
                     </table>
-                    <div class="custom-pagination">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
+                    <!-- Hiển thị các liên kết phân trang -->
+                    <div class="pagination">
+                        {{ $users->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>

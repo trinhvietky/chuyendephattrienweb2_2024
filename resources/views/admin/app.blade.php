@@ -426,7 +426,7 @@
             <!-- Mobile Menu end -->
             @yield('menu-footer')
         </div>
-        <div class="footer-copyright-area">
+        <div class="footer-copyright-area" style="margin-bottom: 0px;">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">

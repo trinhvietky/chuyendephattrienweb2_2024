@@ -2,9 +2,15 @@
 @section('menu-footer')
 
 @if(session('success'))
-<div class="alert alert-success">
+<div class="alert alert-success" style="margin: 20px 0px 0px 0px" id="success">
     {{ session('success') }}
 </div>
+<script>
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(function() {
+        document.getElementById('success').style.display = 'none';
+    }, 5000);
+</script>
 @endif
 
 <div class="breadcome-area">
@@ -72,14 +78,9 @@
                         </tr>
                         @endforeach
                     </table>
-                    <div class="custom-pagination">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
+                    <!-- Hiển thị các liên kết phân trang -->
+                    <div class="pagination">
+                        {{ $colors->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>

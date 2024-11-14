@@ -51,13 +51,16 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{ route('color.update', $color->color_id) }}" method="POST">
+                                    <form action="{{ route('color.update', $color->color_id) }}" method="POST" novalidate>
                                         @csrf
                                         @method('PUT')
 
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
                                             <input type="text" name="color_name" class="form-control" placeholder="Color name" value="{{ $color->color_name }}" required>
+                                            @error('color_name')
+                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
+                                            @enderror
                                         </div>
 
                                         <div class="text-center custom-pro-edt-ds">
@@ -77,3 +80,20 @@
         </div>
     </div>
     @endsection
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lấy tất cả các trường input trong form
+            const inputs = document.querySelectorAll('input, textarea, select');
+
+            // Lặp qua các trường input và thêm sự kiện 'input' để ẩn thông báo lỗi
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Tìm phần tử thông báo lỗi tương ứng (nếu có)
+                    const errorElement = this.nextElementSibling;
+                    if (errorElement && errorElement.classList.contains('error')) {
+                        errorElement.style.display = 'none'; // Ẩn thông báo lỗi
+                    }
+                });
+            });
+        });
+    </script>

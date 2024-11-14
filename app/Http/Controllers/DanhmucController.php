@@ -9,12 +9,12 @@ class DanhmucController extends Controller
 {
     public function getAllDanhMuc()
     {
-        return DanhMuc::all();
+        return DanhMuc::paginate(2);
     }
 
     public function AllDanhMuc()
     {
-        $danhmucs = DanhMuc::all();
+        $danhmucs = DanhMuc::paginate(2);
         return view('/admin/danhmuc-list', compact('danhmucs'));
     }
 

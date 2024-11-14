@@ -97,7 +97,7 @@
                                         </div>
 
                                         <div class="text-center custom-pro-edt-ds">
-                                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                            <button type="submit" style="background-color: #337ab7; color: white;" class="btn">Cập nhật</button>
                                         </div>
                                         
                                     </form>
