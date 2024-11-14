@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function AllUser()
     {
         // Lấy tất cả dữ liệu từ bảng users
-        $users = User::paginate(10);
+        $users = User::paginate(2);
 
         // Trả dữ liệu về view
         return view('/admin/user-list', compact('users'));
