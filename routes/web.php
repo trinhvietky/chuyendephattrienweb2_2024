@@ -80,9 +80,9 @@ Route::get('/blog-detail', function () {
 })->name('users/blog-detail');
 
 //user/product
-Route::get('/product', function () {
-    return view('/users/product');
-})->name('users/product');
+// Route::get('/product', function () {
+//     return view('/users/product');
+// })->name('users/product');
 
 //user/contact
 Route::get('/contact', function () {
@@ -95,9 +95,9 @@ Route::get('/about', function () {
 })->name('users/about');
 
 //user/product-detail
-Route::get('/product-detail', function () {
-    return view('users/product-detail');
-})->name('users/product-detail');
+// Route::get('/product-detail', function () {
+//     return view('users/product-detail');
+// })->name('users/product-detail');
 
 // Những route của những trang chưa đăng nhập
 Route::get('/shoping-cart', function () {
@@ -116,10 +116,20 @@ Route::post('/address/form', [AddressController::class, 'showForm'])->name('addr
 Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('address.save');
 // Route để cập nhật địa chỉ
 // Route để cập nhật địa chỉ
-Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
 Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('address.destroy');
+Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
+
+//Test
+Route::get('/product', [ProductController::class, 'index'])->name('users/product');
+Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
 
 
+// Route::get('/admin/home', function () {
+//     return view('admin/home');
+// })->name('admin/home');
+// Route::get('/admin/user-list', function () {
+//     return view('/admin/user-list');
+// });
 Route::get('/admin/user-add', function () {
     return view('/admin/user-add');
 });

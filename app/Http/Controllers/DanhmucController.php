@@ -9,7 +9,7 @@ class DanhmucController extends Controller
 {
     public function getAllDanhMuc()
     {
-        return DanhMuc::paginate(2);
+        return DanhMuc::all();
     }
 
     public function AllDanhMuc()
