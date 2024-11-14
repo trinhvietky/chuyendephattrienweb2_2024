@@ -97,10 +97,6 @@
 								</ul>
 							</li>
 
-							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.html">Features</a>
-							</li>
-
 							<li>
 								<a href="{{route('users/blog')}}">Blog</a>
 							</li>
