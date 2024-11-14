@@ -222,12 +222,6 @@
                 var cartCount = response.count;
                 // Cập nhật giá trị của data-notify-count
                 $('#cart-notify').attr('data-notify', cartCount);
-
-                console.log($('#cart-notify').attr('data-notify', cartCount));
-
-
-                // Bạn có thể kiểm tra giá trị đã được cập nhật
-                console.log('Số lượng giỏ hàng: ' + cartCount);
             },
             error: function (error) {
                 console.log('Error fetching cart count', error);
