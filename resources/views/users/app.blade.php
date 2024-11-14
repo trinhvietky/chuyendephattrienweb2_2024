@@ -89,9 +89,11 @@
 							<li>
 								<a href="{{route('users/product')}}">Shop</a>
 								<ul class="sub-menu">
-									@foreach($danhmucs as $danhmuc)
+								@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
+									@foreach($Alldanhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
 									@endforeach
+									@endif
 								</ul>
 							</li>
 
