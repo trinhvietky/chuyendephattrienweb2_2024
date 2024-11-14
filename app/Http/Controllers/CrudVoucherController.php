@@ -13,8 +13,8 @@ class CrudVoucherController extends Controller
      */
     public function listVoucher()
     {
-        $voucher = Voucher::all();
-        return view('admin.voucher-list', ['voucher' => $voucher]);
+        $vouchers = Voucher::paginate(10);
+        return view('admin.voucher-list', ['vouchers' => $vouchers]);
     }
 
     /**
