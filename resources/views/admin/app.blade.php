@@ -73,12 +73,12 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="{{route('admin.home')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
+                <a href="{{route('admin/dashboard')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
                 <strong><img src="/img/logo/logosn.png" alt="" /></strong>
             </div>
             <div class="nalika-profile">
                 <div class="profile-dtl">
-                    <a href="#"><img src="/img/notification/4.jpg" alt="" style="margin-left: 45px;" /></a>
+                    <a href="{{route('users/home')}}"><img src="/img/notification/4.jpg" alt="" style="margin-left: 45px;" /></a>
                     <h2>{{ Auth::user()->name }}</h2>
                 </div>
                 <div class="profile-social-dtl">
@@ -115,6 +115,8 @@
                             <a class="has-arrow" href="{{route('product_variants.index')}}" aria-expanded="false"><i class="icon  nalika-shopping-cart icon-wrap"></i> <span class="mini-click-non">Product</span></a>
                             <a class="has-arrow" href="{{route('voucher_list')}}" aria-expanded="false"><i class="icon nalika-price-tag icon-wrap"></i> <span class="mini-click-non">Voucher</span></a>
                             <a class="has-arrow" href="{{route('danhmuc.index')}}" aria-expanded="false"><i class="icon nalika-menu-task icon-wrap"></i> <span class="mini-click-non">Danh mục</span></a>
+                            <a class="has-arrow" href="{{route ('size-list')}}" aria-expanded="false"><i class="icon nalika-gear icon-wrap"></i> <span class="mini-click-non">Size</span></a>
+                            <a class="has-arrow" href="{{route ('color-list')}}" aria-expanded="false"><i class="icon nalika-diamond icon-wrap"></i> <span class="mini-click-non">Color</span></a>
                         </li>
                         <!-- <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Mailbox</span></a>
@@ -244,7 +246,7 @@
                                                     <x-dropdown align="right" width="48">
                                                         <x-slot name="trigger">
                                                             <button class="inline-flex items-center px-6 py-4 border border-transparent text-xl leading-6 font-bold rounded-md text-gray-700 bg-white hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
-                                                                <div class="text-xl">{{ Auth::user()->name }}</div> <!-- Tăng kích thước văn bản -->
+                                                                <div class="text-xl">{{ Auth::user()->name }}</div>
                                                                 <div class="ml-2">
                                                                     <svg class="fill-current h-8 w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"> <!-- Tăng kích thước icon -->
                                                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -424,7 +426,7 @@
             <!-- Mobile Menu end -->
             @yield('menu-footer')
         </div>
-        <div class="footer-copyright-area">
+        <div class="footer-copyright-area" style="margin-bottom: 0px;">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">

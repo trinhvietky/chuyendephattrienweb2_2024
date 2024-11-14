@@ -2,22 +2,19 @@
 @section('menu-footer')
 
 @if(session('success'))
-<div class="alert alert-success" style="margin: 80px 0px -80px 0px" id="success">
+<div class="alert alert-success" style="margin: 20px 0px 0px 0px">
     {{ session('success') }}
 </div>
+@endif
 <script>
     // Tự động ẩn thông báo sau 3 giây
     setTimeout(function() {
         document.getElementById('success').style.display = 'none';
     }, 5000);
 </script>
-@endif
-
 
 <div class="breadcome-area">
-
-
-    <div class="container-fluid" style="margin-top: 70px;">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="breadcome-list">
@@ -28,7 +25,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>User Administrator</h2>
+                                    <h2>Size Administrator</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -50,41 +47,30 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
-                    <h4>User List</h4>
-                    <div class="add-product" >
-                        <a style="background-color: #337ab7;" href="user-add">Add User</a>
+                    <h4>Size List</h4>
+                    <div class="add-product">
+                        <a href="size-add">Add Size</a>
                     </div>
                     <table>
                         <tr>
                             <th>Id</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Quyền</th>
+                            <th>Tên size</th>
                             <th>Action</th>
                         </tr>
-                        @foreach($users as $user)
+                        @foreach($sizes as $size)
                         <tr>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->phone}}</td>
-                            <td>
-                                @if($user->usertype === '1')
-                                Admin
-                                @else
-                                User
-                                @endif</td>
+                            <td>{{$size->size_id}}</td>
+                            <td>{{$size->size_name}}</td>
                             <td>
                                 <div style="display: flex; margin-left: -12px;">
-                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
+                                    <form action="{{ route('size.destroy', $size->size_id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa thông tin size này?');" style="margin-right: 5px;">
                                         @csrf
                                         @method('DELETE')
                                         <button data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="background: none; border: none;">
                                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                                         </button>
                                     </form>
-                                    <a href="{{ route('user.edit', $user->id) }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                                    <a href="{{ route('size.edit', $size->size_id) }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </a>
                                 </div>
@@ -94,7 +80,7 @@
                     </table>
                     <!-- Hiển thị các liên kết phân trang -->
                     <div class="pagination">
-                        {{ $users->links('pagination::bootstrap-4') }}
+                        {{ $sizes->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>

@@ -1,10 +1,17 @@
 @extends('admin/app')
 @section('menu-footer')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+
+@if(session('success'))
+<div class="alert alert-success" style="margin: 80px 0px -80px 0px" id="success">
+    {{ session('success') }}
+</div>
+<script>
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(function() {
+        document.getElementById('success').style.display = 'none';
+    }, 5000);
+</script>
+@endif
 
     <div class="breadcome-area">
         <div class="container-fluid" style="margin-top: 70px;">
@@ -58,23 +65,23 @@
                                 <th>trạng thái đơn hàng</th>
                                 <th>Công cụ</th>
                             </tr>
-                            @foreach ($voucher as $voucher)
+                            @foreach ($vouchers as $voucher)
                                 <tr>
                                     <td>{{ $voucher->id }}</td>
                                     <td>{{ $voucher->voucher_code }}</td>
                                     <td>{{ $voucher->description }}</td>
-                                    <td>{{ $voucher->discount_amount }}</td>
+                                    <td>{{ $voucher->discount_amount }}%</td>
                                     {{-- <td>{{ $voucher->start_date }}</td>
                                     <td>{{ $voucher->end_date }}</td> --}}
                                     <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
-                                    <td>{{ $voucher->minimum_order }}</td>
-                                    <td>{{ $voucher->usage_limit }}</td>
+                                    <td>{{ number_format($voucher->minimum_order, 0, ',', '.') }} VND</td>
+                                    <td>{{ number_format($voucher->usage_limit, 0, ',', '.') }} Lần</td>
                                     <td>
                                         @if ($voucher->usage_limit > 0)
-                                            <span class="badge badge-success">Có sẵn</span>
+                                            <span class="badge badge-success" style="background-color: green;">Có sẵn</span>
                                         @else
-                                            <span class="badge badge-danger">Hết hạn</span>
+                                            <span class="badge badge-danger" style="background-color: red;">Hết hạn</span>
                                         @endif
                                     </td>
                                     <td>
@@ -97,15 +104,10 @@
                                 </tr>
                             @endforeach
                         </table>
-                        <div class="custom-pagination">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </div>
+                    <!-- Hiển thị các liên kết phân trang -->
+                    <div class="pagination">
+                        {{ $vouchers->links('pagination::bootstrap-4') }}
+                    </div>
                     </div>
                 </div>
             </div>

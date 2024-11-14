@@ -2,9 +2,15 @@
 @section('menu-footer')
 
 @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
+<div class="alert alert-success" style="margin: 80px 0px -80px 0px" id="success">
+    {{ session('success') }}
+</div>
+<script>
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(function() {
+        document.getElementById('success').style.display = 'none';
+    }, 5000);
+</script>
 @endif
 
 <div class="breadcome-area">
@@ -55,11 +61,11 @@
                         </thead>
                         <tbody>
                             @foreach($danhmucs as $danhmuc)
-                                <tr>
-                                    <td>{{ $danhmuc->danhmuc_ID }}</td>
-                                    <td>{{ $danhmuc->danhmuc_Ten }}</td>
-                                    <td>
-                                       
+                            <tr>
+                                <td>{{ $danhmuc->danhmuc_ID }}</td>
+                                <td>{{ $danhmuc->danhmuc_Ten }}</td>
+                                <td>
+
                                     <div style="display: flex; margin-left: -12px;">
                                         <form action="{{ route('danhmuc.destroy', $danhmuc->danhmuc_ID) }}" method="POST"
                                             onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục {{ $danhmuc->danhmuc_Ten }} không ?');"
@@ -77,19 +83,14 @@
                                             style="color: white; margin-top: 7px; background: none; border: none;">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </a>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                            </tr>
                             @endforeach
                     </table>
-                    <div class="custom-pagination">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
+                    <!-- Hiển thị các liên kết phân trang -->
+                    <div class="pagination">
+                        {{ $danhmucs->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>

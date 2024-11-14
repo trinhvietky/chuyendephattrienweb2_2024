@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ColorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ use App\Http\Controllers\AddressController;
 */
 
 
-Route::get('/', function () {
+Route::get('/', function() {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
@@ -44,27 +45,29 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
-    Route::get('/admin/home', [AdminController::class, 'index'])->name('admin.home');
-    Route::get('/users/home', [UserController::class, 'index'])->name('users.home');
+    Route::get('/dashboard', function () {
+        return view('admin/dashboard');
+    })->name('admin/dashboard');
+    Route::get('/home', function () {
+        return view('users/home');
+    })->name('users/home');
 });
+
+Route::get('/admin/home', [AdminController::class, 'index'])->name('dashboard');
+Route::get('/users/home', [UserController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.update-avatar');
+    Route::post('/profile', [ProfileController::class, 'edit'])->name('address.edit');
 });
 
 require __DIR__ . '/auth.php';
 
 //users
 //user/home
-Route::get('/home', function () {
-    return view('users/home');
-})->name('users/home');
-
-Route::get('/dashboard', function () {
-    return view('admin/dashboard');
-})->name('admin/dashboard');
 
 //user/blog
 Route::get('/blog', function () {
@@ -113,6 +116,7 @@ Route::post('/address/form', [AddressController::class, 'showForm'])->name('addr
 Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('address.save');
 // Route để cập nhật địa chỉ
 // Route để cập nhật địa chỉ
+Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('address.destroy');
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
 
 //Test
@@ -189,3 +193,59 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
+
+
+//-------SIZE
+//Hiển thị view size list
+Route::get('/size-list', function () {
+    return view('admin.size-list');
+}); 
+
+//Hiển thị danh sách size
+Route::get('/size-list', [SizeController::class, 'index'])->name('size-list');
+
+//Xóa size
+Route::delete('/size/{size_id}', [SizeController::class, 'destroy'])->name('size.destroy');
+Route::get('/size-list', [SizeController::class, 'index'])->name('size-list');
+
+// Add size
+Route::get('/size-add', function () {
+    return view('admin.size-add');
+});
+
+Route::post('/sizes', [SizeController::class, 'store'])->name('size.store');
+
+//Edit size
+Route::get('/size/{size_id}/edit', [SizeController::class, 'edit'])->name('size.edit');
+
+Route::put('/size/{id}', [SizeController::class, 'update'])->name('size.update');
+
+
+//Color
+//Hiển thị view color list
+Route::get('/color-list', function () {
+    return view('/admin/color-list');
+}); 
+
+//Hiển thị danh sách color
+Route::get('/color-list', [ColorController::class, 'index'])->name('color-list');
+
+//Xóa color
+Route::delete('/color/{color_id}', [ColorController::class, 'destroy'])->name('color.destroy');
+Route::get('/color-list', [ColorController::class, 'index'])->name('color-list');
+
+// Add color
+Route::get('/color-add', function () {
+    return view('/admin/color-add');
+});
+
+Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
+
+//Edit size
+Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
+
+Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
+ 
+
+
+
