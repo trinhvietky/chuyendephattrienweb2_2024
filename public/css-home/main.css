@@ -375,6 +375,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
+  text-decoration: none;
 }
 
 .header-v3 .main-menu > li > a {
