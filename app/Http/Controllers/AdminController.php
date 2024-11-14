@@ -15,15 +15,16 @@ class AdminController extends Controller
         // Logic cho admin home page
         return view('admin/dashboard');
     }
-    // Phương thức xóa user
+
     public function AllUser()
     {
         // Lấy tất cả dữ liệu từ bảng users
-        $users = User::all();
+        $users = User::paginate(2);
 
         // Trả dữ liệu về view
         return view('/admin/user-list', compact('users'));
     }
+        // Phương thức xóa user
     public function destroy($id)
     {
         // Tìm user theo ID

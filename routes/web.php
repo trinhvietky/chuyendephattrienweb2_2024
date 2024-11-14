@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ColorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -182,6 +183,58 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
+
+
+//-------SIZE
+//Hiển thị view size list
+Route::get('/size-list', function () {
+    return view('admin.size-list');
+}); 
+
+//Hiển thị danh sách size
+Route::get('/size-list', [SizeController::class, 'index'])->name('size-list');
+
+//Xóa size
+Route::delete('/size/{size_id}', [SizeController::class, 'destroy'])->name('size.destroy');
+Route::get('/size-list', [SizeController::class, 'index'])->name('size-list');
+
+// Add size
+Route::get('/size-add', function () {
+    return view('admin.size-add');
+});
+
+Route::post('/sizes', [SizeController::class, 'store'])->name('size.store');
+
+//Edit size
+Route::get('/size/{size_id}/edit', [SizeController::class, 'edit'])->name('size.edit');
+
+Route::put('/size/{id}', [SizeController::class, 'update'])->name('size.update');
+
+
+//Color
+//Hiển thị view color list
+Route::get('/color-list', function () {
+    return view('/admin/color-list');
+}); 
+
+//Hiển thị danh sách color
+Route::get('/color-list', [ColorController::class, 'index'])->name('color-list');
+
+//Xóa color
+Route::delete('/color/{color_id}', [ColorController::class, 'destroy'])->name('color.destroy');
+Route::get('/color-list', [ColorController::class, 'index'])->name('color-list');
+
+// Add color
+Route::get('/color-add', function () {
+    return view('/admin/color-add');
+});
+
+Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
+
+//Edit size
+Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
+
+Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
  
 
 
