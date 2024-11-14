@@ -22,7 +22,10 @@ class CrudVoucherController extends Controller
      */
     public function deletevoucher($id)
     {
-        $voucher = Voucher::findOrFail($id);
+        $voucher = Voucher::where('id', $id)->first();
+        if (!$voucher) {
+            return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
+        }
         $voucher->delete();
         return redirect('admin/voucher-list')->with('success', 'voucher đã được xóa thành công.');
     }
@@ -34,8 +37,10 @@ class CrudVoucherController extends Controller
     public function edit($id)
     {
         // Lấy thông tin user theo id
-        $voucher = Voucher::findOrFail($id);
-
+        $voucher = Voucher::where('id', $id)->first();
+        if (!$voucher) {
+            return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
+        }
         // Trả dữ liệu về view edit
         return view('admin.voucher-edit', ['voucher' => $voucher]);
     }
@@ -71,7 +76,7 @@ class CrudVoucherController extends Controller
 
         $request->validate([
             'voucher_code' => 'required|size:6|regex:/^[A-Z0-9]+$/|unique:voucher',
-            'description' => 'required',
+            'description' => 'required|max:255',
             'discount_amount' => 'required|min:0|integer',
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -102,16 +107,39 @@ class CrudVoucherController extends Controller
      */
     public function updateVoucher(Request $request, $id)
     {
+        $messages = [
+            'voucher_code.required' => 'Vui lòng điền đầy đủ thông tin.',
+            'voucher_code.size' => 'Mã giảm giá phải có độ dài 6 ký tự.',
+            'voucher_code.regex' => 'Mã giảm giá chỉ được bao gồm chữ hoa và số, không có khoảng trắng hay ký tự đặc biệt.',
+            'discount_amount.required' => 'Vui lòng điền đầy đủ thông tin.',
+            'discount_amount.integer' => 'Giá trị giảm phải là số nguyên.',
+            'discount_amount.min' => 'Giá trị giảm phải lớn hơn hoặc bằng 0.',
+            'start_date.required' => 'Vui lòng điền đầy đủ thông tin.',
+            'start_date.date' => 'Ngày bắt đầu không hợp lệ.',
+            'start_date.after_or_equal' => 'Ngày bắt đầu phải lớn hơn hoặc bằng ngày hôm nay.',
+            'end_date.required' => 'Vui lòng điền đầy đủ thông tin.',
+            'end_date.date' => 'Ngày kết thúc không hợp lệ.',
+            'end_date.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
+            'usage_limit.required' => 'Vui lòng điền đầy đủ thông tin.',
+            'usage_limit.integer' => 'Số lần sử dụng phải là số nguyên.',
+            'usage_limit.min' => 'Số lần sử dụng phải lớn hơn hoặc bằng 0.',
+            'minimum_order.required' => 'Vui lòng điền đầy đủ thông tin.',
+            'minimum_order.integer' => 'Giá trị đơn hàng tối thiểu phải là số nguyên.',
+            'minimum_order.min' => 'Giá trị đơn hàng tối thiểu phải lớn hơn hoặc bằng 0.',
+            'description.required' => 'Vui lòng điền đầy đủ thông tin.',
+            'description.regex' => 'Mô tả không hợp lệ, không được chứa ký tự đặc biệt ngoài các ký tự cho phép.',
+            'description.max' => 'Mô tả không được vượt quá 255 ký tự.',
+        ];
         $request->validate([
             'voucher_code' => 'required|size:6|regex:/^[A-Z0-9]+$/',
-            'description' => 'required',
+            'description' => 'required|max:255',
             'discount_amount' => 'required|min:0|integer',
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
             'minimum_order' => 'required|min:0|integer',
             'usage_limit' => 'required|min:0|integer',
 
-        ]);
+        ], $messages);
 
         $voucher = Voucher::findOrFail($id);
         $voucher->voucher_code = $request->input('voucher_code');

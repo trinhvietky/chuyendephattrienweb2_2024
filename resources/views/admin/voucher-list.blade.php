@@ -1,13 +1,18 @@
 @extends('admin/app')
 @section('menu-footer')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <div class="breadcome-area">
+
         <div class="container-fluid" style="margin-top: 70px;">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="breadcome-list">
@@ -62,7 +67,8 @@
                                 <tr>
                                     <td>{{ $voucher->id }}</td>
                                     <td>{{ $voucher->voucher_code }}</td>
-                                    <td>{{ $voucher->description }}</td>
+                                    {{-- <td>{{ $voucher->description }}</td> --}}
+                                    <td>{{ \Illuminate\Support\Str::limit($voucher->description, 10, '...') }}</td>
                                     <td>{{ $voucher->discount_amount }}</td>
                                     {{-- <td>{{ $voucher->start_date }}</td>
                                     <td>{{ $voucher->end_date }}</td> --}}
@@ -71,7 +77,7 @@
                                     <td>{{ $voucher->minimum_order }}</td>
                                     <td>{{ $voucher->usage_limit }}</td>
                                     <td>
-                                        @if ($voucher->usage_limit > 0)
+                                        @if (($voucher->usage_limit > 0) & ($voucher->end_date >= \Carbon\Carbon::today()))
                                             <span class="badge badge-success">Có sẵn</span>
                                         @else
                                             <span class="badge badge-danger">Hết hạn</span>
