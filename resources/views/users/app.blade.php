@@ -127,7 +127,7 @@
 									<i class="zmdi zmdi-shopping-cart"></i>
 								</div>
 
-								<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">
 									<i class="zmdi zmdi-favorite-outline"></i>
 								</a>
 								<style>
@@ -699,100 +699,161 @@
 	<script src="{{asset('/vendor/sweetalert/sweetalert.min.js')}}"></script>
 	<script>
 		$(document).ready(function() {
-    // Fetch the user's wishlist from the backend when the page loads
-    fetchWishlist();
+			// Fetch danh sách yêu thích của người dùng khi trang được tải
+			fetchWishlist();
 
-    // Function to fetch wishlist and update UI
-    function fetchWishlist() {
-        fetch('/get-wishlist')
-            .then(response => response.json())
-            .then(data => {
-                var wishlist = data.wishlist;
+			// Hàm để lấy danh sách yêu thích và cập nhật giao diện
+			function fetchWishlist() {
+				fetch('/get-wishlist') // Gửi yêu cầu GET tới server để lấy dữ liệu danh sách yêu thích
+					.then(response => response.json()) // Chuyển đổi phản hồi thành dạng JSON
+					.then(data => {
+						var wishlist = data.wishlist; // Danh sách các sản phẩm yêu thích
 
-                // Add 'added' state to products already in the wishlist
-                $('.js-addwish-b2').each(function() {
-                    var productId = $(this).data('product-id'); // Get the product ID
-                    if (wishlist.includes(productId)) {
-                        $(this).addClass('js-addedwish-b2'); // Highlight the button if product is in wishlist
-                        $(this).off('click'); // Disable button to prevent re-clicking
-                    }
-                });
-            })
-            .catch(error => console.error('Error fetching wishlist:', error));
-    }
+						// Thêm trạng thái 'added' cho các sản phẩm đã có trong danh sách yêu thích
+						$('.js-addwish-b2').each(function() {
+							var productId = $(this).data('product-id'); // Lấy ID của sản phẩm
+							if (wishlist.includes(productId)) { // Kiểm tra xem sản phẩm có trong danh sách yêu thích không
+								$(this).addClass('js-addedwish-b2'); // Thêm class để đánh dấu sản phẩm đã yêu thích
+								$(this).off('click'); // Vô hiệu hóa sự kiện click để không thể thêm lại
+							}
+						});
+					})
+					.catch(error => console.error('Error fetching wishlist:', error)); // Xử lý lỗi nếu có
+			}
 
-    // Function to add product to wishlist
-function addToWishlist(e) {
-    e.preventDefault();
-    var $button = $(this);
-    var productId = $button.data('product-id'); // Get the product ID
-    var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Get the product name
+			// Hàm để thêm sản phẩm vào danh sách yêu thích
+			function addToWishlist(e) {
+				e.preventDefault(); // Ngừng hành động mặc định của sự kiện (ví dụ: reload trang)
+				var $button = $(this); // Lấy đối tượng button đã được nhấn
+				var productId = $button.data('product-id'); // Lấy ID sản phẩm
+				var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Lấy tên sản phẩm
 
-    // Send request to add the product to wishlist
-    fetch('/add-to-wishlist', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token
-            },
-            body: JSON.stringify({
-                product_id: productId
-            }) // Send the product ID to add
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                swal(nameProduct, "Thêm sản phẩm vào danh sách yêu thích thành công", "success");
+				// Gửi yêu cầu POST tới server để thêm sản phẩm vào danh sách yêu thích
+				fetch('/add-to-wishlist', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': '{{ csrf_token() }}' // Thêm token CSRF để bảo vệ
+						},
+						body: JSON.stringify({
+							product_id: productId
+						}) // Gửi ID sản phẩm trong body của yêu cầu
+					})
+					.then(response => response.json()) // Chuyển phản hồi từ server thành JSON
+					.then(data => {
+						if (data.success) { // Nếu thêm sản phẩm thành công
+							swal(nameProduct, "Thêm sản phẩm vào danh sách yêu thích thành công", "success"); // Hiển thị thông báo thành công
 
-                // Add the 'added' state to the button and disable it
-                $button.addClass('js-addedwish-b2');
-                $button.off('click'); // Disable further clicks on the button
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            swal("Oops!", "There was an error adding the product to your wishlist.", "error");
-        });
-}
+							// Thêm trạng thái 'added' cho nút và vô hiệu hóa nút
+							$button.addClass('js-addedwish-b2');
+							$button.off('click'); // Vô hiệu hóa sự kiện click để không thể thêm lại
 
-// Function to remove product from wishlist
-function removeFromWishlist(e) {
-    e.preventDefault();
-    var $button = $(this);
-    var productId = $button.data('product-id'); // Get the product ID
-    var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Get the product name
+							// Cập nhật số lượng thông báo yêu thích (wishlist)
+							updateWishlistCount();
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						swal("Oops!", "Có lỗi khi thêm sản phẩm vào danh sách yêu thích.", "error"); // Thông báo lỗi
+					});
+			}
 
-    // Send request to remove the product from wishlist
-    fetch('/remove-from-wishlist', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include CSRF token
-            },
-            body: JSON.stringify({
-                product_id: productId
-            }) // Send the product ID to remove
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                swal(nameProduct, "Xóa sản phẩm yêu thích thành công", "success");
+			// Hàm để xóa sản phẩm khỏi danh sách yêu thích
+			function removeFromWishlist(e) {
+				e.preventDefault(); // Ngừng hành động mặc định của sự kiện (ví dụ: reload trang)
+				var $button = $(this); // Lấy đối tượng button đã được nhấn
+				var productId = $button.data('product-id'); // Lấy ID sản phẩm
+				var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Lấy tên sản phẩm
 
-                // Remove the 'added' state from the button and re-enable it
-                $button.removeClass('js-addedwish-b2');
-                $button.on('click', addToWishlist);  // Re-enable the 'add to wishlist' function
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            swal("Oops!", "There was an error removing the product from your wishlist.", "error");
-        });
-}
+				// Gửi yêu cầu POST tới server để xóa sản phẩm khỏi danh sách yêu thích
+				fetch('/remove-from-wishlist', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': '{{ csrf_token() }}' // Thêm token CSRF để bảo vệ
+						},
+						body: JSON.stringify({
+							product_id: productId
+						}) // Gửi ID sản phẩm trong body của yêu cầu
+					})
+					.then(response => response.json()) // Chuyển phản hồi từ server thành JSON
+					.then(data => {
+						if (data.success) { // Nếu xóa sản phẩm thành công
+							swal(nameProduct, "Xóa sản phẩm yêu thích thành công", "success"); // Hiển thị thông báo thành công
 
-    // Attach event listeners for both adding and removing items from wishlist
-    $(document).on('click', '.js-addwish-b2', addToWishlist);
-    $(document).on('click', '.js-addedwish-b2', removeFromWishlist);
-});
+							// Xóa trạng thái 'added' cho nút và bật lại chức năng thêm sản phẩm vào wishlist
+							$button.removeClass('js-addedwish-b2');
+							$button.on('click', addToWishlist); // Kích hoạt lại sự kiện click để có thể thêm lại sản phẩm
+
+							// Cập nhật số lượng thông báo yêu thích
+							var currentNotify = parseInt($('.js-show-wishlist').attr('data-notify')) || 0; // Lấy số lượng yêu thích hiện tại
+							if (currentNotify > 0) {
+								$('.js-show-wishlist').attr('data-notify', currentNotify - 1); // Giảm số lượng thông báo yêu thích
+							}
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						swal("Oops!", "Có lỗi khi xóa sản phẩm khỏi danh sách yêu thích.", "error"); // Thông báo lỗi
+					});
+			}
+
+			// Gắn sự kiện click cho cả hai hành động: thêm và xóa sản phẩm trong danh sách yêu thích
+			$(document).on('click', '.js-addwish-b2', addToWishlist); // Khi nhấn nút 'Thêm yêu thích'
+			$(document).on('click', '.js-addedwish-b2', removeFromWishlist); // Khi nhấn nút 'Xóa yêu thích'
+
+			// Cập nhật số lượng yêu thích (lấy từ API)
+			function updateWishlistCount() {
+				fetch('/get-wishlist')
+					.then(response => response.json())
+					.then(data => {
+						var wishlistCount = data.wishlist.length;
+						$('.js-show-wishlist').attr('data-notify', wishlistCount);
+					});
+			}
+		});
+		// Khi trang được tải lại, lấy số lượng yêu thích từ server
+		$(document).ready(function() {
+			fetch('/get-wishlist-count') // API lấy số lượng wishlist của người dùng
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						// Cập nhật số lượng yêu thích trong giao diện
+						$('.js-show-wishlist').attr('data-notify', data.wishlistCount);
+					}
+				})
+				.catch(error => console.error('Error fetching wishlist count:', error));
+		});
+		$(document).on('click', '.js-addedwish-b2', function(e) {
+			e.preventDefault(); // Ngừng hành động mặc định
+			var $button = $(this);
+			var productId = $button.data('product-id');
+
+			// Gửi yêu cầu POST để xóa sản phẩm khỏi danh sách yêu thích
+			fetch('/remove-from-wishlist', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF Token
+					},
+					body: JSON.stringify({
+						product_id: productId
+					})
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						swal("Xóa khỏi yêu thích thành công!", "", "success");
+
+						// Xóa sản phẩm khỏi danh sách yêu thích ngay lập tức trên trang
+						$button.closest('.isotope-item').remove(); // Xóa sản phẩm khỏi DOM
+
+						// Cập nhật số lượng yêu thích trong thông báo
+						updateWishlistCount();
+					}
+				})
+				.catch(error => console.error('Error:', error));
+		});
 	</script>
 
 	<!--===============================================================================================-->

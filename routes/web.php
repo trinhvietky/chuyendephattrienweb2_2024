@@ -69,9 +69,11 @@ use App\Http\Controllers\WishlistController;
 
 
 Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
+Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
 // Route to add product to wishlist
 Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->middleware('auth');
 Route::post('/remove-from-wishlist', [WishlistController::class, 'removeFromWishlist']);
+Route::get('/favourite', [WishlistController::class, 'index'])->name('users/favourite');
 
 //user/blog
 Route::get('/blog', function () {
