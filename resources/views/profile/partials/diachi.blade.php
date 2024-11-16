@@ -332,10 +332,11 @@
                 $('#edit_address').val(addressDetail);
 
                 // Fetch dữ liệu tỉnh, quận, phường từ API
-                $.getJSON('/js-home/api/tinh.json', function(data_tinh) {
+                // Lấy dữ liệu các tỉnh từ API
+                $.getJSON('/js-home/api/data.json', function(data_tinh) {
                     if (data_tinh.error === 0) {
                         // Cập nhật các tỉnh vào dropdown
-                        $('#tinh').html(`<option selected>${addressTinh}</option>`);
+                        $('#tinh').html(`<option selected>${addressTinh}</option>`); // Set giá trị mặc định
                         $.each(data_tinh.data, function(key_tinh, val_tinh) {
                             $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
                         });
@@ -346,52 +347,64 @@
                         // Fetch quận khi tỉnh thay đổi
                         $("#tinh").change(function() {
                             let idtinh = $(this).val();
-                            if (idtinh) {
+                            let selectedProvince = data_tinh.data.find(function(item) {
+                                return item.id === idtinh;
+                            });
+
+                            if (selectedProvince) {
+                                // Cập nhật các quận vào dropdown
                                 $('#quan').html(`<option selected>${addressQuan}</option>`);
                                 $('#phuong').html(`<option selected>${addressPhuong}</option>`);
-                                $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function(data_quan) {
-                                    if (data_quan.error === 0) {
-                                        $('#quan').html(`<option selected>${addressQuan}</option>`);
-                                        $('#phuong').html(`<option selected>${addressPhuong}</option>`);
-                                        $.each(data_quan.data, function(key_quan, val_quan) {
-                                            $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
-                                        });
 
-                                        // Thiết lập quận đã chọn
-                                        $('#quan').val(addressQuan).trigger('change'); // Trigger lại sự kiện change để load phường
-                                    }
+                                $.each(selectedProvince.data2, function(key_quan, val_quan) {
+                                    $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
                                 });
+
+                                // Thiết lập quận đã chọn
+                                $('#quan').val(addressQuan).trigger('change'); // Trigger lại sự kiện change để load phường
                             } else {
-                                $("#quan").html('<option value="0">Chọn Quận/Huyện</option>');
-                                $("#phuong").html('<option value="0">Chọn Phường/Xã</option>');
+                                // Nếu không có tỉnh được chọn
+                                $('#quan').html(`<option selected>${addressQuan}</option>`);
+                                $('#phuong').html(`<option selected>${addressPhuong}</option>`);
                             }
                         });
 
                         // Fetch phường khi quận thay đổi
                         $("#quan").change(function() {
                             let idquan = $(this).val();
-                            if (idquan) {
-                                $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function(data_phuong) {
-                                    if (data_phuong.error === 0) {
-                                        $('#phuong').html(`<option selected>${addressPhuong}</option>`);
-                                        $.each(data_phuong.data, function(key_phuong, val_phuong) {
-                                            $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
-                                        });
+                            let selectedDistrict = data_tinh.data.find(function(item) {
+                                return item.id === $('#tinh').val(); // Tìm tỉnh đang được chọn
+                            });
 
-                                        // Thiết lập phường đã chọn
-                                        $('#phuong').val(addressPhuong);
-                                    }
+                            if (selectedDistrict) {
+                                let selectedDistrictData = selectedDistrict.data2.find(function(district) {
+                                    return district.id === idquan; // Tìm quận đang được chọn
                                 });
-                            } else {
-                                $("#phuong").html('<option value="0">Chọn Phường/Xã</option>');
+
+                                if (selectedDistrictData) {
+                                    // Cập nhật danh sách phường
+                                    $('#phuong').html(`<option selected>${addressPhuong}</option>`); // Reset phường
+
+                                    $.each(selectedDistrictData.data3, function(key_phuong, val_phuong) {
+                                        $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                    });
+
+                                    // Thiết lập phường đã chọn
+                                    $('#phuong').val(addressPhuong);
+                                } else {
+                                    // Nếu không có quận được chọn
+                                    $('#phuong').html(`<option selected>${addressPhuong}</option>`); // Reset phường
+                                }
                             }
                         });
 
                         // Set lại giá trị tỉnh, quận, phường đã chọn
                         $('#tinh').val(addressTinh).trigger('change');
                         $('#quan').val(addressQuan).trigger('change');
+                        $('#phuong').val(addressPhuong); // Set giá trị phường đã chọn
                     }
                 });
+
                 $('#edit_is_default').prop('checked', isDefault);
 
                 // Mở modal

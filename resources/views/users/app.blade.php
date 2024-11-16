@@ -824,36 +824,6 @@
 				})
 				.catch(error => console.error('Error fetching wishlist count:', error));
 		});
-		$(document).on('click', '.js-addedwish-b2', function(e) {
-			e.preventDefault(); // Ngừng hành động mặc định
-			var $button = $(this);
-			var productId = $button.data('product-id');
-
-			// Gửi yêu cầu POST để xóa sản phẩm khỏi danh sách yêu thích
-			fetch('/remove-from-wishlist', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-CSRF-TOKEN': '{{ csrf_token() }}' // CSRF Token
-					},
-					body: JSON.stringify({
-						product_id: productId
-					})
-				})
-				.then(response => response.json())
-				.then(data => {
-					if (data.success) {
-						swal("Xóa khỏi yêu thích thành công!", "", "success");
-
-						// Xóa sản phẩm khỏi danh sách yêu thích ngay lập tức trên trang
-						$button.closest('.isotope-item').remove(); // Xóa sản phẩm khỏi DOM
-
-						// Cập nhật số lượng yêu thích trong thông báo
-						updateWishlistCount();
-					}
-				})
-				.catch(error => console.error('Error:', error));
-		});
 	</script>
 
 	<!--===============================================================================================-->
