@@ -1,5 +1,29 @@
 @extends('users/app')
 @section('menu-footer')
+<meta charset="UTF-8">
+<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 20px 0;
+	}
+
+	table,
+	th,
+	td {
+		border: 1px solid #ddd;
+	}
+
+	th,
+	td {
+		padding: 12px;
+		text-align: center;
+	}
+
+	th {
+		background-color: #f4f4f4;
+	}
+</style>
 
 <!-- breadcrumb -->
 <div class="container" style="margin-top: 100px;">
@@ -32,35 +56,17 @@
 						<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
 						<div class="slick3 gallery-lb">
-							<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
+							@foreach ($product->images as $image) <!-- Lặp qua các hình ảnh -->
+							<div class="item-slick3" data-thumb="{{ asset($image->image_path) }}">
 								<div class="wrap-pic-w pos-relative">
-									<img src="images/product-detail-01.jpg" alt="IMG-PRODUCT">
+									<img src="{{ asset($image->image_path) }}" alt="IMG-PRODUCT">
 
-									<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
+									<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{ asset($image->image_path) }}">
 										<i class="fa fa-expand"></i>
 									</a>
 								</div>
 							</div>
-
-							<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
-								<div class="wrap-pic-w pos-relative">
-									<img src="images/product-detail-02.jpg" alt="IMG-PRODUCT">
-
-									<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-02.jpg">
-										<i class="fa fa-expand"></i>
-									</a>
-								</div>
-							</div>
-
-							<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
-								<div class="wrap-pic-w pos-relative">
-									<img src="images/product-detail-03.jpg" alt="IMG-PRODUCT">
-
-									<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-03.jpg">
-										<i class="fa fa-expand"></i>
-									</a>
-								</div>
-							</div>
+							@endforeach
 						</div>
 					</div>
 				</div>
@@ -68,55 +74,65 @@
 
 			<div class="col-md-6 col-lg-5 p-b-30">
 				<div class="p-r-50 p-t-5 p-lr-0-lg">
-					<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-						{{$product->product_name}}
+					<h4 class="mtext-105 cl2 js-name-detail p-b-14" style="text-transform: uppercase">
+						{{ strtoupper($product->product_name) }}
 					</h4>
 
 					<span class="mtext-106 cl2">
-						{{$product->price}}
+						{{ number_format($product->price, 0, ',', '.') }}đ
 					</span>
-
-					<p class="stext-102 cl3 p-t-23">
-						Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
-					</p>
 
 					<!--  -->
 					<div class="p-t-33">
 						<div class="flex-w flex-r-m p-b-10">
-							<div class="size-203 flex-c-m respon6">
-								Size
+							<div class="size-203 flex-c-m respon6" style="display: flex; justify-content: flex-start;">
+								Color
 							</div>
 
 							<div class="size-204 respon6-next">
 								<div class="rs1-select2 bor8 bg0">
-									<select class="js-select2" name="time">
-										<option>Choose an option</option>
-										<option>Size S</option>
-										<option>Size M</option>
-										<option>Size L</option>
-										<option>Size XL</option>
+									<!-- Select for Color -->
+									<select class="js-select2" name="color" id="colorSelect" style="width: 100%;">
+										<option value="">Choose a color</option>
+										@foreach ($product->productVariants->unique('color_id') as $variant)
+										<option value="{{ $variant->color->id }}">
+											Color {{ $variant->color->color_name }}
+										</option>
+										@endforeach
 									</select>
 									<div class="dropDownSelect2"></div>
 								</div>
 							</div>
 						</div>
 
+
 						<div class="flex-w flex-r-m p-b-10">
-							<div class="size-203 flex-c-m respon6">
-								Color
+							<div class="size-203 flex-c-m respon6" style="display: flex; justify-content: flex-start;">
+								Size
 							</div>
 
 							<div class="size-204 respon6-next">
 								<div class="rs1-select2 bor8 bg0">
-									<select class="js-select2" name="time">
-										<option>Choose an option</option>
-										<option>Red</option>
-										<option>Blue</option>
-										<option>White</option>
-										<option>Grey</option>
+									<select class="js-select2" name="size" id="sizeSelect" style="width: 100%;">
+										<option value="">Choose a size</option>
+										@foreach ($product->productVariants->unique('size_id') as $variant)
+										<option value="{{ $variant->size->id }}" data-quantity="{{ $variant->stock}}">
+											{{ $variant->size->size_name }}
+										</option>
+										@endforeach
 									</select>
+
 									<div class="dropDownSelect2"></div>
 								</div>
+							</div>
+						</div>
+
+						<div class="flex-w flex-r-m p-b-10">
+							<div class="size-203 flex-c-m respon6" style="display: flex; justify-content: flex-start;">
+								Số lượng
+							</div>
+							<div class="size-204 respon6-next">
+								<p id="quantityDisplay">0</p>
 							</div>
 						</div>
 
@@ -127,7 +143,7 @@
 										<i class="fs-16 zmdi zmdi-minus"></i>
 									</div>
 
-									<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+									<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="0" data-max-quantity="10">
 
 									<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 										<i class="fs-16 zmdi zmdi-plus"></i>
@@ -189,7 +205,7 @@
 					<div class="tab-pane fade show active" id="description" role="tabpanel">
 						<div class="how-pos2 p-lr-15-md">
 							<p class="stext-102 cl6">
-								Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+								{{$product->description}}
 							</p>
 						</div>
 					</div>
@@ -198,57 +214,42 @@
 					<div class="tab-pane fade" id="information" role="tabpanel">
 						<div class="row">
 							<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-								<ul class="p-lr-28 p-lr-15-sm">
-									<li class="flex-w flex-t p-b-7">
-										<span class="stext-102 cl3 size-205">
-											Weight
-										</span>
-
-										<span class="stext-102 cl6 size-206">
-											0.79 kg
-										</span>
-									</li>
-
-									<li class="flex-w flex-t p-b-7">
-										<span class="stext-102 cl3 size-205">
-											Dimensions
-										</span>
-
-										<span class="stext-102 cl6 size-206">
-											110 x 33 x 100 cm
-										</span>
-									</li>
-
-									<li class="flex-w flex-t p-b-7">
-										<span class="stext-102 cl3 size-205">
-											Materials
-										</span>
-
-										<span class="stext-102 cl6 size-206">
-											60% cotton
-										</span>
-									</li>
-
-									<li class="flex-w flex-t p-b-7">
-										<span class="stext-102 cl3 size-205">
-											Color
-										</span>
-
-										<span class="stext-102 cl6 size-206">
-											Black, Blue, Grey, Green, Red, White
-										</span>
-									</li>
-
-									<li class="flex-w flex-t p-b-7">
-										<span class="stext-102 cl3 size-205">
-											Size
-										</span>
-
-										<span class="stext-102 cl6 size-206">
-											XL, L, M, S
-										</span>
-									</li>
-								</ul>
+								<table>
+									<thead>
+										<tr>
+											<th>Size name</th>
+											<th>Weight (kg)</th>
+											<th>Height (cm)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>S</td>
+											<td>40 - 50</td>
+											<td>150 - 160</td>
+										</tr>
+										<tr>
+											<td>M</td>
+											<td>50 - 60</td>
+											<td>160 - 170</td>
+										</tr>
+										<tr>
+											<td>L</td>
+											<td>60 - 70</td>
+											<td>170 - 180</td>
+										</tr>
+										<tr>
+											<td>XL</td>
+											<td>70 - 80</td>
+											<td>180 - 190</td>
+										</tr>
+										<tr>
+											<td>XXL</td>
+											<td>80 - 90</td>
+											<td>190 - 200</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -364,13 +365,14 @@
 		<!-- Slide2 -->
 		<div class="wrap-slick2">
 			<div class="slick2">
+				@foreach ($relatedProducts as $index => $relatedProduct)
 				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
-							<img src="images/product-01.jpg" alt="IMG-PRODUCT">
+							<img src="{{ isset($relatedImages[$index]) ? asset($relatedImages[$index]->image_path) : asset('default-image-path.jpg') }}" alt="IMG-PRODUCT">
 
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+							<a href="{{ route('users/product-detail', ['product_id' => $relatedProduct->product_id]) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 								Quick View
 							</a>
 						</div>
@@ -378,251 +380,118 @@
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
 								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Esprit Ruffle Shirt
+									{{ $relatedProduct->product_name }}
 								</a>
 
 								<span class="stext-105 cl3">
-									$16.64
+									{{ number_format($relatedProduct->price, 0, ',', '.') }} đ
 								</span>
 							</div>
 
 							<div class="block2-txt-child2 flex-r p-t-3">
 								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+									<img class="icon-heart1 dis-block trans-04" src="/images/icons/icon-heart-01.png" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/images/icons/icon-heart-02.png" alt="ICON">
 								</a>
 							</div>
 						</div>
 					</div>
 				</div>
+				@endforeach
 
-				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="images/product-02.jpg" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Herschel supply
-								</a>
-
-								<span class="stext-105 cl3">
-									$35.31
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="images/product-03.jpg" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Only Check Trouser
-								</a>
-
-								<span class="stext-105 cl3">
-									$25.50
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="images/product-04.jpg" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Classic Trench Coat
-								</a>
-
-								<span class="stext-105 cl3">
-									$75.00
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="images/product-05.jpg" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Front Pocket Jumper
-								</a>
-
-								<span class="stext-105 cl3">
-									$34.75
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="images/product-06.jpg" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Vintage Inspired Classic
-								</a>
-
-								<span class="stext-105 cl3">
-									$93.20
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="images/product-07.jpg" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Shirt in Stretch Cotton
-								</a>
-
-								<span class="stext-105 cl3">
-									$52.66
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="images/product-08.jpg" alt="IMG-PRODUCT">
-
-							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-								Quick View
-							</a>
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									Pieces Metallic Printed
-								</a>
-
-								<span class="stext-105 cl3">
-									$18.96
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
 </section>
 
+
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		let sizeSelected = false; // Biến kiểm tra đã chọn size chưa
+		// Gắn sự kiện khi người dùng thay đổi size
+		document.getElementById('sizeSelect').addEventListener('change', updateQuantity);
+		// Gắn sự kiện khi người dùng thay đổi số lượng qua nút cộng và trừ
+		document.querySelector('.btn-num-product-down').addEventListener('click', changeQuantity);
+		document.querySelector('.btn-num-product-up').addEventListener('click', changeQuantity);
+		// Gắn sự kiện khi người dùng thay đổi số lượng trong input
+		document.querySelector('input[name="num-product"]').addEventListener('input', checkQuantity);
+
+		// Đặt số lượng khởi đầu
+		var input = document.querySelector('input[name="num-product"]');
+		input.value = 0;
+
+		// Cập nhật số lượng tồn kho khi người dùng chọn size
+		function updateQuantity() {
+			var sizeSelect = document.getElementById('sizeSelect');
+			var selectedSize = sizeSelect.options[sizeSelect.selectedIndex];
+			var sizeQuantity = selectedSize ? selectedSize.getAttribute('data-quantity') : 0;
+
+			// Cập nhật số lượng tối đa cho input
+			var input = document.querySelector('input[name="num-product"]');
+			input.setAttribute('data-max-quantity', sizeQuantity);
+
+			// Hiển thị số lượng tồn kho
+			document.getElementById('quantityDisplay').innerText = sizeQuantity;
+
+			// Đặt lại giá trị về 0 khi thay đổi size
+			input.value = 0;
+
+			sizeSelected = true; // Đánh dấu đã chọn size
+		}
+
+		// Thay đổi số lượng khi người dùng nhấn nút cộng hoặc trừ
+		function changeQuantity(event) {
+			event.preventDefault(); // Ngăn ngừa sự kiện mặc định
+			var sizeSelect = document.getElementById('sizeSelect');
+			var input = document.querySelector('input[name="num-product"]');
+			var maxQuantity = parseInt(input.getAttribute('data-max-quantity'), 10);
+			var currentQuantity = parseInt(input.value, 10);
+
+			// Kiểm tra nếu chưa chọn size
+			if (!sizeSelected) {
+				alert("Vui lòng chọn kích cỡ trước khi thay đổi số lượng!");
+				return; // Kết thúc hàm để ngăn tăng/giảm
+			}
+
+				if (event.target.classList.contains('btn-num-product-up')) {
+					// Chỉ tăng 1 đơn vị nếu không vượt quá số lượng kho
+					if (currentQuantity < maxQuantity) {
+						input.value = currentQuantity; // Tăng 1 đơn vị
+					}
+				}
+				// Kiểm tra nút trừ
+				else if (event.target.classList.contains('btn-num-product-down')) {
+					// Chỉ giảm 1 đơn vị nếu giá trị không nhỏ hơn 0
+					if (currentQuantity > 0) {
+						input.value = currentQuantity; // Giảm 1 đơn vị
+					}
+				}
+
+			// Kiểm tra nút cộng
+
+
+			checkQuantity(); // Kiểm tra lại số lượng sau khi thay đổi
+		}
+
+		// Kiểm tra số lượng sau khi thay đổi và hiển thị thông báo nếu cần
+		function checkQuantity() {
+			var input = document.querySelector('input[name="num-product"]');
+			var currentQuantity = parseInt(input.value, 10);
+			var maxQuantity = parseInt(input.getAttribute('data-max-quantity'), 10);
+
+			// Kiểm tra nếu giá trị nhỏ hơn 0, đặt lại giá trị về 0
+			if (currentQuantity <= 0) {
+				alert('Số lượng không thể nhỏ hơn hoặc bằng 0');
+				input.value = 1;
+			}
+
+			// Kiểm tra nếu giá trị vượt quá số lượng tồn kho
+			if (currentQuantity > maxQuantity) {
+				alert('Số lượng không thể vượt quá số lượng trong kho!');
+				input.value = maxQuantity; // Đặt lại giá trị về số lượng tồn kho tối đa
+			}
+		}
+	});
+</script>
 
 @endsection()

@@ -252,9 +252,9 @@
 				<!-- Block2 -->
 				<div class="block2">
 					<div class="block2-pic hov-img0">
-						<img src="{{ $images[$index]->image_path }}" alt="IMG-PRODUCT">
+						<img src="{{ optional($images[$index])->image_path }}" alt="IMG-PRODUCT">
 
-						<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+						<a href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 							Quick View
 						</a>
 					</div>
@@ -266,7 +266,7 @@
 							</a>
 
 							<span class="stext-105 cl3">
-								{{$product->price}}
+							{{ number_format($product->price, 0, ',', '.') }}đ
 							</span>
 						</div>
 
@@ -283,11 +283,10 @@
 
 		</div>
 
-		<!-- Load more -->
-		<div class="flex-c-m flex-w w-full p-t-45">
-			<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-				Load More
-			</a>
+		<!-- Hiển thị phân trang -->
+
+		<div class=" pagination flex-c-m flex-w w-full p-t-45">
+			{{ $products->links('pagination::bootstrap-4') }}
 		</div>
 	</div>
 </div>

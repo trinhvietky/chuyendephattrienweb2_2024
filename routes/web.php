@@ -245,6 +245,9 @@ Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
 Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
 
 Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
+
+Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
+Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
  
 
 
