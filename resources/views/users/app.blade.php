@@ -754,7 +754,7 @@
 					})
 					.catch(error => {
 						console.error('Error:', error);
-						swal("Oops!", "Có lỗi khi thêm sản phẩm vào danh sách yêu thích.", "error"); // Thông báo lỗi
+						swal("Oops!", "Đăng nhập trước khi thêm sản phẩm vào danh sách yêu thích.", "error"); // Thông báo lỗi
 					});
 			}
 
