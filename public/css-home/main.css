@@ -2014,6 +2014,13 @@ input.num-product::-webkit-inner-spin-button {
   padding-bottom: 30px;
 }
 
+.table-shopping-cart .table_head {
+  position: sticky; /* Giữ tiêu đề cố định */
+  top: 0; /* Dính ở trên cùng */
+  background-color: #f9f9f9; /* Màu nền cho tiêu đề */
+  z-index: 1; /* Đảm bảo tiêu đề nằm trên các dòng khác */
+}
+
 .table-shopping-cart .table_head th {
   font-family: Poppins-Bold;
   font-size: 13px;
