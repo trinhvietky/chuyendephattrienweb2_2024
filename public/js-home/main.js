@@ -269,7 +269,7 @@
 
         // Xử lý sự kiện click vào nút giảm số lượng
         $('.btn-num-cart-product-down').on('click', function () {
-            var input = $(this).siblings('.num-product');
+            var input = $(this).siblings('.num-product-cart');
             var quantity = parseInt(input.val()) - 1;
             if (quantity >= 1) { // Không cho phép giảm dưới 1
                 input.val(quantity).trigger('change'); // Triggers change event để cập nhật số lượng
@@ -278,7 +278,7 @@
 
         // Xử lý sự kiện click vào nút tăng số lượng
         $('.btn-num-cart-product-up').on('click', function () {
-            var input = $(this).siblings('.num-product');
+            var input = $(this).siblings('.num-product-cart');
             var quantity = parseInt(input.val()) + 1;
             input.val(quantity).trigger('change'); // Triggers change event để cập nhật số lượng
         });
