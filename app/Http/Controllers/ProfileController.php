@@ -68,19 +68,32 @@ class ProfileController extends Controller
     // Lấy người dùng hiện tại
     $user = $request->user();
 
-    // Kiểm tra nếu có file ảnh
+    // Kiểm tra nếu có ảnh được chọn
     if ($request->hasFile('image')) {
+
+        // Xóa ảnh cũ nếu có
+        if ($user->image && file_exists(public_path($user->image))) {
+            unlink(public_path($user->image));  // Xóa ảnh cũ
+        }
+
+        // Lấy file ảnh mới
         $file = $request->file('image');
 
-        // Gọi phương thức trong model User
-        $newImagePath = $user->updateAvatar($file);
+        // Tạo tên file duy nhất
+        $filename = 'avatar_' . time() . '.' . $file->getClientOriginalExtension();
 
-        // Trả về JSON với đường dẫn ảnh
-        return response()->json(['image_url' => asset($newImagePath)]);
+        // Lưu ảnh vào thư mục public/img/avatar_user
+        $file->move(public_path('img/avatar_user'), $filename);
+
+        // Cập nhật đường dẫn ảnh vào cơ sở dữ liệu
+        $user->image = 'img/avatar_user/' . $filename;
+
+        // Lưu vào cơ sở dữ liệu
+        $user->save();
     }
 
-    // Trường hợp không có ảnh
-    return response()->json(['error' => 'No image uploaded'], 400);
-}
+    // Trả về URL ảnh mới đã được cập nhật
+    return response()->json(['image_url' => asset($user->image)]);
+}    
 
 }

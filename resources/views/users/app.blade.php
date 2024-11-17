@@ -89,12 +89,14 @@
 							<li>
 								<a href="{{ route('product') }}">Shop</a>
 								<ul class="sub-menu">
-									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
-									@foreach($Alldanhmucs as $danhmuc)
+									@foreach($danhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
 									@endforeach
-									@endif
 								</ul>
+							</li>
+
+							<li class="label1" data-label1="hot">
+								<a href="shoping-cart.html">Features</a>
 							</li>
 
 							<li>
@@ -127,7 +129,7 @@
 									<i class="zmdi zmdi-shopping-cart"></i>
 								</div>
 
-								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">
+								<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
 									<i class="zmdi zmdi-favorite-outline"></i>
 								</a>
 								<style>
@@ -135,7 +137,6 @@
 										margin-left: 30px;
 										color: black;
 									}
-
 									.btn-link:hover {
 										color: blue;
 										text-decoration: none;
@@ -698,134 +699,40 @@
 	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/sweetalert/sweetalert.min.js')}}"></script>
 	<script>
-		$(document).ready(function() {
-			// Fetch danh sách yêu thích của người dùng khi trang được tải
-			fetchWishlist();
-
-			// Hàm để lấy danh sách yêu thích và cập nhật giao diện
-			function fetchWishlist() {
-				fetch('/get-wishlist') // Gửi yêu cầu GET tới server để lấy dữ liệu danh sách yêu thích
-					.then(response => response.json()) // Chuyển đổi phản hồi thành dạng JSON
-					.then(data => {
-						var wishlist = data.wishlist; // Danh sách các sản phẩm yêu thích
-
-						// Thêm trạng thái 'added' cho các sản phẩm đã có trong danh sách yêu thích
-						$('.js-addwish-b2').each(function() {
-							var productId = $(this).data('product-id'); // Lấy ID của sản phẩm
-							if (wishlist.includes(productId)) { // Kiểm tra xem sản phẩm có trong danh sách yêu thích không
-								$(this).addClass('js-addedwish-b2'); // Thêm class để đánh dấu sản phẩm đã yêu thích
-								$(this).off('click'); // Vô hiệu hóa sự kiện click để không thể thêm lại
-							}
-						});
-					})
-					.catch(error => console.error('Error fetching wishlist:', error)); // Xử lý lỗi nếu có
-			}
-
-			// Hàm để thêm sản phẩm vào danh sách yêu thích
-			function addToWishlist(e) {
-				e.preventDefault(); // Ngừng hành động mặc định của sự kiện (ví dụ: reload trang)
-				var $button = $(this); // Lấy đối tượng button đã được nhấn
-				var productId = $button.data('product-id'); // Lấy ID sản phẩm
-				var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Lấy tên sản phẩm
-
-				// Gửi yêu cầu POST tới server để thêm sản phẩm vào danh sách yêu thích
-				fetch('/add-to-wishlist', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							'X-CSRF-TOKEN': '{{ csrf_token() }}' // Thêm token CSRF để bảo vệ
-						},
-						body: JSON.stringify({
-							product_id: productId
-						}) // Gửi ID sản phẩm trong body của yêu cầu
-					})
-					.then(response => response.json()) // Chuyển phản hồi từ server thành JSON
-					.then(data => {
-						if (data.success) { // Nếu thêm sản phẩm thành công
-							swal(nameProduct, "Thêm sản phẩm vào danh sách yêu thích thành công", "success"); // Hiển thị thông báo thành công
-
-							// Thêm trạng thái 'added' cho nút và vô hiệu hóa nút
-							$button.addClass('js-addedwish-b2');
-							$button.off('click'); // Vô hiệu hóa sự kiện click để không thể thêm lại
-
-							// Cập nhật số lượng thông báo yêu thích (wishlist)
-							updateWishlistCount();
-						}
-					})
-					.catch(error => {
-						console.error('Error:', error);
-						swal("Oops!", "Đăng nhập trước khi thêm sản phẩm vào danh sách yêu thích.", "error"); // Thông báo lỗi
-					});
-			}
-
-			// Hàm để xóa sản phẩm khỏi danh sách yêu thích
-			function removeFromWishlist(e) {
-				e.preventDefault(); // Ngừng hành động mặc định của sự kiện (ví dụ: reload trang)
-				var $button = $(this); // Lấy đối tượng button đã được nhấn
-				var productId = $button.data('product-id'); // Lấy ID sản phẩm
-				var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Lấy tên sản phẩm
-
-				// Gửi yêu cầu POST tới server để xóa sản phẩm khỏi danh sách yêu thích
-				fetch('/remove-from-wishlist', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							'X-CSRF-TOKEN': '{{ csrf_token() }}' // Thêm token CSRF để bảo vệ
-						},
-						body: JSON.stringify({
-							product_id: productId
-						}) // Gửi ID sản phẩm trong body của yêu cầu
-					})
-					.then(response => response.json()) // Chuyển phản hồi từ server thành JSON
-					.then(data => {
-						if (data.success) { // Nếu xóa sản phẩm thành công
-							swal(nameProduct, "Xóa sản phẩm yêu thích thành công", "success"); // Hiển thị thông báo thành công
-
-							// Xóa trạng thái 'added' cho nút và bật lại chức năng thêm sản phẩm vào wishlist
-							$button.removeClass('js-addedwish-b2');
-							$button.on('click', addToWishlist); // Kích hoạt lại sự kiện click để có thể thêm lại sản phẩm
-
-							// Cập nhật số lượng thông báo yêu thích
-							var currentNotify = parseInt($('.js-show-wishlist').attr('data-notify')) || 0; // Lấy số lượng yêu thích hiện tại
-							if (currentNotify > 0) {
-								$('.js-show-wishlist').attr('data-notify', currentNotify - 1); // Giảm số lượng thông báo yêu thích
-							}
-						}
-					})
-					.catch(error => {
-						console.error('Error:', error);
-						swal("Oops!", "Có lỗi khi xóa sản phẩm khỏi danh sách yêu thích.", "error"); // Thông báo lỗi
-					});
-			}
-
-			// Gắn sự kiện click cho cả hai hành động: thêm và xóa sản phẩm trong danh sách yêu thích
-			$(document).on('click', '.js-addwish-b2', addToWishlist); // Khi nhấn nút 'Thêm yêu thích'
-			$(document).on('click', '.js-addedwish-b2', removeFromWishlist); // Khi nhấn nút 'Xóa yêu thích'
-
-			// Cập nhật số lượng yêu thích (lấy từ API)
-			function updateWishlistCount() {
-				fetch('/get-wishlist')
-					.then(response => response.json())
-					.then(data => {
-						var wishlistCount = data.wishlist.length;
-						$('.js-show-wishlist').attr('data-notify', wishlistCount);
-					});
-			}
+		$('.js-addwish-b2').on('click', function(e) {
+			e.preventDefault();
 		});
-		// Khi trang được tải lại, lấy số lượng yêu thích từ server
-		$(document).ready(function() {
-			fetch('/get-wishlist-count') // API lấy số lượng wishlist của người dùng
-				.then(response => response.json())
-				.then(data => {
-					if (data.success) {
-						// Cập nhật số lượng yêu thích trong giao diện
-						$('.js-show-wishlist').attr('data-notify', data.wishlistCount);
-					}
-				})
-				.catch(error => console.error('Error fetching wishlist count:', error));
+
+		$('.js-addwish-b2').each(function() {
+			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+			$(this).on('click', function() {
+				swal(nameProduct, "is added to wishlist !", "success");
+
+				$(this).addClass('js-addedwish-b2');
+				$(this).off('click');
+			});
+		});
+
+		$('.js-addwish-detail').each(function() {
+			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+			$(this).on('click', function() {
+				swal(nameProduct, "is added to wishlist !", "success");
+
+				$(this).addClass('js-addedwish-detail');
+				$(this).off('click');
+			});
+		});
+
+		/*---------------------------------------------*/
+
+		$('.js-addcart-detail').each(function() {
+			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+			$(this).on('click', function() {
+				swal(nameProduct, "is added to cart !", "success");
+			});
 		});
 	</script>
-
 	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 	<script>
