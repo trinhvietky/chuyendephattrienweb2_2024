@@ -66,9 +66,15 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+use App\Http\Controllers\WishlistController;
 
-//users
-//user/home
+
+Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
+Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
+// Route to add product to wishlist
+Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->middleware('auth');
+Route::post('/remove-from-wishlist', [WishlistController::class, 'removeFromWishlist']);
+Route::get('/favourite', [WishlistController::class, 'index'])->name('users/favourite');
 
 //user/blog
 Route::get('/blog', function () {
@@ -256,3 +262,10 @@ Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
 Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
 
 Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
+
+Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
+Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
+ 
+
+
+

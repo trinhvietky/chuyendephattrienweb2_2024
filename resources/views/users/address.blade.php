@@ -152,7 +152,7 @@
     <script>
         $(document).ready(function() {
             // Fetch provinces
-            $.getJSON('/js-home/api/tinh.json', function(data_tinh) {
+            $.getJSON('/js-home/api/data.json', function(data_tinh) {
                 if (data_tinh.error === 0) {
                     $.each(data_tinh.data, function(key_tinh, val_tinh) {
                         $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
@@ -161,29 +161,33 @@
                     // Fetch districts on province change
                     $("#tinh").change(function() {
                         let idtinh = $(this).val();
-                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function(data_quan) {
-                            if (data_quan.error === 0) {
-                                $("#quan").html('<option value="0">Quận Huyện</option>');
-                                $("#phuong").html('<option value="0">Phường Xã</option>');
-                                $.each(data_quan.data, function(key_quan, val_quan) {
-                                    $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
-
-                                });
-
-                                // Fetch wards on district change
-                                $("#quan").change(function() {
-                                    let idquan = $(this).val();
-                                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function(data_phuong) {
-                                        if (data_phuong.error === 0) {
-                                            $("#phuong").html('<option value="0">Phường Xã</option>');
-                                            $.each(data_phuong.data, function(key_phuong, val_phuong) {
-                                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
-                                            });
-                                        }
-                                    });
-                                });
-                            }
+                        let selectedProvince = data_tinh.data.find(function(item) {
+                            return item.id === idtinh;
                         });
+
+                        if (selectedProvince) {
+                            $("#quan").html('<option value="0">Quận Huyện</option>');
+                            $("#phuong").html('<option value="0">Phường Xã</option>');
+
+                            $.each(selectedProvince.data2, function(key_quan, val_quan) {
+                                $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                            });
+
+                            // Fetch wards on district change
+                            $("#quan").change(function() {
+                                let idquan = $(this).val();
+                                let selectedDistrict = selectedProvince.data2.find(function(item) {
+                                    return item.id === idquan;
+                                });
+
+                                if (selectedDistrict) {
+                                    $("#phuong").html('<option value="0">Phường Xã</option>');
+                                    $.each(selectedDistrict.data3, function(key_phuong, val_phuong) {
+                                        $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                    });
+                                }
+                            });
+                        }
                     });
                 }
             });

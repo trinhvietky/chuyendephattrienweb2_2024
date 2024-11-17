@@ -27,8 +27,13 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'subCategory_id');
     }
 
-    public function image()
+    public function images()
     {
         return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariant::class, 'product_id'); // Giả sử khóa ngoại là 'product_id'
     }
 }
