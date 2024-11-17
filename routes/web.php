@@ -29,7 +29,7 @@ use App\Http\Controllers\ColorController;
 */
 
 
-Route::get('/', function() {
+Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
@@ -65,9 +65,15 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+use App\Http\Controllers\WishlistController;
 
-//users
-//user/home
+
+Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
+Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
+// Route to add product to wishlist
+Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->middleware('auth');
+Route::post('/remove-from-wishlist', [WishlistController::class, 'removeFromWishlist']);
+Route::get('/favourite', [WishlistController::class, 'index'])->name('users/favourite');
 
 //user/blog
 Route::get('/blog', function () {
@@ -101,8 +107,8 @@ Route::get('/about', function () {
 
 // Những route của những trang chưa đăng nhập
 Route::get('/shoping-cart', function () {
-    return view('shoping-cart');
-})->name('shoping-cart');
+    return view('users/shoping-cart');
+})->name('user/shoping-cart');
 
 Route::get('/address', function () {
     return view('users/address');
@@ -199,7 +205,7 @@ Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'delet
 //Hiển thị view size list
 Route::get('/size-list', function () {
     return view('admin.size-list');
-}); 
+});
 
 //Hiển thị danh sách size
 Route::get('/size-list', [SizeController::class, 'index'])->name('size-list');
@@ -225,7 +231,7 @@ Route::put('/size/{id}', [SizeController::class, 'update'])->name('size.update')
 //Hiển thị view color list
 Route::get('/color-list', function () {
     return view('/admin/color-list');
-}); 
+});
 
 //Hiển thị danh sách color
 Route::get('/color-list', [ColorController::class, 'index'])->name('color-list');

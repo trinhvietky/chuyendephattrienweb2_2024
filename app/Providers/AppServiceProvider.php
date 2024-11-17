@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\DanhMuc;
 use App\Http\Controllers\DanhmucController;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,12 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('*', function ($view): void {
             $danhmucs = app(DanhmucController::class)->getAllDanhMuc();
-            $view->with('danhmucs', $danhmucs);
+            $view->with('Alldanhmucs', $danhmucs);
         });
-        view()->composer('users/*', function ($view): void {
-            $danhmucs = app(DanhmucController::class)->getAllDanhMuc();
-            $view->with('danhmucs', $danhmucs);
-        });
+
+        Paginator::useBootstrapFour();
     }
 }
 
