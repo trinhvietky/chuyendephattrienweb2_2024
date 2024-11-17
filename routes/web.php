@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
 use App\Http\Controllers\WishlistController;
 
 
@@ -138,6 +139,9 @@ Route::patch('/shoping-cart/update/{cartId}', [CartController::class, 'update'])
 Route::delete('/shoping-cart/{id}', [CartController::class, 'destroy'])->name('shoping-cart.destroy');
 
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+
+Route::post('/cart', [CartController::class, 'store']);
+
 
 
 
@@ -265,7 +269,3 @@ Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.updat
 
 Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
 Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
- 
-
-
-

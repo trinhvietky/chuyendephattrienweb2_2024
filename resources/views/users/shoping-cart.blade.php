@@ -34,10 +34,12 @@
 									<th class="column-4 text-center">Price</th>
 									<th class="column-5 text-center">Quantity</th>
 									<th class="column-6 text-center">Total</th>
-									<th class="column-7 text-center"></th>
+									<th class="column-7 text-center" style="width: 60px;"></th>
 								</tr>
 								<tbody class="table-body">
+									<?php $cartTotal = 0 ?>
 									@foreach($carts as $index =>$cart)
+									<?php $cartTotal += $cart->productVariant->product->price * $cart->quantity; ?>
 									<tr class="table_row">
 										<td class="column-1" style="padding-left: 20px;">
 											<input type="checkbox" class="select-item" style="appearance:auto" data-index="{{ $index }}">
@@ -54,20 +56,20 @@
 										<td class="column-4 price text-center">{{number_format($cart->productVariant->product->price)}}</td>
 										<td class="column-5 text-center">
 											<div class="wrap-num-product flex-w m-l-auto m-r-0">
-												<div class="btn-num-product-down btn-num-cart-product-down cl8 hov-btn3 trans-04 flex-c-m">
+												<div class="btn-num-product-down  cl8 hov-btn3 trans-04 flex-c-m">
 													<i class="fs-16 zmdi zmdi-minus"></i>
 												</div>
 
 												<input class="mtext-104 cl3 txt-center num-product num-product-cart" type="number" name="num-product1" value="{{$cart->quantity}}" data-cart-id="{{ $cart->cart_id }}">
 
-												<div class="btn-num-product-up btn-num-cart-product-up  cl8 hov-btn3 trans-04 flex-c-m">
+												<div class="btn-num-product-up   cl8 hov-btn3 trans-04 flex-c-m">
 													<i class="fs-16 zmdi zmdi-plus"></i>
 												</div>
 											</div>
 										</td>
 										<td class="column-6 total text-center" data-cart-id="{{ $cart->cart_id }}">{{ number_format($cart->productVariant->product->price * $cart->quantity) }}</td>
 										<td class="column-7 text-center">
-											<form action="{{route('shoping-cart.destroy', ['id' => $cart->cart_id]) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa');" style="margin-right: 5px;">
+											<form action="{{route('shoping-cart.destroy', ['id' => $cart->cart_id]) }}" method="POST" style="margin-right: 5px;">
 												@csrf
 												@method('DELETE')
 												<button data-toggle="tooltip" title="Trash" class="pd-setting-ed btn-delete p-4" style="background: none; border: none;">
@@ -99,7 +101,7 @@
 
 						<div class="size-209 p-t-1">
 							<span class="mtext-110 cl2" id="cart-total">
-								$79.65
+								{{ number_format($cartTotal) }}
 							</span>
 						</div>
 					</div>

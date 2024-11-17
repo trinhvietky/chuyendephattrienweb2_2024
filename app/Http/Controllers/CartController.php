@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\ProductImage;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,7 +35,56 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate input data
+        $validatedData = $request->validate([
+            'color_id' => 'required|exists:colors,color_id',
+            'size_id' => 'required|exists:sizes,size_id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+
+
+        $productVariant = ProductVariant::where('color_id', $validatedData['color_id'])
+            ->where('size_id', $validatedData['size_id'])
+            ->first();
+
+        // dd($productVariant);
+        if ($productVariant) {
+            $productVariantId = $productVariant->productVariant_id;
+        }
+        // Get the authenticated user
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Check if the product variant already exists in the cart
+        $cartItem = Cart::where('user_id', $user->id)
+            ->where('productVariant_id', $productVariantId)
+            ->first();
+
+        if ($cartItem) {
+            // Update the quantity if it exists
+            $cartItem->quantity += $validatedData['quantity'];
+            $cartItem->save();
+
+            return response()->json([
+                'message' => 'Cart updated successfully',
+                'cart' => $cartItem,
+            ], 200);
+        }
+
+        // Otherwise, create a new cart item
+        $cartItem = Cart::create([
+            'user_id' => $user->id,
+            'productVariant_id' => $productVariantId,
+            'quantity' => $validatedData['quantity'],
+        ]);
+
+        return response()->json([
+            'message' => 'Item added to cart successfully',
+            'cart' => $cartItem,
+        ], 201);
     }
 
     /**
