@@ -343,7 +343,7 @@
 
 	<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
 		<span class="stext-107 cl6 p-lr-25">
-			SKU: JAK-01   
+			SKU: JAK-01
 		</span>
 
 		<span class="stext-107 cl6 p-lr-25">
@@ -439,6 +439,8 @@
 			sizeSelected = true; // Đánh dấu đã chọn size
 		}
 
+
+
 		// Thay đổi số lượng khi người dùng nhấn nút cộng hoặc trừ
 		function changeQuantity(event) {
 			event.preventDefault(); // Ngăn ngừa sự kiện mặc định
@@ -453,19 +455,19 @@
 				return; // Kết thúc hàm để ngăn tăng/giảm
 			}
 
-				if (event.target.classList.contains('btn-num-product-up')) {
-					// Chỉ tăng 1 đơn vị nếu không vượt quá số lượng kho
-					if (currentQuantity < maxQuantity) {
-						input.value = currentQuantity; // Tăng 1 đơn vị
-					}
+			if (event.target.classList.contains('btn-num-product-up')) {
+				// Chỉ tăng 1 đơn vị nếu không vượt quá số lượng kho
+				if (currentQuantity < maxQuantity) {
+					input.value = currentQuantity; // Tăng 1 đơn vị
 				}
-				// Kiểm tra nút trừ
-				else if (event.target.classList.contains('btn-num-product-down')) {
-					// Chỉ giảm 1 đơn vị nếu giá trị không nhỏ hơn 0
-					if (currentQuantity > 0) {
-						input.value = currentQuantity; // Giảm 1 đơn vị
-					}
+			}
+			// Kiểm tra nút trừ
+			else if (event.target.classList.contains('btn-num-product-down')) {
+				// Chỉ giảm 1 đơn vị nếu giá trị không nhỏ hơn 0
+				if (currentQuantity > 0) {
+					input.value = currentQuantity; // Giảm 1 đơn vị
 				}
+			}
 
 			// Kiểm tra nút cộng
 
