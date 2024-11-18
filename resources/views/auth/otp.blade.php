@@ -18,7 +18,7 @@
                         <h2 class="card-title text-center mb-4">Xác nhận mã OTP</h2>
                         <!-- Thông báo đếm ngược thời gian -->
                         <div class="alert alert-warning text-center">
-                            Mã OTP sẽ hết hạn sau <span id="timer">02:00</span> phút.
+                            Mã OTP sẽ hết hạn sau <span id="timer">00:15</span> phút.
                         </div>
                         <form method="POST" action="{{ route('password.checkOtp') }}">
                             @csrf
@@ -60,7 +60,7 @@
 
     <script>
        // Khởi tạo biến thời gian đếm ngược
-    let timeLeft = 120;
+    let timeLeft = 15;
     let countdown;  // Đặt biến countdown ở ngoài để có thể điều khiển clearInterval
 
     // Tìm phần tử hiển thị bộ đếm thời gian và nút gửi lại OTP

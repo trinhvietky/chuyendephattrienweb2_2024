@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <style>
 	table {
-		width: 100%;
+		/* width: 100%; */
 		border-collapse: collapse;
 		margin: 20px 0;
 	}
@@ -23,6 +23,7 @@
 	th {
 		background-color: #f4f4f4;
 	}
+
 </style>
 
 <!-- breadcrumb -->
@@ -213,13 +214,24 @@
 					<!-- - -->
 					<div class="tab-pane fade" id="information" role="tabpanel">
 						<div class="row">
-							<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+							<div class="how-pos2 p-lr-15-md">
 								<table>
 									<thead>
 										<tr>
+											<th colspan="3">Size Áo</th>
+											<th colspan="3">Size Giày</th>
+											<th colspan="3">Size Đồng Hồ</th>
+										</tr>
+										<tr>
 											<th>Size name</th>
-											<th>Weight (kg)</th>
-											<th>Height (cm)</th>
+											<th>Cân nặng (kg)</th>
+											<th>Chiều cao (cm)</th>
+											<th>Size (EU)</th>
+											<th>Size (US)</th>
+											<th>Chiều Dài Bàn Chân (cm)</th>
+											<th>Đường Kính Mặt Đồng Hồ (mm)</th>
+											<th>Kích Thước Cổ Tay (cm)</th>
+											<th>Loại Đồng Hồ</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -227,26 +239,56 @@
 											<td>S</td>
 											<td>40 - 50</td>
 											<td>150 - 160</td>
+											<td>40</td>
+											<td>7</td>
+											<td>25.4</td>
+											<td>34 - 36</td>
+											<td>13 - 16</td>
+											<td>Nữ hoặc cổ tay nhỏ</td>
 										</tr>
 										<tr>
 											<td>M</td>
 											<td>50 - 60</td>
 											<td>160 - 170</td>
+											<td>41</td>
+											<td>8</td>
+											<td>26.0</td>
+											<td>37 - 40</td>
+											<td>16 - 18</td>
+											<td>Nữ cỡ trung bình</td>
 										</tr>
 										<tr>
 											<td>L</td>
 											<td>60 - 70</td>
 											<td>170 - 180</td>
+											<td>42</td>
+											<td>9</td>
+											<td>26.7</td>
+											<td>41 - 44</td>
+											<td>18 - 20</td>
+											<td>Đồng hồ nam</td>
 										</tr>
 										<tr>
 											<td>XL</td>
 											<td>70 - 80</td>
 											<td>180 - 190</td>
+											<td>43</td>
+											<td>10</td>
+											<td>27.3</td>
+											<td>45 - 48</td>
+											<td>20 - 22</td>
+											<td>Đồng hồ nam</td>
 										</tr>
 										<tr>
 											<td>XXL</td>
 											<td>80 - 90</td>
 											<td>190 - 200</td>
+											<td>44</td>
+											<td>11</td>
+											<td>28.0</td>
+											<td>49 trở lên</td>
+											<td>Trên 22</td>
+											<td>Đồng hồ siêu lớn</td>
 										</tr>
 									</tbody>
 								</table>
@@ -343,7 +385,7 @@
 
 	<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
 		<span class="stext-107 cl6 p-lr-25">
-			SKU: JAK-01   
+			SKU: JAK-01
 		</span>
 
 		<span class="stext-107 cl6 p-lr-25">
@@ -453,19 +495,19 @@
 				return; // Kết thúc hàm để ngăn tăng/giảm
 			}
 
-				if (event.target.classList.contains('btn-num-product-up')) {
-					// Chỉ tăng 1 đơn vị nếu không vượt quá số lượng kho
-					if (currentQuantity < maxQuantity) {
-						input.value = currentQuantity; // Tăng 1 đơn vị
-					}
+			if (event.target.classList.contains('btn-num-product-up')) {
+				// Chỉ tăng 1 đơn vị nếu không vượt quá số lượng kho
+				if (currentQuantity < maxQuantity) {
+					input.value = currentQuantity; // Tăng 1 đơn vị
 				}
-				// Kiểm tra nút trừ
-				else if (event.target.classList.contains('btn-num-product-down')) {
-					// Chỉ giảm 1 đơn vị nếu giá trị không nhỏ hơn 0
-					if (currentQuantity > 0) {
-						input.value = currentQuantity; // Giảm 1 đơn vị
-					}
+			}
+			// Kiểm tra nút trừ
+			else if (event.target.classList.contains('btn-num-product-down')) {
+				// Chỉ giảm 1 đơn vị nếu giá trị không nhỏ hơn 0
+				if (currentQuantity > 0) {
+					input.value = currentQuantity; // Giảm 1 đơn vị
 				}
+			}
 
 			// Kiểm tra nút cộng
 

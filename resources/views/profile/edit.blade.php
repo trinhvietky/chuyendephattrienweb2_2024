@@ -89,7 +89,7 @@
 							<li>
 								<a href="{{route('users/product')}}">Shop</a>
 								<ul class="sub-menu">
-									@foreach($Alldanhmucs as $danhmuc)
+									@foreach($danhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
 									@endforeach
 								</ul>
@@ -129,7 +129,7 @@
 									<i class="zmdi zmdi-shopping-cart"></i>
 								</div>
 
-								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">
+								<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
 									<i class="zmdi zmdi-favorite-outline"></i>
 								</a>
 								<style>

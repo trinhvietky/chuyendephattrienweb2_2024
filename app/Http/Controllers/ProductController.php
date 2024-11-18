@@ -6,8 +6,6 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use App\Models\Favourite;
-use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
