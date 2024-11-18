@@ -53,8 +53,8 @@ Route::middleware(['auth', 'checkUserType'])->group(function () {
     })->name('users/home');
 });
 
-Route::get('/admin/home', [AdminController::class, 'index'])->name('dashboard');
-Route::get('/users/home', [UserController::class, 'index'])->name('home');
+// Route::get('/admin/home', [AdminController::class, 'index'])->name('dashboard');
+// Route::get('/users/home', [UserController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
