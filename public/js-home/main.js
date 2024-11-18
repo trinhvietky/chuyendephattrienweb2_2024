@@ -376,9 +376,27 @@
 
 
                 },
-                error: function (response) {
-
-                    alert(response.message);
+                error: function (xhr) {
+                    if (xhr.status === 401) {
+                        // Hiển thị thông báo yêu cầu đăng nhập
+                        swal({
+                            title: "Thông báo",
+                            text: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.",
+                            icon: "warning",
+                            buttons: {
+                                cancel: "Đóng",
+                                confirm: "Đăng nhập"
+                            }
+                        }).then((value) => {
+                            if (value === true) {
+                                // Chuyển hướng đến trang đăng nhập
+                                window.location.href = '/login';
+                            }
+                        });
+                    } else {
+                        // Hiển thị lỗi khác
+                        alert("Có lỗi xảy ra: " + xhr.responseText);
+                    }
                 }
             });
         }
