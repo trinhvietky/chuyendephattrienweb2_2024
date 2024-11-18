@@ -29,6 +29,10 @@ use App\Http\Controllers\ColorController;
 */
 
 
+Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
+Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions'])->name('products.search.suggestions');
+
+
 Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
