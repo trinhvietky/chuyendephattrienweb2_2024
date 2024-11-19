@@ -1,4 +1,5 @@
 @extends('users/app')
+@section('title', 'About')
 @section('menu-footer')
 
 	<!-- Cart -->

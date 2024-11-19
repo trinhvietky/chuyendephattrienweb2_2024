@@ -1,4 +1,5 @@
 @extends('users/app')
+@section('title', ' Home')
 @section('menu-footer')
 <!-- Cart -->
 <div class="wrap-header-cart js-panel-cart">

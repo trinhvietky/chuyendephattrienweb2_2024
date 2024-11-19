@@ -29,7 +29,11 @@ use App\Http\Controllers\ColorController;
 */
 
 
-Route::get('/', function() {
+Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
+Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions'])->name('products.search.suggestions');
+
+
+Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
         // Chuyển hướng dựa trên vai trò của người dùng
@@ -60,9 +64,15 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+use App\Http\Controllers\WishlistController;
 
-//users
-//user/home
+
+Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
+Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
+// Route to add product to wishlist
+Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->middleware('auth');
+Route::post('/remove-from-wishlist', [WishlistController::class, 'removeFromWishlist']);
+Route::get('/favourite', [WishlistController::class, 'index'])->name('users/favourite');
 
 //user/blog
 Route::get('/blog', function () {
@@ -96,8 +106,8 @@ Route::get('/about', function () {
 
 // Những route của những trang chưa đăng nhập
 Route::get('/shoping-cart', function () {
-    return view('shoping-cart');
-})->name('shoping-cart');
+    return view('users/shoping-cart');
+})->name('user/shoping-cart');
 
 Route::get('/address', function () {
     return view('users/address');
