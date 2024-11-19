@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function getProducts()
     {
         // Lấy tất cả sản phẩm từ database
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $products = Product::orderBy('created_at', 'desc')->paginate(5);
         $images = [];
 
         foreach ($products as $product) {
