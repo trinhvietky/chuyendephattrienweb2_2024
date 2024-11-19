@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Models\SubCategory;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\Favourite;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +28,7 @@ class ProductController extends Controller
     public function create()
     {
         // Lấy danh mục con để gán cho sản phẩm
-        $subCategories = SubCategory::all();
+        $subCategories = Categories::all();
         return view('admin/product-add', compact('subCategories'));
     }
 
@@ -64,7 +64,7 @@ class ProductController extends Controller
     {
         // Lấy sản phẩm cần chỉnh sửa và danh mục con
         $product = Product::findOrFail($id);
-        $subCategories = SubCategory::all();
+        $subCategories = Categories::all();
         return view('products.edit', compact('product', 'subCategories'));
     }
 
