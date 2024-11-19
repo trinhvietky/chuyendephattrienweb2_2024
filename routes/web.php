@@ -30,7 +30,7 @@ use App\Http\Controllers\ColorController;
 
 
 Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
-Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions'])->name('products.search.suggestions');
+Route::get('/products/suggestions', [ProductController::class, 'suggestions'])->name('products.suggestions');
 
 
 Route::get('/', function () {
@@ -49,7 +49,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
-    Route::get('/home', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/home', [UserController::class, 'index'])->name('users/home');
 });
 
@@ -124,8 +124,9 @@ Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('a
 Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('address.destroy');
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
 
-// User product
-Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
+//Test
+Route::get('/', [ProductController::class, 'index'])->name('users.home');
+Route::get('/product', [ProductController::class, 'product'])->name('product');
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
 
 

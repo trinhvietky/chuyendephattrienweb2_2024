@@ -87,16 +87,12 @@
 							</li>
 
 							<li>
-								<a href="{{route('users/product')}}">Shop</a>
+								<a href="{{route('product')}}">Shop</a>
 								<ul class="sub-menu">
 									@foreach($Alldanhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
 									@endforeach
 								</ul>
-							</li>
-
-							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.html">Features</a>
 							</li>
 
 							<li>
