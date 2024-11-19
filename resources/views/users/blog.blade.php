@@ -1,5 +1,4 @@
 @extends('users/app')
-@section('title', 'Blog')
 @section('menu-footer')
 
 	<!-- Title page -->

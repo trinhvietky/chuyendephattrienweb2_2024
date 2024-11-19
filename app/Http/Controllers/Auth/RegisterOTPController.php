@@ -44,7 +44,7 @@ class RegisterOTPController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'otp' => $otp,
-            'otp_expires_at' => now()->addMinutes(2),
+            'otp_expires_at' => now()->addMinutes(1),
             'created_at' => now(),
         ]);
 

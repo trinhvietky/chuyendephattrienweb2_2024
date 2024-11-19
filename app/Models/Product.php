@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
     protected $primaryKey = 'product_id'; // Đặt khóa chính là product_id
 
     protected $fillable = [
@@ -17,11 +16,6 @@ class Product extends Model
         'price',
         'subCategory_id',
     ];
-    // Định nghĩa hàm tìm kiếm Full-Text
-    public static function search($query)
-    {
-        return self::whereRaw("MATCH(product_name, description) AGAINST(? IN BOOLEAN MODE)", [$query])->get();
-    }
 
     public function variants()
     {
@@ -33,16 +27,13 @@ class Product extends Model
         return $this->belongsTo(SubCategory::class, 'subCategory_id');
     }
 
-    public function image()
+    public function images()
     {
         return $this->hasMany(ProductImage::class, 'product_id');
     }
-    public function toSearchableArray()
+
+    public function productVariants()
     {
-        return [
-            'product_name' => $this->product_name,
-            'description' => $this->description,
-            'price' => $this->price,
-        ];
+        return $this->hasMany(ProductVariant::class, 'product_id'); // Giả sử khóa ngoại là 'product_id'
     }
 }
