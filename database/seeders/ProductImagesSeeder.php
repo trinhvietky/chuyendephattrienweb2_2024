@@ -61,15 +61,15 @@ class ProductImagesSeeder extends Seeder
             [
                 'product_id' => 4, // Women’s Skirt
                 'color_id' => 2, // Yellow
-                'image_path' => 'img/product/product-08.jpg',
+                'image_path' => 'img/product/product-09.jpg',
                 'alt_text' => 'Women’s Skirt in Yellow',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'product_id' => 4, // Women’s Skirt
-                'color_id' => 2, // Gray
-                'image_path' => 'img/product/product-09.jpg',
+                'color_id' => 1, // Gray
+                'image_path' => 'img/product/product-08.jpg',
                 'alt_text' => 'Women’s Skirt in Gray',
                 'created_at' => now(),
                 'updated_at' => now(),
