@@ -47,8 +47,11 @@ class User extends Authenticatable
     // Trong app/Models/User.php
     public function updateAvatar($file)
     {
-        // Xóa ảnh cũ nếu có
-        if ($this->image && file_exists(public_path($this->image))) {
+        // Đường dẫn ảnh mặc định
+        $defaultImage = 'images/icons/avatar_user.png';
+
+        // Xóa ảnh cũ nếu không phải ảnh mặc định
+        if ($this->image && $this->image !== $defaultImage && file_exists(public_path($this->image))) {
             unlink(public_path($this->image));
         }
 
@@ -56,10 +59,10 @@ class User extends Authenticatable
         $filename = 'avatar_' . time() . '.' . $file->getClientOriginalExtension();
 
         // Lưu file vào thư mục public/img/avatar_user
-        $file->move(public_path('img/avatar_user'), $filename);
+        $file->move(public_path('img/avatar_img'), $filename);
 
         // Cập nhật đường dẫn ảnh trong DB
-        $this->image = 'img/avatar_user/' . $filename;
+        $this->image = 'img/avatar_img/' . $filename;
 
         // Lưu thay đổi vào DB
         $this->save();

@@ -252,8 +252,8 @@
 				<!-- Block2 -->
 				<div class="block2">
 					<div class="block2-pic hov-img0">
-                    @if($product->image->isNotEmpty())
-                                <img src="{{ $product->image->first()->image_path }}" alt="IMG-PRODUCT">
+                    @if($product->images->isNotEmpty())
+                                <img src="{{ $product->images->first()->image_path }}" alt="IMG-PRODUCT">
                             @else
                                 <img src="/images/default-product.jpg" alt="IMG-PRODUCT">
                             @endif
