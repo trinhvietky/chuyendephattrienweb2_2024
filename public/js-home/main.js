@@ -325,6 +325,39 @@
         });
     });
 
+    document.querySelectorAll('.delete-button').forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Ngừng hành động mặc định của button
+
+            const cartId = this.getAttribute('id'); // Lấy ID của sản phẩm trong giỏ
+            const deleteButton = this;
+            console.log(cartId);
+
+
+
+            // Gửi yêu cầu AJAX để xóa sản phẩm khỏi giỏ
+            fetch(`/shoping-cart/${cartId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    id: cartId
+                }) // Nếu cần, bạn có thể gửi dữ liệu thêm
+            })
+                .then(response => {
+                    deleteButton.closest('tr').remove();
+                    updateCartCount();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Something went wrong!');
+                });
+
+        });
+    });
+
 
     const addToCartButton = document.querySelector(".add-to-cart");
 
@@ -337,10 +370,6 @@
             const colorId = colorSelect.value;
             const sizeId = sizeSelect.value;
             const quantity = parseInt(quantityInput.value, 10);
-
-            console.log(colorId);
-            console.log(sizeId);
-            console.log(quantity);
 
 
             $.ajax({
@@ -365,9 +394,7 @@
                         }
                     }).then((value) => {
                         if (value === true) {
-                            var userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
-                            // Nếu người dùng nhấn "Xem giỏ hàng"
-                            window.location.href = '/shoping-cart/' + userId;  // Chuyển hướng đến giỏ hàng
+                            window.location.href = '/shoping-cart';  // Chuyển hướng đến giỏ hàng
                         } else {
                             // Nếu người dùng nhấn "Tiếp tục mua sắm"
                             console.log("Tiếp tục mua sắm");

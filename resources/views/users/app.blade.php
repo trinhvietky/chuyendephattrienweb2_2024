@@ -38,8 +38,6 @@
 	<!--===============================================================================================-->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-	<meta name="user-id" content="{{ auth()->id() }}">
-
 
 </head>
 
@@ -129,7 +127,7 @@
 								</div>
 
 								<div id="cart-notify" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
-									<a href="{{route('users/shoping-cart', ['user_id' => Auth::user()->id])}}"><i class="zmdi zmdi-shopping-cart"></i></a>
+									<a href="{{route('users/shoping-cart')}}"><i class="zmdi zmdi-shopping-cart"></i></a>
 								</div>
 
 								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">

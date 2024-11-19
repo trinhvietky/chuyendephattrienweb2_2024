@@ -18,8 +18,10 @@
 	<!-- Shoping Cart -->
 
 	<div class="container bg0 p-t-75 p-b-85">
-		<div class="row">
-			<div class="col-lg-10 col-xl-8 m-lr-auto m-b-50">
+
+		<form action="{{ route('checkout') }}" method="POST" class="row" id="form-checkout">
+			@csrf
+			<div class=" col-lg-10 col-xl-8 m-lr-auto m-b-50">
 				<div class="m-l-25 m-r--38 m-lr-0-xl">
 					<!-- Container for the table with scroll -->
 					<div class="wrap-table-shopping-cart">
@@ -42,7 +44,7 @@
 									<?php $cartTotal += $cart->productVariant->product->price * $cart->quantity; ?>
 									<tr class="table_row">
 										<td class="column-1" style="padding-left: 20px;">
-											<input type="checkbox" class="select-item" style="appearance:auto" data-index="{{ $index }}">
+											<input type="checkbox" class="select-item " name="selectedItems[]" value="{{ $cart->cart_id }}" style="appearance:auto" data-index="{{ $index }}">
 										</td>
 										<td class="column-2 ">
 											<div class="how-itemcart1">
@@ -69,13 +71,9 @@
 										</td>
 										<td class="column-6 total text-center" data-cart-id="{{ $cart->cart_id }}">{{ number_format($cart->productVariant->product->price * $cart->quantity) }}</td>
 										<td class="column-7 text-center">
-											<form action="{{route('shoping-cart.destroy', ['id' => $cart->cart_id]) }}" method="POST" style="margin-right: 5px;">
-												@csrf
-												@method('DELETE')
-												<button data-toggle="tooltip" title="Trash" class="pd-setting-ed btn-delete p-4" style="background: none; border: none;">
-													<i class="zmdi zmdi-delete"></i>
-												</button>
-											</form>
+											<button type="button" class="delete-button p-4" style="background: none; border: none;" id="{{ $cart->cart_id }}">
+												<i class="zmdi zmdi-delete"></i>
+											</button>
 										</td>
 									</tr>
 									@endforeach
@@ -106,12 +104,12 @@
 						</div>
 					</div>
 
-					<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+					<button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
 						Checkout
 					</button>
 				</div>
 			</div>
-		</div>
-	</div>
+		</form>
 
+	</div>
 	@endsection

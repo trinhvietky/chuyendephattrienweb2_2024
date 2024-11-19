@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +69,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 use App\Http\Controllers\WishlistController;
-
+use App\Models\Cart;
 
 Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
 Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
@@ -132,7 +133,7 @@ Route::get('/product', [ProductController::class, 'index'])->name('users/product
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
 
 //Shoping-cart
-Route::get('/shoping-cart/{user_id}', [CartController::class, 'show'])->name('users/shoping-cart');
+Route::get('/shoping-cart', [CartController::class, 'index'])->name('users/shoping-cart');
 
 Route::patch('/shoping-cart/update/{cartId}', [CartController::class, 'update'])->name('shoping-cart.update');
 
@@ -142,7 +143,9 @@ Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.c
 
 Route::post('/cart', [CartController::class, 'store']);
 
+Route::post('/btn_checkout', [CartController::class, 'checkout'])->name('checkout');
 
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
 
 
 // Route::get('/admin/home', function () {

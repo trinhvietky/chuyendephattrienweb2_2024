@@ -14,7 +14,7 @@ return new class extends Migration
         //
         Schema::create('voucher', function (Blueprint $table) {
             $table->id();
-            $table->string('voucher_code');
+            $table->string('voucher_code')->unique();
             $table->string('description');
             $table->double('discount_amount');
             $table->dateTime('start_date');

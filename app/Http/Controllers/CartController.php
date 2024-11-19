@@ -15,7 +15,23 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {}
+    public function index()
+    {
+
+        $user = auth()->user();
+        if (!$user) {
+            return;
+        }
+
+        $carts = Cart::where('user_id', $user->id)->get();
+        $images = [];
+        foreach ($carts as $cart) {
+            $images[] = ProductImage::where('product_id', $cart->productVariant->product->product_id)
+                ->where('color_id', $cart->productVariant->color->color_id)
+                ->first();
+        }
+        return view('users/shoping-cart', compact('carts', 'images'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -87,23 +103,36 @@ class CartController extends Controller
         ], 201);
     }
 
+    public function checkout(Request $request)
+    {
+
+        // Lấy các cart_id đã được chọn
+        $selectedItems = $request->input('selectedItems'); // Mảng các cart_id đã chọn
+        // dd($selectedItems);
+        // Nếu không có item nào được chọn
+        if (empty($selectedItems)) {
+            return redirect()->route('users/shoping-cart')->with('error', 'No items selected.');
+        }
+
+        // Lấy thông tin của các sản phẩm trong giỏ hàng từ database
+        $carts = Cart::whereIn('cart_id', $selectedItems)->get();
+        // dd($carts);
+        // Tiến hành checkout, ví dụ lưu vào database, thanh toán, v.v.
+        // Sau khi xử lý, có thể chuyển hướng hoặc hiển thị thông báo
+        // Lưu giỏ hàng vào session
+        session(['carts' => $carts]);
+        return redirect()->route('checkout.index');
+    }
+
+
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user_id)
-    {
-        $carts = Cart::where('user_id', $user_id)->get();
-        $images = [];
-        foreach ($carts as $cart) {
-            $images[] = ProductImage::where('product_id', $cart->productVariant->product->product_id)
-                ->where('color_id', $cart->productVariant->color->color_id)
-                ->first();
-        }
-        return view('users/shoping-cart', compact('carts', 'images'));
-    }
+    public function show($id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -148,9 +177,17 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
+
         $cart = Cart::findOrFail($id);
         $cart->delete();
-        return redirect()->route('users/shoping-cart', ['user_id' => Auth::user()->id]);
+
+        // Nếu yêu cầu đến từ AJAX, trả về một response JSON
+        if (request()->ajax()) {
+            return response()->json(['message' => 'Item deleted successfully.'], 200);
+        }
+
+        // Nếu không phải AJAX, chuyển hướng về trang giỏ hàng
+        return redirect()->route('users.shoping-cart');
     }
 
     // app/Http/Controllers/CartController.php
