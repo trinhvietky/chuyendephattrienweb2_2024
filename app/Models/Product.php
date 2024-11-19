@@ -45,4 +45,8 @@ class Product extends Model
             'price' => $this->price,
         ];
     }
+    public function productVariants()
+    {
+        return $this->hasMany(ProductVariant::class, 'product_id'); // Giả sử khóa ngoại là 'product_id'
+    }
 }
