@@ -91,7 +91,7 @@
 								<ul class="sub-menu">
 									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
-									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
+									<li><a href="index.html">{{$danhmuc->category_name}}</a></li>
 									@endforeach
 									@endif
 								</ul>

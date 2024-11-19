@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\CrudVoucherController;
 
+use App\Models\Categories;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ColorController;
 
 /*
@@ -156,19 +158,19 @@ Route::get('/admin/user/{id}/edit', [AdminController::class, 'edit'])->name('use
 Route::put('/admin/user/{id}', [AdminController::class, 'update'])->name('user.update');
 
 //Danh muc
-Route::get('/admin/danhmuc-list', [DanhmucController::class, 'AllDanhMuc'])->name('danhmuc.index');
+Route::get('/admin/danhmuc-list', [CategoriesController::class, 'AllDanhMuc'])->name('danhmuc.index');
 
 Route::get('/admin/danhmuc-add', function () {
     return view('/admin/danhmuc-add');
 });
 
-Route::post('/admin/danhmuc-add', [DanhmucController::class, 'store'])->name('danhmuc.store');
+Route::post('/admin/danhmuc-add', [CategoriesController::class, 'store'])->name('danhmuc.store');
 
-Route::get('/admin/danhmuc/{danhmuc_ID}/edit', [DanhmucController::class, 'edit'])->name('danhmuc.edit');
+Route::get('/admin/danhmuc/{danhmuc_ID}/edit', [CategoriesController::class, 'edit'])->name('danhmuc.edit');
 
-Route::put('/admin/danhmuc/{danhmuc_ID}', [DanhmucController::class, 'update'])->name('danhmuc.update');
+Route::put('/admin/danhmuc/{danhmuc_ID}', [CategoriesController::class, 'update'])->name('danhmuc.update');
 
-Route::delete('/admin/danhmuc/{id}', [DanhmucController::class, 'destroy'])->name('danhmuc.destroy');
+Route::delete('/admin/danhmuc/{id}', [CategoriesController::class, 'destroy'])->name('danhmuc.destroy');
 
 //Quan ly product
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
@@ -183,6 +185,11 @@ Route::delete('admin/product_variants/{productVariant_id}', [ProductVariantContr
 
 Route::get('/sizes', [SizeController::class, 'getSizes'])->name('sizes.get');
 
+//Lọc product theo Categories
+Route::get('/products/filter/{subCategoryId}', [ProductController::class, 'filterByCategory'])->name('products.filter.category');
+
+//Lọc product theo price
+Route::get('/products/filter/price', [ProductController::class, 'filterByPrice'])->name('products.filter.price');
 
 
 // quản lý voucher

@@ -6,7 +6,7 @@
     {{ session('success') }}
 </div>
 <script>
-    // Tự động ẩn thông báo sau 3 giây
+    // Tự động ẩn thông báo sau 5 giây
     setTimeout(function() {
         document.getElementById('success').style.display = 'none';
     }, 5000);
@@ -25,7 +25,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>danhmuc list</h2>
+                                    <h2>Danh sách danh muc</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -62,13 +62,13 @@
                         <tbody>
                             @foreach($danhmucs as $danhmuc)
                             <tr>
-                                <td>{{ $danhmuc->danhmuc_ID }}</td>
-                                <td>{{ $danhmuc->danhmuc_Ten }}</td>
+                                <td>{{ $danhmuc->category_id }}</td>
+                                <td>{{ $danhmuc->category_name }}</td>
                                 <td>
 
                                     <div style="display: flex; margin-left: -12px;">
-                                        <form action="{{ route('danhmuc.destroy', $danhmuc->danhmuc_ID) }}" method="POST"
-                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục {{ $danhmuc->danhmuc_Ten }} không ?');"
+                                        <form action="{{ route('danhmuc.destroy', $danhmuc->category_id) }}" method="POST"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục {{ $danhmuc->category_name }} không ?');"
                                             style="margin-right: 5px;">
                                             @csrf
                                             @method('DELETE')
@@ -78,7 +78,7 @@
                                             </button>
                                         </form>
 
-                                        <a href="{{ route('danhmuc.edit', $danhmuc->danhmuc_ID) }}" data-toggle="tooltip" title="Edit"
+                                        <a href="{{ route('danhmuc.edit', $danhmuc->category_id) }}" data-toggle="tooltip" title="Edit"
                                             class="pd-setting-ed"
                                             style="color: white; margin-top: 7px; background: none; border: none;">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

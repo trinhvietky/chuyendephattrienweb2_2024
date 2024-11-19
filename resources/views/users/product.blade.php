@@ -6,29 +6,17 @@
 	<div class="container">
 		<div class="flex-w flex-sb-m p-b-52">
 			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-					All Products
-				</button>
+				<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('product') ? 'how-active1' : '' }}"
+					href="{{ route('users/product') }}">
+					Tất cả
+				</a>
+				@foreach($Alldanhmucs as $danhmuc)
 
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
-					Women
-				</button>
-
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-					Men
-				</button>
-
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".bag">
-					Bag
-				</button>
-
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".shoes">
-					Shoes
-				</button>
-
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
-					Watches
-				</button>
+					<a href="{{ route('products.filter.category', $danhmuc->category_id) }}"
+						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('products/filter/' . $danhmuc->category_id) ? 'how-active1' : '' }}">
+						{{ $danhmuc->category_name }}
+					</a>
+				@endforeach
 			</div>
 
 			<div class="flex-w flex-c-m m-tb-10">
@@ -52,7 +40,8 @@
 						<i class="zmdi zmdi-search"></i>
 					</button>
 
-					<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
+					<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product"
+						placeholder="Search">
 				</div>
 			</div>
 
@@ -84,19 +73,19 @@
 							</li>
 
 							<li class="p-b-6">
-								<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
+								<a href="#" class="filter-link stext-106 trans-04 ">
 									Newness
 								</a>
 							</li>
 
 							<li class="p-b-6">
-								<a href="#" class="filter-link stext-106 trans-04">
-									Price: Low to High
+								<a href="{{ route('products.filter.price', ['order' => 'asc']) }}" class="{{ request('order') == 'asc' ? 'filter-link-active' : '' }} filter-link stext-106 trans-04">
+									Giá: Low to High
 								</a>
 							</li>
 
 							<li class="p-b-6">
-								<a href="#" class="filter-link stext-106 trans-04">
+								<a href="{{ route('products.filter.price', ['order' => 'desc']) }}" class="{{ request('order') == 'desc' ? 'filter-link-active' : '' }} filter-link stext-106 trans-04">
 									Price: High to Low
 								</a>
 							</li>
@@ -110,7 +99,7 @@
 
 						<ul>
 							<li class="p-b-6">
-								<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
+								<a href="#" class="filter-link stext-106 trans-04">
 									All
 								</a>
 							</li>
@@ -221,23 +210,28 @@
 						</div>
 
 						<div class="flex-w p-t-4 m-r--5">
-							<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							<a href="#"
+								class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								Fashion
 							</a>
 
-							<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							<a href="#"
+								class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								Lifestyle
 							</a>
 
-							<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							<a href="#"
+								class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								Denim
 							</a>
 
-							<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							<a href="#"
+								class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								Streetstyle
 							</a>
 
-							<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+							<a href="#"
+								class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 								Crafts
 							</a>
 						</div>
@@ -248,38 +242,43 @@
 
 		<div class="row isotope-grid">
 			@foreach ($products as $index => $product)
-			<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-				<!-- Block2 -->
-				<div class="block2">
-					<div class="block2-pic hov-img0">
-						<img src="{{ $images[$index]->image_path }}" alt="IMG-PRODUCT">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+					<!-- Block2 -->
+					<div class="block2">
+						<div class="block2-pic hov-img0">
+							<img src="{{ $images[$index]->image_path }}" alt="IMG-PRODUCT">
 
-						<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-							Quick View
-						</a>
-					</div>
-
-					<div class="block2-txt flex-w flex-t p-t-14">
-						<div class="block2-txt-child1 flex-col-l ">
-							<a href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-								{{$product->product_name}}
+							<a href="#"
+								class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+								Quick View
 							</a>
-
-							<span class="stext-105 cl3">
-								{{$product->price}}
-							</span>
 						</div>
 
-						<div class="block2-txt-child2 flex-r p-t-3">
-                    <!-- Add to Wishlist Button -->
-                    <a href="javascript:void(0)" data-product-id="{{ $product->product_id }}" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-					<img class="icon-heart1 dis-block trans-04" src="/images/icons/icon-heart-01.png" alt="Empty Heart"> <!-- Empty heart -->
-					<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/images/icons/icon-heart-02.png" alt="Filled Heart"> <!-- Filled heart -->
-</a>
-                </div>
+						<div class="block2-txt flex-w flex-t p-t-14">
+							<div class="block2-txt-child1 flex-col-l ">
+								<a href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}"
+									class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+									{{$product->product_name}}
+								</a>
+
+								<span class="stext-105 cl3">
+									{{$product->price}}
+								</span>
+							</div>
+
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<!-- Add to Wishlist Button -->
+								<a href="javascript:void(0)" data-product-id="{{ $product->product_id }}"
+									class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+									<img class="icon-heart1 dis-block trans-04" src="/images/icons/icon-heart-01.png"
+										alt="Empty Heart"> <!-- Empty heart -->
+									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/images/icons/icon-heart-02.png"
+										alt="Filled Heart"> <!-- Filled heart -->
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
 			@endforeach
 
 		</div>
