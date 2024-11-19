@@ -12,17 +12,59 @@ use Laravel\Scout\Searchable;
 
 class ProductController extends Controller
 {
+    public function getProducts()
+    {
+        // Lấy tất cả sản phẩm từ database
+        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $images = [];
+
+        foreach ($products as $product) {
+            $images[] = ProductImage::where('product_id', $product->product_id)->first();
+        }
+
+        return compact('products', 'images');
+    }
+
+    public function getLatestProducts()
+    {
+        // Lấy 8 sản phẩm mới nhất
+        $products = Product::latest()->take(8)->get();
+
+        // Lấy hình ảnh tương ứng với các sản phẩm
+        $images = [];
+        foreach ($products as $product) {
+            $images[] = ProductImage::where('product_id', $product->product_id)->first();
+        }
+
+        return compact('products', 'images');
+    }
+
+    public function product()
+    {
+        // Lấy dữ liệu sản phẩm và hình ảnh
+        $data = $this->getProducts();
+
+        // Trả về view product trong thư mục users
+        return view('users.product', $data);
+    }
+
     // Hiển thị danh sách sản phẩm
     public function index()
     {
-        // Lấy tất cả sản phẩm từ database
-        $products = Product::all();
-        $images = [];
-        foreach ($products as $product) {
-            $images[] = ProductImage::where('product_id', $product->product_id)
-                ->first();
-        }
-        return view('users/product', compact('products', 'images'));
+        // // Lấy tất cả sản phẩm từ database
+        // $products = Product::all();
+        // $images = [];
+        // foreach ($products as $product) {
+        //     $images[] = ProductImage::where('product_id', $product->product_id)
+        //         ->first();
+        // }
+        // return view('users/product', compact('products', 'images'));
+
+        // Lấy dữ liệu sản phẩm và hình ảnh
+        $data = $this->getLatestProducts();
+
+        // Trả về view home trong thư mục users
+        return view('users.home', $data);
     }
 
     // Hiển thị form thêm sản phẩm

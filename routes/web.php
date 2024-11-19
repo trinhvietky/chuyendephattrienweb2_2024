@@ -124,8 +124,8 @@ Route::post('/address/save', [AddressController::class, 'saveAddress'])->name('a
 Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('address.destroy');
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
 
-//Test
-Route::get('/product', [ProductController::class, 'index'])->name('users/product');
+// User product
+Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
 
 
