@@ -1,5 +1,4 @@
 @extends('users/app')
-@section('title', 'Product')
 @section('menu-footer')
 
 <!-- Product -->
@@ -248,12 +247,16 @@
 		</div>
 
 		<div class="row isotope-grid">
-			@foreach ($products as $index => $product)
+        @foreach ($products as $product)
 			<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 				<!-- Block2 -->
 				<div class="block2">
 					<div class="block2-pic hov-img0">
-						<img src="{{ $images[$index]->image_path }}" alt="IMG-PRODUCT">
+                    @if($product->image->isNotEmpty())
+                                <img src="{{ $product->image->first()->image_path }}" alt="IMG-PRODUCT">
+                            @else
+                                <img src="/images/default-product.jpg" alt="IMG-PRODUCT">
+                            @endif
 
 						<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 							Quick View

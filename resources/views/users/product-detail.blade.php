@@ -1,4 +1,5 @@
 @extends('users/app')
+@section('title', 'Product-Detail')
 @section('menu-footer')
 
 <!-- breadcrumb -->

@@ -29,6 +29,10 @@ use App\Http\Controllers\ColorController;
 */
 
 
+Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
+Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions'])->name('products.search.suggestions');
+
+
 Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
@@ -45,16 +49,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin/dashboard');
-    })->name('admin/dashboard');
-    Route::get('/home', function () {
-        return view('users/home');
-    })->name('users/home');
+    Route::get('/home', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/home', [UserController::class, 'index'])->name('users/home');
 });
 
-Route::get('/admin/home', [AdminController::class, 'index'])->name('dashboard');
-Route::get('/users/home', [UserController::class, 'index'])->name('home');
+Route::get('/home', [UserController::class, 'index'])->name('users/home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
