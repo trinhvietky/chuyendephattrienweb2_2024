@@ -1,4 +1,5 @@
 @extends('users/app')
+@section('title', 'Shopping-Cart')
 @section('menu-footer')
 <!-- breadcrumb -->
 <div class="container">
