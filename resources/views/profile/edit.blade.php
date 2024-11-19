@@ -139,7 +139,7 @@
 									}
 								</style>
 								@if(Auth::user()->usertype === '1')
-								<a href="{{route('admin/dashboard')}}" class="btn-link">
+								<a href="{{route('dashboard')}}" class="btn-link">
 									Dashboard
 								</a>
 								@endif
