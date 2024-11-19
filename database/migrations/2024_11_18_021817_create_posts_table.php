@@ -17,6 +17,8 @@ return new class extends Migration
             // Thêm chỉ mục Full-Text vào cột product_name và description
             $table->fullText(['product_name', 'description']);
         });
+
+        
     }
 
     /**
