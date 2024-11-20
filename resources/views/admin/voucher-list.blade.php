@@ -74,8 +74,9 @@
                                     <td>{{ $voucher->end_date }}</td> --}}
                                     <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
-                                    <td>{{ $voucher->minimum_order }}</td>
-                                    <td>{{ $voucher->usage_limit }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($voucher->minimum_order, 9, '...') }}</td>
+                                    <td>{{ \Illuminate\Support\Str::limit($voucher->usage_limit, 9, '...') }}</td>
+
                                     <td>
                                         @if (($voucher->usage_limit > 0) & ($voucher->end_date >= \Carbon\Carbon::today()))
                                             <span class="badge badge-success">Có sẵn</span>
