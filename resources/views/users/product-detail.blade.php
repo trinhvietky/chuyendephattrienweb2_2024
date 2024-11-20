@@ -96,7 +96,7 @@
 										<option value="">Choose a color</option>
 										@foreach ($product->productVariants->unique('color_id') as $variant)
 										<option value="{{ $variant->color->id }}">
-											Color {{ $variant->color->color_name }}
+											{{ $variant->color->color_name }}
 										</option>
 										@endforeach
 									</select>

@@ -16,6 +16,8 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\BlogController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -74,10 +76,10 @@ Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->m
 Route::post('/remove-from-wishlist', [WishlistController::class, 'removeFromWishlist']);
 Route::get('/favourite', [WishlistController::class, 'index'])->name('users/favourite');
 
-//user/blog
-Route::get('/blog', function () {
-    return view('users/blog');
-})->name('users/blog');
+// //user/blog
+// Route::get('/blog', function () {
+//     return view('users/blog');
+// })->name('users/blog');
 
 //user/blog-detail
 Route::get('/blog-detail', function () {
@@ -251,3 +253,25 @@ Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
 Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
 
 Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
+
+//blog
+Route::get('/blog-list', [BlogController::class, 'index'])->name('blog-list');
+
+Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+Route::get('/blog-add', function () {
+    return view('/admin/blog-add');
+});
+
+// Xử lý lưu blog mới
+Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
+
+// Hiển thị form sửa blog
+Route::get('/blogs/{blog_id}/edit', [BlogController::class, 'edit'])->name('blog.edit');
+
+// Xử lý cập nhật blog
+Route::put('/blogs/{blog_id}', [BlogController::class, 'update'])->name('blog.update');
+Route::put('/blogs/{blog_id}', [BlogController::class, 'update'])->name('blogs.update');
+
+Route::get('blog', [BlogController::class, 'AllBlog'])->name('users/blog');
+
+Route::get('users/blog/{blog_id}', [BlogController::class, 'show'])->name('blogs.show');
