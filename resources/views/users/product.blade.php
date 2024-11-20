@@ -256,8 +256,11 @@
 						<img src="{{ $images[$index]->image_path }}" alt="IMG-PRODUCT">
 
 						@php
-						// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới
+						// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
 						$token = session('product_token', Str::random(32));
+
+						// Lưu token vào session nếu nó không tồn tại
+						session(['product_token' => $token]);
 
 						// Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
 						$encodedId = Crypt::encryptString($product->product_id);
@@ -268,7 +271,7 @@
 					</div>
 					<div class="block2-txt flex-w flex-t p-t-14">
 						<div class="block2-txt-child1 flex-col-l ">
-							<a href="{{ route('users/product-detail', ['product_id' => Crypt::encryptString($product->product_id . env('APP_KEY'))]) }}?token={{session('product_token')}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+							<a href="{{ route('users/product-detail', ['product_id' => $encodedId]) }}?token={{ $token }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								{{$product->product_name}}
 							</a>
 

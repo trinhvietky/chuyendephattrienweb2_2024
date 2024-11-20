@@ -292,35 +292,30 @@
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
-					<ul class="sub-menu-m">
-						<li><a href="index.html">Homepage 1</a></li>
-						<li><a href="home-02.html">Homepage 2</a></li>
-						<li><a href="home-03.html">Homepage 3</a></li>
+					<a href="{{route('users/home')}}">Home</a>
+				</li>
+
+				<li>
+					<a href="{{route('product')}}">Shop</a>
+					<ul class="sub-menu">
+						@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
+						@foreach($Alldanhmucs as $danhmuc)
+						<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
+						@endforeach
+						@endif
 					</ul>
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
 				</li>
 
 				<li>
-					<a href="product.html">Shop</a>
+					<a href="{{route('users/blog')}}">Blog</a>
 				</li>
 
 				<li>
-					<a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+					<a href="{{route('users/about')}}">About</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
-				</li>
-
-				<li>
-					<a href="about.html">About</a>
-				</li>
-
-				<li>
-					<a href="contact.html">Contact</a>
+					<a href="{{route('users/contact')}}">Contact</a>
 				</li>
 			</ul>
 		</div>
@@ -766,10 +761,10 @@
 									suggestionItem.classList.add('suggestion-item');
 
 									// Kiểm tra và lấy hình ảnh đầu tiên của sản phẩm, nếu không có thì sử dụng hình ảnh mặc định  
-    const imagePath = product.image_path ? product.image_path : '/images/default-product.jpg'; // Hình ảnh mặc định nếu không có
+									const imagePath = product.image_path ? product.image_path : '/images/default-product.jpg'; // Hình ảnh mặc định nếu không có
 
-// Tạo nội dung cho gợi ý sản phẩm
-suggestionItem.innerHTML = `
+									// Tạo nội dung cho gợi ý sản phẩm
+									suggestionItem.innerHTML = `
 	<a href="/product-detail/${product.product_id}" style="text-decoration: none;">
 		<div class="flex">
 			<img src="${imagePath}" alt="${product.product_name}" 
