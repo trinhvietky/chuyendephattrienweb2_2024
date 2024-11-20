@@ -130,6 +130,7 @@ Route::get('/product', [ProductController::class, 'product'])->name('product');
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
 
 
+
 // Route::get('/admin/home', function () {
 //     return view('admin/home');
 // })->name('admin/home');

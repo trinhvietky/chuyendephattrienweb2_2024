@@ -343,7 +343,7 @@
 
 	<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
 		<span class="stext-107 cl6 p-lr-25">
-			SKU: JAK-01   
+			SKU: JAK-01
 		</span>
 
 		<span class="stext-107 cl6 p-lr-25">
@@ -372,14 +372,24 @@
 						<div class="block2-pic hov-img0">
 							<img src="{{ isset($relatedImages[$index]) ? asset($relatedImages[$index]->image_path) : asset('default-image-path.jpg') }}" alt="IMG-PRODUCT">
 
-							<a href="{{ route('users/product-detail', ['product_id' => $relatedProduct->product_id]) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+							@php
+							// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+							$token = session('product_token', Str::random(32));
+
+							// Lưu token vào session nếu nó không tồn tại
+							session(['product_token' => $token]);
+
+							// Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+							$encodedId = Crypt::encryptString($relatedProduct->product_id);
+							@endphp
+							<a href="{{ route('users/product-detail', ['product_id' => $encodedId]) }}?token={{ $token }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 								Quick View
 							</a>
 						</div>
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="{{ route('users/product-detail', ['product_id' => $encodedId]) }}?token={{ $token }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									{{ $relatedProduct->product_name }}
 								</a>
 
@@ -453,19 +463,19 @@
 				return; // Kết thúc hàm để ngăn tăng/giảm
 			}
 
-				if (event.target.classList.contains('btn-num-product-up')) {
-					// Chỉ tăng 1 đơn vị nếu không vượt quá số lượng kho
-					if (currentQuantity < maxQuantity) {
-						input.value = currentQuantity; // Tăng 1 đơn vị
-					}
+			if (event.target.classList.contains('btn-num-product-up')) {
+				// Chỉ tăng 1 đơn vị nếu không vượt quá số lượng kho
+				if (currentQuantity < maxQuantity) {
+					input.value = currentQuantity; // Tăng 1 đơn vị
 				}
-				// Kiểm tra nút trừ
-				else if (event.target.classList.contains('btn-num-product-down')) {
-					// Chỉ giảm 1 đơn vị nếu giá trị không nhỏ hơn 0
-					if (currentQuantity > 0) {
-						input.value = currentQuantity; // Giảm 1 đơn vị
-					}
+			}
+			// Kiểm tra nút trừ
+			else if (event.target.classList.contains('btn-num-product-down')) {
+				// Chỉ giảm 1 đơn vị nếu giá trị không nhỏ hơn 0
+				if (currentQuantity > 0) {
+					input.value = currentQuantity; // Giảm 1 đơn vị
 				}
+			}
 
 			// Kiểm tra nút cộng
 
