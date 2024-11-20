@@ -421,14 +421,14 @@
 					<div class="block2-pic hov-img0">
 						<img src="{{ optional($images[$index])->image_path }}" alt="IMG-PRODUCT">
 
-						<a href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+						<a href="{{ route('users/product-detail', ['product_id' => Crypt::encryptString($product->product_id . env('APP_KEY'))])}}?token={{session('product_token')}}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 							Quick View
 						</a>
 					</div>
 
 					<div class="block2-txt flex-w flex-t p-t-14">
 						<div class="block2-txt-child1 flex-col-l ">
-							<a style="font-size: 15px;" href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+							<a style="font-size: 15px;" href="{{ route('users/product-detail', ['product_id' => Crypt::encryptString($product->product_id . env('APP_KEY'))])}}?token={{session('product_token')}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								{{$product->product_name}}
 							</a>
 
