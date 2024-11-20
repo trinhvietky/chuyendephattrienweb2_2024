@@ -45,6 +45,7 @@ class Voucher extends Model
             'discount_amount.required' => 'Vui lòng điền đầy đủ thông tin.',
             'discount_amount.integer' => 'Giá trị giảm phải là số nguyên.',
             'discount_amount.min' => 'Giá trị giảm phải lớn hơn hoặc bằng 0.',
+            'discount_amount.digits_between' => 'Giá trị giảm có giá trị nhỏ hơn hoặc bằng 100',
             'start_date.required' => 'Vui lòng điền đầy đủ thông tin.',
             'start_date.date' => 'Ngày bắt đầu không hợp lệ.',
             'start_date.after_or_equal' => 'Ngày bắt đầu phải lớn hơn hoặc bằng ngày hôm nay.',
@@ -65,7 +66,7 @@ class Voucher extends Model
         $validatedData = validator($data, [
             'voucher_code' => 'required|size:6|regex:/^[A-Z0-9]+$/|unique:voucher',
             'description' => 'required|max:255',
-            'discount_amount' => 'required|min:0|integer',
+            'discount_amount' => 'required|min:0|integer|digits_between:1,3',
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
             'minimum_order' => 'required|min:0|integer',
@@ -96,6 +97,7 @@ class Voucher extends Model
             'discount_amount.required' => 'Vui lòng điền đầy đủ thông tin.',
             'discount_amount.integer' => 'Giá trị giảm phải là số nguyên.',
             'discount_amount.min' => 'Giá trị giảm phải lớn hơn hoặc bằng 0.',
+            'discount_amount.digits_between' => 'Giá trị giảm có giá trị nhỏ hơn hoặc bằng 100',
             'start_date.required' => 'Vui lòng điền đầy đủ thông tin.',
             'start_date.date' => 'Ngày bắt đầu không hợp lệ.',
             'start_date.after_or_equal' => 'Ngày bắt đầu phải lớn hơn hoặc bằng ngày hôm nay.',
@@ -116,7 +118,7 @@ class Voucher extends Model
         $validator = Validator::make($data, [
             'voucher_code' => 'required|size:6|regex:/^[A-Z0-9]+$/',
             'description' => 'required|max:255',
-            'discount_amount' => 'required|min:0|integer',
+            'discount_amount' => 'required|min:0|integer|digits_between:1,3',
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after_or_equal:start_date',
             'minimum_order' => 'required|min:0|integer',
