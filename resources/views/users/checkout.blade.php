@@ -131,7 +131,7 @@
 
 				<div id="address-container" class="card mt-4">
 					<!-- Giao diện ban đầu -->
-					<div class="card-body">
+					<div class="card-body" id="address-list">
 						<h5 class="card-title">Thông tin nhận hàng</h5>
 						@foreach($listAddress as $address)
 						<div class="form-check mb-2">
@@ -143,6 +143,45 @@
 						@endforeach
 						<textarea class="form-control mb-3" rows="3" placeholder="Ghi chú"></textarea>
 						<a href="#" id="add-new-address" class="text-primary">Thêm địa chỉ mới</a>
+					</div>
+					<div id="add-address-form" class="card-body" style="display: none;">
+						<h5 class="card-title">Thêm địa chỉ mới</h5>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Tỉnh/Thành</label>
+									<select id="tinh" name="tinh" class="form-control" required>
+										<option value="0">Chọn Tỉnh/Thành</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Quận huyện</label>
+									<select id="quan" name="quan" class="form-control" required>
+										<option value="0">Chọn Quận/Huyện</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Phường/Xã</label>
+									<select id="phuong" name="phuong" class="form-control" required>
+										<option value="0">Chọn Phường/Xã</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="street">Số nhà, đường</label>
+									<input id="address" class="form-control" type="text" placeholder="Nhập số nhà, đường">
+								</div>
+							</div>
+						</div>
+						<textarea class="form-control mb-3" rows="3" placeholder="Ghi chú"></textarea>
+						<a href="#" id="select-address" class="text-primary">Chọn từ sổ địa chỉ</a>
 					</div>
 				</div>
 
@@ -201,66 +240,21 @@
 	</div>
 </div>
 
-<!-- Template giao diện thêm địa chỉ -->
-<script type="text/template" id="new-address-template">
-	<div class="card-body">
-				<h5 class="card-title">Thêm địa chỉ mới</h5>
-
-				<div class="row">
-					<div class="col-md-6">
-					<div class="form-group">
-							<label>Quận huyện</label>
-							<select id="tinh" name="tinh" class="form-control" required>
-								<option value="0">Chọn Tỉnh/Thành</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Quận huyện</label>
-							<select id="quan" name="quan" class="form-control" required>
-								<option value="0">Chọn Quận/Huyện</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Phường xã</label>
-							<select id="phuong" name="phuong" class="form-control" required>
-								<option value="0">Chọn Phường/Xã</option>
-							</select>
-						</div>
-
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="street">Số nhà, đường</label>
-							<input id="street" class="form-control" type="text" placeholder="Nhập số nhà, đường">
-						</div>
-					</div>
-				</div>
-				<textarea class="form-control mb-3" rows="3" placeholder="Ghi chú"></textarea>
-				<button type="submit" class="btn btn-primary">Lưu</button>
-
-			</div>
-</script>
-
-<script>
-
-</script>
 
 <script src="/js-home/apiJquery.js"></script>
 <script>
 	$(document).ready(function() {
 
-		// Chuyển sang template thêm địa chỉ
-		const addNewAddress = $('#add-new-address').on('click', function(event) {
-			event.preventDefault();
-			const template = $('#new-address-template').html(); // Lấy nội dung template
-			$('#address-container').html(template); // Thay thế nội dung của container
+		const addressList = document.getElementById('address-list');
+		const addAddressForm = document.getElementById('add-address-form');
+		const addNewAddressBtn = document.getElementById('add-new-address');
+		const selectAddressBtn = document.getElementById('select-address');
+
+		// Hiển thị form "Thêm địa chỉ mới"
+		addNewAddressBtn.addEventListener('click', function(e) {
+			e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+			addressList.style.display = 'none';
+			addAddressForm.style.display = 'block';
 			$.getJSON('/js-home/api/data.json', function(data_tinh) {
 				if (data_tinh.error === 0) {
 					$.each(data_tinh.data, function(key_tinh, val_tinh) {
@@ -300,6 +294,21 @@
 					});
 				}
 			});
+		});
+
+		// Quay lại "Thông tin nhận hàng"
+		selectAddressBtn.addEventListener('click', function(e) {
+			e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+			addAddressForm.style.display = 'none';
+			addressList.style.display = 'block';
+		});
+
+		// Chuyển sang template thêm địa chỉ
+		const addNewAddress = $('#add-new-address').on('click', function(event) {
+			event.preventDefault();
+			const template = $('#new-address-template').html(); // Lấy nội dung template
+			$('#address-container').html(template); // Thay thế nội dung của container
+
 		});
 
 
@@ -370,8 +379,14 @@
 			const voucherCode = $('#voucher-code').val().trim();
 
 			// Lấy tổng tiền (đã tính mã giảm giá và phí vận chuyển)
-			const totalAmountText = $('#total-amount').text(); // Lấy nội dung của phần tử
-			const totalAmount = parseFloat(totalAmountText.replace(/[^\d.-]/g, '').replace(',', '.'));
+			let amountText = document.getElementById('total-amount').innerText;
+
+			const totalAmount = parseFloat(amountText.replace('.', '').replace('đ', ''));
+
+			let address = $('#address').val();
+			let tinh = $('#tinh option:selected').text();
+			let quan = $('#quan option:selected').text();
+			let phuong = $('#phuong option:selected').text();
 
 			const carts = <?php echo $carts ?>;
 
@@ -380,6 +395,7 @@
 			const addressId = $('input[name="address"]:checked').val();
 
 			console.log(email, name, phone, shippingMethod, paymentMethod, note, voucherCode, totalAmount, carts, addressId);
+			console.log(tinh, quan, phuong, address);
 
 
 
@@ -405,7 +421,11 @@
 					voucherCode: voucherCode,
 					totalAmount: totalAmount,
 					carts: JSON.stringify(carts),
-					addressId: addressId
+					addressId: addressId,
+					tinh: tinh,
+					quan: quan,
+					phuong: phuong,
+					address: address
 				},
 				success: function(response) {
 					// Xử lý khi gửi thành công

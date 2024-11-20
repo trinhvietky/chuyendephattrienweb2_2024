@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id('order_id'); // Khóa chính
             $table->unsignedBigInteger('user_id'); // Khóa ngoại tới bảng users
-            $table->double('total_amount', 15, 2); // Tổng tiền đơn hàng
+            $table->double('total_amount', 15); // Tổng tiền đơn hàng
             $table->tinyInteger('status')->default(0); // Trạng thái đơn hàng
             $table->string('voucher_code')->nullable(); // Khóa ngoại tới bảng vouchers
             $table->tinyInteger('shipping_method'); // Phương thức vận chuyển

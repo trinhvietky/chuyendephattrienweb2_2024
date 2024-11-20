@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductImage;
+use App\Models\ProductVariant;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 
@@ -64,8 +65,11 @@ class OrderController extends Controller
             'note' => 'nullable|string',
             'voucherCode' => 'nullable|string',
             'totalAmount' => 'numeric|min:0',
-            'carts' => 'string',
-            'addressId' => 'numeric'
+            'addressId' => 'nullable|numeric',
+            'tinh' => 'nullable|string',
+            'quan' => 'nullable|string',
+            'phuong' => 'nullable|string',
+            'address' => 'nullable|string',
         ]);
         // dd($request);
         // Lấy dữ liệu carts (chuỗi JSON)
@@ -85,8 +89,9 @@ class OrderController extends Controller
         // if ($voucher && $voucher->minimum_order <= $request->total_amount) {
         //     $discountAmount = $voucher->discount_amount;
         // }
+        // $totalAmount = round($request->totalAmount); // Làm tròn về số nguyên
 
-        $address = Address::where('id', $request->address_id);
+
         // // Tạo đơn hàng mới
         $order = new Order();
         $order->user_id = auth()->user()->id; // Nếu có người dùng đăng nhập
@@ -94,37 +99,51 @@ class OrderController extends Controller
         $order->name = $request->name;
         $order->phone = $request->phone;
         $order->shipping_method = $request->shippingMethod;
-        $order->province = $address->tinh;
-        // $order->district = $address->quan;
-        // $order->ward = $address->phuong;
-        // $order->specific_address = $address->address;
-        // $order->note = $request->note;
-        // $order->voucher_code = $request->voucher_code;
-        // $order->total_amount = $request->total_amount; // Tổng sau giảm giá
-        // $order->status = 0; // Chờ xử lý
-        // $order->save();
+        if ($request->addressId != null) {
+            $address = Address::where('id', $request->addressId)->first();
+            $order->province = $address->tinh;
+            $order->district = $address->quan;
+            $order->ward = $address->phuong;
+            $order->specific_address = $address->address;
+        } else {
+            $order->province = $request->tinh;
+            $order->district = $request->quan;
+            $order->ward = $request->phuong;
+            $order->specific_address = $request->address;
+        }
 
-        // // Lưu các sản phẩm trong giỏ hàng
-        // // Lấy tất cả các sản phẩm trong giỏ hàng của người dùng
+        $order->note = $request->note;
+        $order->voucher_code = $request->voucherCode;
+        $order->total_amount = $request->totalAmount;
+        // Tổng sau giảm giá
+        $order->status = 0; // Chờ xử lý
+        $order->save();
+
+        // Lấy chuỗi JSON từ request
+        $jsonCarts = $request->input('carts');  // Hoặc $request->carts nếu sử dụng trực tiếp trong form data
+
+        // Giải mã chuỗi JSON thành mảng PHP
+        $carts = json_decode($jsonCarts, true);
+
+        // Lưu các sản phẩm trong giỏ hàng
+        // Lấy tất cả các sản phẩm trong giỏ hàng của người dùng
         // $carts = auth()->user()->carts;
-        // foreach ($carts as $cart) {
-        //     OrderItem::create([
-        //         'order_id' => $order->id,
-        //         'product_id' => $cart->product_id,
-        //         'quantity' => $cart->quantity,
-        //         'size_id' => $cart->productVariant->size->size_id,
-        //         'color_id' => $cart->productVariant->color->color_id,
-        //         'price' => $cart->price,
-        //     ]);
-        // }
+        foreach ($carts as $cart) {
+            $productVariant = ProductVariant::where('productVariant_id', $cart['productVariant_id'])->first();
+            OrderItem::create([
+                'order_id' => $order->order_id,
+                'product_id' => $productVariant->product->product_id,
+                'quantity' => $cart['quantity'],
+                'size_id' => $productVariant->size->size_id,
+                'color_id' => $productVariant->color->color_id,
+                'price' => $productVariant->product->price * $cart['quantity'],
+            ]);
+        }
 
         // Xóa giỏ hàng của người dùng
         // auth()->user()->carts()->delete();
 
-        return response()->json([
-            'message' => 'Item added to cart successfully',
-            'cart' => $address,
-        ], 201);
+        return response()->json(['success' => true]);
     }
 
     /**
