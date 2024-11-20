@@ -105,7 +105,7 @@
 							<div class="card-body">
 								<h5 class="card-title">Vận chuyển</h5>
 								<div class="form-check mb-2">
-									<input class="form-check-input ml-auto" checked type="radio" name="shipping" id="shipping1">
+									<input class="form-check-input ml-auto" checked type="radio" name="shipping" value="0" id="shipping1">
 									<label class="form-check-label" for="shipping1">
 										Giao hàng tận nơi - 30.000đ
 									</label>
@@ -113,13 +113,13 @@
 
 								<h5 class="card-title mt-3">Thanh toán</h5>
 								<div class="form-check mb-2">
-									<input class="form-check-input ml-auto" checked type="radio" name="payment" id="cod">
+									<input class="form-check-input ml-auto" checked type="radio" name="payment" value="0" id="cod">
 									<label class="form-check-label" for="cod">
 										Thanh toán khi nhận hàng - COD
 									</label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input ml-auto" type="radio" name="payment" id="transfer">
+									<input class="form-check-input ml-auto" type="radio" name="payment" value="1" id="transfer">
 									<label class="form-check-label" for="transfer">
 										Chuyển khoản
 									</label>
@@ -129,23 +129,20 @@
 					</div>
 				</div>
 
-				<div class="card mt-4">
+				<div id="address-container" class="card mt-4">
+					<!-- Giao diện ban đầu -->
 					<div class="card-body">
 						<h5 class="card-title">Thông tin nhận hàng</h5>
+						@foreach($listAddress as $address)
 						<div class="form-check mb-2">
-							<input class="form-check-input ml-auto" type="radio" name="address" id="address1">
-							<label class="form-check-label" for="address1">
-								1. Đường Võ Văn Ngân, Phường Trường Thọ, Quận Thủ Đức, Hồ Chí Minh
+							<input class="form-check-input ml-auto" type="radio" name="address" id="address{{ $address->id }}" value="{{ $address->id }}">
+							<label class="form-check-label" for="address{{ $address->id }}">
+								{{ implode(', ', [$address->address, $address->phuong, $address->quan, $address->tinh]) }}
 							</label>
 						</div>
-						<div class="form-check mb-2">
-							<input class="form-check-input ml-auto" type="radio" name="address" id="address2">
-							<label class="form-check-label" for="address2">
-								2. Đường Võ Văn Ngân, Phường Trường Thọ, Quận Thủ Đức, Hồ Chí Minh
-							</label>
-						</div>
+						@endforeach
 						<textarea class="form-control mb-3" rows="3" placeholder="Ghi chú"></textarea>
-						<a href="#" class="text-primary">Thêm địa chỉ mới</a>
+						<a href="#" id="add-new-address" class="text-primary">Thêm địa chỉ mới</a>
 					</div>
 				</div>
 
@@ -175,23 +172,28 @@
 						$total += $cart->productVariant->product->price * $cart->quantity;
 						?>
 						@endforeach
-						<div class="input-group mb-3 ">
-							<input type="text" class="form-control mr-4" placeholder="Nhập mã giảm giá">
-							<button class="btn btn-primary">Áp dụng</button>
+						<div class="input-group mb-3">
+							<input type="text" id="voucher-code" class="form-control mr-4" placeholder="Nhập mã giảm giá">
+							<button id="apply-voucher" class="btn btn-primary">Áp dụng</button>
 						</div>
-						<div class="d-flex justify-content-between mb-2">
-							<p>Tạm tính:</p>
-							<p>{{ number_format($total , 0, ',', '.')}}</p>
+
+						<!-- Hiển thị danh sách giá trị -->
+						<div id="order-summary">
+							<div class="d-flex justify-content-between mb-2">
+								<p>Tạm tính:</p>
+								<p data-value="{{ $total }}" id="subtotal">{{ number_format($total , 0, ',', '.')}}đ</p>
+							</div>
+							<div class="d-flex justify-content-between mb-2">
+								<p>Phí vận chuyển:</p>
+								<p>30.000đ</p>
+							</div>
+							<div class="d-flex justify-content-between" id="total-row">
+								<strong>Tổng cộng:</strong>
+								<strong id="total-amount">{{ number_format($total + 30000 , 0, ',', '.') }}đ</strong>
+							</div>
+							<!-- Dòng này sẽ được thêm khi mã giảm giá hợp lệ -->
 						</div>
-						<div class="d-flex justify-content-between mb-2">
-							<p>Phí vận chuyển:</p>
-							<p>30.000đ</p>
-						</div>
-						<div class="d-flex justify-content-between">
-							<strong>Tổng cộng:</strong>
-							<strong>{{ number_format($total + 30000 , 0, ',', '.') }}</strong>
-						</div>
-						<button class="btn btn-success mt-3">Đặt hàng</button>
+						<button class="btn btn-success mt-3" id="place-order">Đặt hàng</button>
 					</div>
 				</div>
 			</div>
@@ -199,4 +201,225 @@
 	</div>
 </div>
 
+<!-- Template giao diện thêm địa chỉ -->
+<script type="text/template" id="new-address-template">
+	<div class="card-body">
+				<h5 class="card-title">Thêm địa chỉ mới</h5>
+
+				<div class="row">
+					<div class="col-md-6">
+					<div class="form-group">
+							<label>Quận huyện</label>
+							<select id="tinh" name="tinh" class="form-control" required>
+								<option value="0">Chọn Tỉnh/Thành</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Quận huyện</label>
+							<select id="quan" name="quan" class="form-control" required>
+								<option value="0">Chọn Quận/Huyện</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Phường xã</label>
+							<select id="phuong" name="phuong" class="form-control" required>
+								<option value="0">Chọn Phường/Xã</option>
+							</select>
+						</div>
+
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="street">Số nhà, đường</label>
+							<input id="street" class="form-control" type="text" placeholder="Nhập số nhà, đường">
+						</div>
+					</div>
+				</div>
+				<textarea class="form-control mb-3" rows="3" placeholder="Ghi chú"></textarea>
+				<button type="submit" class="btn btn-primary">Lưu</button>
+
+			</div>
+</script>
+
+<script>
+
+</script>
+
+<script src="/js-home/apiJquery.js"></script>
+<script>
+	$(document).ready(function() {
+
+		// Chuyển sang template thêm địa chỉ
+		const addNewAddress = $('#add-new-address').on('click', function(event) {
+			event.preventDefault();
+			const template = $('#new-address-template').html(); // Lấy nội dung template
+			$('#address-container').html(template); // Thay thế nội dung của container
+			$.getJSON('/js-home/api/data.json', function(data_tinh) {
+				if (data_tinh.error === 0) {
+					$.each(data_tinh.data, function(key_tinh, val_tinh) {
+						$("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+					});
+
+					// Fetch districts on province change
+					$("#tinh").change(function() {
+						let idtinh = $(this).val();
+						let selectedProvince = data_tinh.data.find(function(item) {
+							return item.id === idtinh;
+						});
+
+						if (selectedProvince) {
+							$("#quan").html('<option value="0">Quận Huyện</option>');
+							$("#phuong").html('<option value="0">Phường Xã</option>');
+
+							$.each(selectedProvince.data2, function(key_quan, val_quan) {
+								$("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+							});
+
+							// Fetch wards on district change
+							$("#quan").change(function() {
+								let idquan = $(this).val();
+								let selectedDistrict = selectedProvince.data2.find(function(item) {
+									return item.id === idquan;
+								});
+
+								if (selectedDistrict) {
+									$("#phuong").html('<option value="0">Phường Xã</option>');
+									$.each(selectedDistrict.data3, function(key_phuong, val_phuong) {
+										$("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+									});
+								}
+							});
+						}
+					});
+				}
+			});
+		});
+
+
+		$('#apply-voucher').on('click', function() {
+			const voucherCode = $('#voucher-code').val().trim();
+			const cartTotal = parseFloat($('#subtotal').data('value')); // Lấy giá trị tổng tiền từ HTML
+
+			if (!voucherCode) {
+				alert('Vui lòng nhập mã giảm giá!');
+				return;
+			}
+
+			// Gửi yêu cầu tới backend
+			$.ajax({
+				url: '/apply-voucher',
+				method: 'POST',
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+				},
+				data: {
+					voucher: voucherCode,
+					cart_total: cartTotal, // Truyền tổng tiền giỏ hàng
+				},
+				success: function(response) {
+					if (response.success) {
+						const discount = response.discount; // Số tiền giảm giá
+						let newTotal = response.newTotal; // Tổng tiền mới
+						newTotal += 30000;
+						// Thêm dòng giảm giá
+						const discountRow = `
+                        <div class="d-flex justify-content-between mb-2">
+                            <p>Giảm giá:</p>
+                            <p>-${discount.toLocaleString() + 'đ'}</p>
+                        </div>
+                    `;
+
+
+						// Xóa các dòng cũ và cập nhật
+						$('#order-summary').find('.discount-row').remove();
+						$('#order-summary').find('#total-row').before(discountRow);
+						$('#total-amount').text(newTotal.toLocaleString() + 'đ');
+					} else {
+						alert(response.message || 'Mã giảm giá không hợp lệ!');
+					}
+				},
+				error: function() {
+					alert('Đã xảy ra lỗi, vui lòng thử lại sau!');
+				},
+			});
+		});
+
+		$('#place-order').on('click', function(event) {
+			event.preventDefault(); // Ngừng gửi form mặc định
+
+			// Lấy thông tin khách hàng
+			const email = $('#email').val();
+			const name = $('#name').val();
+			const phone = $('#phone').val();
+
+			// Lấy thông tin vận chuyển
+			const shippingMethod = $('input[name="shipping"]:checked').val();
+			const paymentMethod = $('input[name="payment"]:checked').val();
+
+			const note = $('textarea').val().trim();
+
+
+			// Lấy thông tin mã giảm giá (nếu có)
+			const voucherCode = $('#voucher-code').val().trim();
+
+			// Lấy tổng tiền (đã tính mã giảm giá và phí vận chuyển)
+			const totalAmountText = $('#total-amount').text(); // Lấy nội dung của phần tử
+			const totalAmount = parseFloat(totalAmountText.replace(/[^\d.-]/g, '').replace(',', '.'));
+
+			const carts = <?php echo $carts ?>;
+
+
+			// Nếu chưa có sự kiện click, thay đổi nội dung thành "b"
+			const addressId = $('input[name="address"]:checked').val();
+
+			console.log(email, name, phone, shippingMethod, paymentMethod, note, voucherCode, totalAmount, carts, addressId);
+
+
+
+			// // Kiểm tra thông tin cần thiết
+			// if (!email || !name || !phone || !addressId) {
+			// 	alert('Vui lòng điền đầy đủ thông tin!');
+			// 	return;
+			// }
+
+			// Gửi dữ liệu tới backend qua AJAX
+			$.ajax({
+				url: '/payment', // Đảm bảo URL chính xác
+				method: 'POST',
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+				},
+				data: {
+					email: email,
+					name: name,
+					phone: phone,
+					shippingMethod: shippingMethod,
+					note: note,
+					voucherCode: voucherCode,
+					totalAmount: totalAmount,
+					carts: JSON.stringify(carts),
+					addressId: addressId
+				},
+				success: function(response) {
+					// Xử lý khi gửi thành công
+					alert('Đặt hàng thành công!');
+					console.log(response);
+				},
+				error: function(response) {
+
+					console.log(response);
+
+				}
+			});
+		});
+
+	});
+</script>
 @endsection

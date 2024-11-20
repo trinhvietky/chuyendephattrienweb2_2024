@@ -8,7 +8,7 @@ use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory, Searchable;
+    // use HasFactory, Searchable;
     protected $primaryKey = 'product_id'; // Đặt khóa chính là product_id
 
     protected $fillable = [

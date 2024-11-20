@@ -331,8 +331,6 @@
 
             const cartId = this.getAttribute('id'); // Lấy ID của sản phẩm trong giỏ
             const deleteButton = this;
-            console.log(cartId);
-
 
 
             // Gửi yêu cầu AJAX để xóa sản phẩm khỏi giỏ

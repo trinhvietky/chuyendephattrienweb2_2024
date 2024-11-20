@@ -19,12 +19,21 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'total_amount',
-        'status',
+        // 'status',
         'voucher_code',
+        'shipping_method',
+        'name',
+        'phone',
+        'email',
+        'province',
+        'district',
+        'ward',
+        'specific_address',
+        'note',
     ];
 
     /**
-     * Quan hệ với User
+     * Quan hệ với User (người dùng đặt hàng)
      */
     public function user()
     {
@@ -32,10 +41,10 @@ class Order extends Model
     }
 
     /**
-     * Quan hệ với Voucher
+     * Quan hệ với Voucher (nếu có sử dụng mã giảm giá)
      */
     public function voucher()
     {
-        return $this->belongsTo(Voucher::class, 'voucher_code');
+        return $this->belongsTo(Voucher::class, 'voucher_code', 'voucher_code');
     }
 }

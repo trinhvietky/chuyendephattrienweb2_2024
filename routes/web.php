@@ -147,6 +147,11 @@ Route::post('/btn_checkout', [CartController::class, 'checkout'])->name('checkou
 
 Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
 
+Route::post('/apply-voucher', [OrderController::class, 'applyVoucher']);
+
+Route::post('/payment', [OrderController::class, 'store'])->name('order.store');
+
+
 
 // Route::get('/admin/home', function () {
 //     return view('admin/home');
