@@ -18,39 +18,7 @@ class ProductVariantsTableSeeder extends Seeder
 
         DB::table('product_variants')->insert([
             [
-                'product_id' => 1, // Men’s Casual Shirt
-                'color_id' => 1, // Black
-                'size_id' => 1, // Small
-                'stock' => 50,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 1, // Men’s Casual Shirt
-                'color_id' => 2, // White
-                'size_id' => 2, // Medium
-                'stock' => 30,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 2, // Men’s Slim Fit Pants
-                'color_id' => 1, // Black
-                'size_id' => 3, // Large
-                'stock' => 20,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 2, // Men’s Slim Fit Pants
-                'color_id' => 3, // Red
-                'size_id' => 2, // Medium
-                'stock' => 25,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'product_id' => 3, // Women’s Elegant Dress
+                'product_id' => 1, // Women’s Elegant Dress
                 'color_id' => 4, // Blue
                 'size_id' => 2, // Medium
                 'stock' => 15,
@@ -58,7 +26,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 3, // Women’s Elegant Dress
+                'product_id' => 1, // Women’s Elegant Dress
                 'color_id' => 5, // Green
                 'size_id' => 3, // Large
                 'stock' => 18,
@@ -66,7 +34,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 4, // Women’s Casual Top
+                'product_id' => 2, // Women’s Casual Top
                 'color_id' => 6, // Olive
                 'size_id' => 1, // Small
                 'stock' => 40,
@@ -74,7 +42,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 4, // Women’s Casual Top
+                'product_id' => 2, // Women’s Casual Top
                 'color_id' => 7, // Silver
                 'size_id' => 2, // Medium
                 'stock' => 30,
@@ -82,7 +50,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 5, // Men’s Sports Jacket
+                'product_id' => 3, // Men’s Sports Jacket
                 'color_id' => 1, // Black
                 'size_id' => 2, // Medium
                 'stock' => 22,
@@ -90,7 +58,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 5, // Men’s Sports Jacket
+                'product_id' => 3, // Men’s Sports Jacket
                 'color_id' => 8, // Brown
                 'size_id' => 3, // Large
                 'stock' => 28,
@@ -98,7 +66,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 6, // Women’s Skirt
+                'product_id' => 4, // Women’s Skirt
                 'color_id' => 2, // Yellow
                 'size_id' => 2, // Medium
                 'stock' => 35,
@@ -106,7 +74,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 6, // Women’s Skirt
+                'product_id' => 4, // Women’s Skirt
                 'color_id' => 1, // Gray
                 'size_id' => 1, // Small
                 'stock' => 25,
@@ -114,7 +82,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 7, // Men’s Leather Boots
+                'product_id' => 5, // Men’s Leather Boots
                 'color_id' => 1, // Black
                 'size_id' => 3, // Large
                 'stock' => 40,
@@ -122,7 +90,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 7, // Men’s Leather Boots
+                'product_id' => 5, // Men’s Leather Boots
                 'color_id' => 2, // White
                 'size_id' => 2, // Medium
                 'stock' => 30,
@@ -130,7 +98,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 8, // Women’s Heeled Sandals
+                'product_id' => 6, // Women’s Heeled Sandals
                 'color_id' => 3, // Red
                 'size_id' => 1, // Small
                 'stock' => 50,
@@ -138,7 +106,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 8, // Women’s Heeled Sandals
+                'product_id' => 6, // Women’s Heeled Sandals
                 'color_id' => 4, // Blue
                 'size_id' => 2, // Medium
                 'stock' => 40,
@@ -146,7 +114,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 9, // Men’s Running Shoes
+                'product_id' => 7, // Men’s Running Shoes
                 'color_id' => 5, // Green
                 'size_id' => 3, // Large
                 'stock' => 45,
@@ -154,7 +122,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 9, // Men’s Running Shoes
+                'product_id' => 7, // Men’s Running Shoes
                 'color_id' => 6, // Olive
                 'size_id' => 2, // Medium
                 'stock' => 38,
@@ -162,7 +130,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 10, // Women’s Handbag
+                'product_id' => 8, // Women’s Handbag
                 'color_id' => 7, // Silver
                 'size_id' => 1, // Small
                 'stock' => 60,
@@ -170,7 +138,7 @@ class ProductVariantsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 10, // Women’s Handbag
+                'product_id' => 8, // Women’s Handbag
                 'color_id' => 8, // Brown
                 'size_id' => 2, // Medium
                 'stock' => 50,

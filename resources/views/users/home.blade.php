@@ -1,10 +1,6 @@
 @extends('users/app')
+@section('title', ' Home')
 @section('menu-footer')
-
-
-
-
-
 
 <!-- Slider -->
 <section class="section-slide">
@@ -185,14 +181,17 @@
 		</div>
 
 		<div class="flex-w flex-sb-m p-b-52">
-			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-					All Products
-				</button>
+		<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+				<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('product') ? 'how-active1' : '' }}"
+					href="{{ route('product') }}">
+					Tất cả
+				</a>
 				@foreach($Alldanhmucs as $danhmuc)
-				<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{ $danhmuc->danhmuc_ID }}">
-					{{ $danhmuc->danhmuc_Ten }}
-				</button>
+
+					<a href=""
+						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('products/filter/' . $danhmuc->category_id) ? 'how-active1' : '' }}">
+						{{ $danhmuc->category_name }}
+					</a>
 				@endforeach
 			</div>
 
@@ -457,9 +456,6 @@
 		<div class="flex-c-m flex-w w-full p-t-45">
 			<a href="{{ route('product') }}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
 				Show all product
-
-
-				
 			</a>
 		</div>
 	</div>

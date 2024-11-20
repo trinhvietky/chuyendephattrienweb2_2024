@@ -1,6 +1,6 @@
 @extends('users/app')
+@section('title', 'Product-Detail')
 @section('menu-footer')
-<meta charset="UTF-8">
 <style>
 	table {
 		width: 100%;
@@ -24,7 +24,6 @@
 		background-color: #f4f4f4;
 	}
 </style>
-
 
 <!-- breadcrumb -->
 <div class="container" style="margin-top: 100px;">
@@ -345,7 +344,7 @@
 
 	<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
 		<span class="stext-107 cl6 p-lr-25">
-			SKU: JAK-01
+			SKU: JAK-01   
 		</span>
 
 		<span class="stext-107 cl6 p-lr-25">
@@ -405,8 +404,6 @@
 		</div>
 	</div>
 </section>
-
-
 
 
 <script>

@@ -8,10 +8,10 @@ use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Models\Favourite;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Scout\Searchable;
 
 class ProductController extends Controller
 {
-
     public function getProducts()
     {
         // Lấy tất cả sản phẩm từ database
@@ -152,5 +152,35 @@ class ProductController extends Controller
 
         // Chuyển hướng về danh sách sản phẩm
         return redirect()->route('products.index')->with('success', 'Sản phẩm đã được xóa');
+    }
+    // tìm kiếm
+    public function search(Request $request)
+    {
+        $query = $request->input('search'); // Lấy từ khóa tìm kiếm từ request
+
+        if ($query) {
+            // Tìm kiếm sản phẩm qua Model
+            $products = Product::searchProducts($query);
+
+            // Nếu không có sản phẩm tìm được
+            if ($products->isEmpty()) {
+                session()->flash('message', 'No products found for your search.');
+            }
+        } else {
+            // Nếu không có từ khóa tìm kiếm, trả về tất cả sản phẩm
+            $products = Product::with('images')->get(); // Eager load hình ảnh
+        }
+
+        return view('products.search-results', compact('products', 'query'));
+    }
+    // gợi ý tìm kiếm
+    public function suggestions(Request $request)
+    {
+        $query = $request->input('query'); // Lấy từ khóa nhập vào
+
+        // Lấy gợi ý sản phẩm từ Model
+        $suggestions = Product::getSuggestions($query);
+
+        return response()->json($suggestions);
     }
 }

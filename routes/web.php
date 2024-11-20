@@ -31,6 +31,10 @@ use App\Http\Controllers\OrderController;
 */
 
 
+Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
+Route::get('/products/suggestions', [ProductController::class, 'suggestions'])->name('products.suggestions');
+
+
 Route::get('/', function () {
     // Kiểm tra nếu người dùng đã đăng nhập
     if (Auth::check()) {
@@ -47,16 +51,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin/dashboard');
-    })->name('admin/dashboard');
-    Route::get('/home', function () {
-        return view('users/home');
-    })->name('users/home');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/home', [UserController::class, 'index'])->name('users/home');
 });
 
-Route::get('/admin/home', [AdminController::class, 'index'])->name('dashboard');
-Route::get('/users/home', [UserController::class, 'index'])->name('home');
+Route::get('/home', [UserController::class, 'index'])->name('users/home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -129,7 +128,8 @@ Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('a
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
 
 //Test
-Route::get('/product', [ProductController::class, 'index'])->name('users/product');
+Route::get('/', [ProductController::class, 'index'])->name('users.home');
+Route::get('/product', [ProductController::class, 'product'])->name('product');
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
 
 //Shoping-cart

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-	<title>Home</title>
+	<title>Favourite</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -88,7 +88,7 @@
 							</li>
 
 							<li>
-								<a href="{{route('users/product')}}">Shop</a>
+								<a href="{{route('product')}}">Shop</a>
 								<ul class="sub-menu">
 									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
