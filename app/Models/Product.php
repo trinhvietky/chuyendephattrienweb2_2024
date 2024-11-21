@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 
 class Product extends Model
@@ -80,19 +82,23 @@ class Product extends Model
                 ->take(5) // Giới hạn số gợi ý
                 ->get();
 
+            // Kiểm tra và tạo token nếu chưa có
+    $token = session('product_token', Str::random(32));
+    session(['product_token' => $token]);
             // Chỉ lấy thông tin cần thiết: ID sản phẩm, tên, giá, mô tả và hình ảnh
-            return $suggestions->map(function ($product) {
+            return $suggestions->map(function ($product) use ($token) {
                 $imagePath = $product->images->isNotEmpty() ? url($product->images->first()->image_path) : null;
                 return [
                     'product_id' => $product->product_id,
                     'product_name' => $product->product_name,
                     'price' => $product->price,
                     'description' => $product->description,
-                    'image_path' => $imagePath
+                    'image_path' => $imagePath,
+                    'encoded_id' => Crypt::encryptString($product->product_id), // Mã hóa ID sản phẩm
+                    'token' => $token,
                 ];
             });
         }
-
         return collect(); // Trả về mảng rỗng nếu không có từ khóa
     }
 }

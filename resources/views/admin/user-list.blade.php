@@ -80,11 +80,22 @@
                                     <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
                                         @csrf
                                         @method('DELETE')
+
+                                        @php
+						// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+						$token = session('user_token', Str::random(32));
+
+						// Lưu token vào session nếu nó không tồn tại
+						session(['user_token' => $token]);
+
+						// Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+						$encodedId = Crypt::encryptString($user->id);
+						@endphp
                                         <button data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="background: none; border: none;">
                                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                                         </button>
                                     </form>
-                                    <a href="{{ route('user.edit', $user->id) }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                                    <a href="{{ route('user.edit', ['id' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </a>
                                 </div>
