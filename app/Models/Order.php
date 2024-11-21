@@ -47,4 +47,9 @@ class Order extends Model
     {
         return $this->belongsTo(Voucher::class, 'voucher_code', 'voucher_code');
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_id', 'order_id');
+    }
 }

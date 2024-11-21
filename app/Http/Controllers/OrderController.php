@@ -62,6 +62,7 @@ class OrderController extends Controller
             'name' => 'required|string',
             'phone' => 'required|string',
             'shippingMethod' => 'required|numeric|min:0',
+            'paymentMethod' => 'required|numeric|min:0',
             'note' => 'nullable|string',
             'voucherCode' => 'nullable|string',
             'totalAmount' => 'numeric|min:0',
@@ -71,26 +72,6 @@ class OrderController extends Controller
             'phuong' => 'nullable|string',
             'address' => 'nullable|string',
         ]);
-        // dd($request);
-        // Lấy dữ liệu carts (chuỗi JSON)
-
-
-        // Kiểm tra voucher (nếu có)
-        // $voucher = null;
-        // if ($request->voucher_code) {
-        //     $voucher = Voucher::where('voucher_code', $request->voucher_code)
-        //         ->where('status', 1) // Chỉ lấy voucher còn hiệu lực
-        //         ->where('end_date', '>', now())
-        //         ->first();
-        // }
-
-        // Nếu voucher hợp lệ và đáp ứng điều kiện
-        // $discountAmount = 0;
-        // if ($voucher && $voucher->minimum_order <= $request->total_amount) {
-        //     $discountAmount = $voucher->discount_amount;
-        // }
-        // $totalAmount = round($request->totalAmount); // Làm tròn về số nguyên
-
 
         // // Tạo đơn hàng mới
         $order = new Order();
@@ -140,10 +121,14 @@ class OrderController extends Controller
             ]);
         }
 
-        // Xóa giỏ hàng của người dùng
-        // auth()->user()->carts()->delete();
+        // Gọi hàm createPayment để xử lý thanh toán
+        $paymentUrl = PaymentController::createPayment($order, $request->paymentMethod);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Order created successfully.',
+            'payment_url' => $paymentUrl,
+        ]);
     }
 
     /**

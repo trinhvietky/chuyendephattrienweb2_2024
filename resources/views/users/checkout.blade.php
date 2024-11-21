@@ -417,6 +417,7 @@
 					name: name,
 					phone: phone,
 					shippingMethod: shippingMethod,
+					paymentMethod: paymentMethod,
 					note: note,
 					voucherCode: voucherCode,
 					totalAmount: totalAmount,
@@ -429,8 +430,15 @@
 				},
 				success: function(response) {
 					// Xử lý khi gửi thành công
-					alert('Đặt hàng thành công!');
-					console.log(response);
+					if (response.success) {
+						// alert("Order created successfully! Redirecting to payment...");
+						// Chuyển hướng người dùng đến trang thanh toán
+						// const fullUrl = new URL(response.payment_url, window.location.origin);
+						// console.log(response.payment_url);
+						window.location.href = response.payment_url;
+					} else {
+						alert("Order creation failed: " + response.message);
+					}
 				},
 				error: function(response) {
 

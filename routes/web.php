@@ -18,6 +18,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,9 +150,15 @@ Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index
 
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher']);
 
+
+//Payment
 Route::post('/payment', [OrderController::class, 'store'])->name('order.store');
 
+Route::get('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
 
+Route::post('/payment/ipn', [PaymentController::class, 'ipnUrl'])->name('payment.ipn');
+
+Route::get('/payment/notification', [PaymentController::class, 'returnUrl'])->name('payment.return');
 
 // Route::get('/admin/home', function () {
 //     return view('admin/home');

@@ -218,9 +218,11 @@
     $('.btn-num-product-down').on('click', function () {
         var input = $(this).siblings('.num-product');
         var numProduct = Number($(this).next().val());
-        if (numProduct > 0) $(this).next().val(numProduct - 1);
-        var quantity = parseInt(input.val());
-        input.val(quantity).trigger('change');
+        if (numProduct > 1) {
+            $(this).next().val(numProduct - 1)
+            var quantity = parseInt(input.val());
+            input.val(quantity).trigger('change');
+        };
     });
 
     $('.btn-num-product-up').on('click', function () {
@@ -248,12 +250,12 @@
     }
 
     // Gọi hàm để cập nhật số lượng giỏ hàng khi trang tải
-    updateCartCount();
+    // updateCartCount();
 
     // Nếu muốn cập nhật khi người dùng thay đổi số lượng trong giỏ hàng
-    $('.num-product-cart').on('change', function () {
-        updateCartCount();  // Cập nhật số lượng khi thay đổi số lượng sản phẩm
-    });
+    // $('.num-product-cart').on('change', function () {
+    //     updateCartCount();  // Cập nhật số lượng khi thay đổi số lượng sản phẩm
+    // });
 
     $(document).ready(function () {
         // Khi thay đổi số lượng sản phẩm
@@ -289,41 +291,73 @@
 
     function updateCartTotal() {
         let cartTotal = 0;
-        var totalElement = document.querySelectorAll('.total'); // Lấy phần tử chứa giá
-        totalElement.forEach(element => {
-            var totalText = element.textContent.trim(); // Lấy nội dung văn bản trong phần tử
-            var total = parseFloat(totalText.replace(/,/g, '')); // Loại bỏ dấu phẩy và chuyển thành số
-            cartTotal += total
+        // Lấy danh sách các checkbox đã chọn
+        var selectedItems = document.querySelectorAll('.select-item:checked');
 
+        // Lặp qua từng checkbox được chọn
+        selectedItems.forEach(checkbox => {
+            // Lấy giá trị tổng của sản phẩm từ cột .total trong cùng một hàng (tr)
+            var totalText = checkbox.closest('tr').querySelector('.total').textContent.trim();
+            var total = parseFloat(totalText.replace(/,/g, '')); // Loại bỏ dấu phẩy và chuyển thành số
+            cartTotal += total; // Cộng dồn vào tổng giỏ hàng
         });
 
         // Hiển thị tổng giỏ hàng
-        document.querySelector('#cart-total').innerText = cartTotal.toLocaleString();
+        document.querySelector('#cart-total').innerText = cartTotal.toLocaleString() + 'đ'; // Định dạng và hiển thị
     }
 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Chọn tất cả checkbox
+        const selectAll = document.getElementById('select-all');
+        if (selectAll.checked) {
+            // Cập nhật lại tổng giỏ hàng sau khi chọn/bỏ chọn tất cả
+            updateCartTotal();
+        }
+        if (selectAll) {
+            selectAll.addEventListener('change', function () {
+                let isChecked = this.checked;
+                // Cập nhật tất cả checkbox của các sản phẩm
+                document.querySelectorAll('.select-item').forEach(function (checkbox) {
+                    checkbox.checked = isChecked;
+                });
 
-    // Chọn tất cả checkbox
-    const selectAll = document.getElementById('select-all');
-    if (selectAll) {
-        selectAll.addEventListener('change', function () {
-            let isChecked = this.checked;
-            // Cập nhật tất cả checkbox của các sản phẩm
-            document.querySelectorAll('.select-item').forEach(function (checkbox) {
-                checkbox.checked = isChecked;
+                // Cập nhật lại tổng giỏ hàng sau khi chọn/bỏ chọn tất cả
+                updateCartTotal();
+            });
+        }
+
+        // Cập nhật hành động khi thay đổi checkbox sản phẩm
+        document.querySelectorAll('.select-item').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                // Lấy danh sách các checkbox đã chọn
+                let selectedItems = document.querySelectorAll('.select-item:checked');
+
+                // Cập nhật tổng giỏ hàng
+                updateCartTotal();
+                // Cập nhật trạng thái của checkbox "select all" nếu cần
+                updateSelectAllCheckbox();
+
+                // Lấy hoặc làm gì với các item được chọn
+                console.log(selectedItems.length + " items selected");
             });
         });
-    }
 
-    // Cập nhật hành động khi thay đổi checkbox sản phẩm
-    document.querySelectorAll('.select-item').forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-            // Lấy danh sách các checkbox đã chọn
-            let selectedItems = document.querySelectorAll('.select-item:checked');
-
-            // Lấy hoặc làm gì với các item được chọn, ví dụ xóa hoặc tính tổng
-            console.log(selectedItems.length + " items selected");
-        });
     });
+
+
+    // Hàm cập nhật trạng thái của checkbox "select all"
+    function updateSelectAllCheckbox() {
+        const selectAll = document.getElementById('select-all');
+        const allCheckboxes = document.querySelectorAll('.select-item');
+        const checkedCheckboxes = document.querySelectorAll('.select-item:checked');
+
+        // Nếu tất cả checkbox được chọn thì chọn "select all", ngược lại bỏ chọn "select all"
+        if (allCheckboxes.length === checkedCheckboxes.length) {
+            selectAll.checked = true; // Chọn tất cả
+        } else {
+            selectAll.checked = false; // Bỏ chọn tất cả
+        }
+    }
 
     document.querySelectorAll('.delete-button').forEach(function (button) {
         button.addEventListener('click', function (event) {
