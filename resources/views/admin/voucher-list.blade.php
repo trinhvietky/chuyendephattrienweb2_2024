@@ -86,7 +86,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('edit_voucher', $voucher->id) }}"><i
+                                            <a href="{{ route('edit_voucher', urlencode(Crypt::encryptString($voucher->id))) }}"><i
                                                     class='fa fa-pencil-square-o  mr-2'></i></a>
                                             <form action="{{ route('delete_voucher', $voucher->id) }}" method="POST"
                                                 onsubmit="return confirm('Bạn có chắc chắn muốn xóa voucher này?');">

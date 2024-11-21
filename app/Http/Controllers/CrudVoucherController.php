@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Voucher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class CrudVoucherController extends Controller
@@ -34,9 +35,15 @@ class CrudVoucherController extends Controller
     /**
      * hàm tìm voucher theo id
      */
-    public function edit($id)
+    public function edit($encryptedId)
     {
-        // Lấy thông tin user theo id
+        // Giải mã ID
+        try {
+            $id = Crypt::decryptString(urldecode($encryptedId));
+        } catch (\Exception $e) {
+            return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
+        }
+        // Lấy thông tin user theo id đã giải mã
         $voucher = Voucher::where('id', $id)->first();
         if (!$voucher) {
             return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
