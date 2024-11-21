@@ -36,8 +36,7 @@ class CrudVoucherController extends Controller
     {
         // Giải mã ID sản phẩm từ URL
         try {
-            $key = 'APP_KEY';
-            $colorId = Crypt::decryptString($encodedId . $key); // Giải mã ID sản phẩm
+            $colorId = Crypt::decryptString($encodedId); // Giải mã ID sản phẩm
         } catch (\Exception $e) {
             abort(404, 'ID sản phẩm không hợp lệ');
         }
