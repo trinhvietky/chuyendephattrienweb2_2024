@@ -5,19 +5,21 @@
 <div class="bg0 m-t-23 p-b-140" style="margin-top: 100px;">
 	<div class="container">
 		<div class="flex-w flex-sb-m p-b-52">
+
 			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 				<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('product') ? 'how-active1' : '' }}"
-					href="{{ route('users/product') }}">
+					href="{{ route('products.filter', ['subCategoryId' => $subCategoryId ?? 0,'order' => request('order') ?? 'asc']) }}">
 					Tất cả
 				</a>
-				@foreach($Alldanhmucs as $danhmuc)
 
-					<a href="{{ route('products.filter.category', $danhmuc->category_id) }}"
+				@foreach($Alldanhmucs as $danhmuc)
+					<a href="{{ route('products.filter', ['subCategoryId' => $danhmuc->category_id, 'order' => request('order') ?? 'asc']) }}"
 						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('products/filter/' . $danhmuc->category_id) ? 'how-active1' : '' }}">
 						{{ $danhmuc->category_name }}
 					</a>
 				@endforeach
 			</div>
+
 
 			<div class="flex-w flex-c-m m-tb-10">
 				<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
@@ -79,16 +81,19 @@
 							</li>
 
 							<li class="p-b-6">
-								<a href="{{ route('products.filter.price', ['order' => 'asc']) }}" class="{{ request('order') == 'asc' ? 'filter-link-active' : '' }} filter-link stext-106 trans-04">
-									Giá: Low to High
+								<a href="{{ route('products.filter', ['subCategoryId' => $subCategoryId ?? 0, 'order' => 'asc']) }}"
+									class="{{ request('order') == 'asc' ? 'filter-link-active' : '' }} filter-link stext-106 trans-04">
+									Giá: Từ thấp đến cao
+								</a>
+							</li>
+							<li class="p-b-6">
+								<a href="{{ route('products.filter', ['subCategoryId' => $subCategoryId ?? 0, 'order' => 'desc']) }}"
+									class="{{ request('order') == 'desc' ? 'filter-link-active' : '' }} filter-link stext-106 trans-04">
+									Giá: Từ cao đến thấp
 								</a>
 							</li>
 
-							<li class="p-b-6">
-								<a href="{{ route('products.filter.price', ['order' => 'desc']) }}" class="{{ request('order') == 'desc' ? 'filter-link-active' : '' }} filter-link stext-106 trans-04">
-									Price: High to Low
-								</a>
-							</li>
+
 						</ul>
 					</div>
 

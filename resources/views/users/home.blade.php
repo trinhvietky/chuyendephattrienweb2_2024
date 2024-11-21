@@ -185,14 +185,14 @@
 		</div>
 
 		<div class="flex-w flex-sb-m p-b-52">
-		<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-				<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('product') ? 'how-active1' : '' }}"
-					href="{{ route('users/product') }}">
+			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+			<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('product') ? 'how-active1' : '' }}"
+					href="{{ route('products.filter', ['subCategoryId' => $subCategoryId ?? 0,'order' => request('order') ?? 'asc']) }}">
 					Tất cả
 				</a>
-				@foreach($Alldanhmucs as $danhmuc)
 
-					<a href="{{ route('products.filter.category', $danhmuc->category_id) }}"
+				@foreach($Alldanhmucs as $danhmuc)
+					<a href="{{ route('products.filter', ['subCategoryId' => $danhmuc->category_id, 'order' => request('order') ?? 'asc']) }}"
 						class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 {{ request()->is('products/filter/' . $danhmuc->category_id) ? 'how-active1' : '' }}">
 						{{ $danhmuc->category_name }}
 					</a>
