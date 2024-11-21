@@ -160,6 +160,7 @@ Route::post('/payment/ipn', [PaymentController::class, 'ipnUrl'])->name('payment
 
 Route::get('/payment/notification', [PaymentController::class, 'returnUrl'])->name('payment.return');
 
+
 // Route::get('/admin/home', function () {
 //     return view('admin/home');
 // })->name('admin/home');

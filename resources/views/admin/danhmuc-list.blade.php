@@ -77,8 +77,17 @@
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                             </button>
                                         </form>
+                                        @php
+                                        // Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+                                        $token = session('danhmuc_token', Str::random(32));
 
-                                        <a href="{{ route('danhmuc.edit', $danhmuc->danhmuc_ID) }}" data-toggle="tooltip" title="Edit"
+                                        // Lưu token vào session nếu nó không tồn tại
+                                        session(['danhmuc_token' => $token]);
+
+                                        // Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+                                        $encodedId = Crypt::encryptString($danhmuc->danhmuc_ID);
+                                        @endphp
+                                        <a href="{{ route('danhmuc.edit', ['danhmuc_ID' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit"
                                             class="pd-setting-ed"
                                             style="color: white; margin-top: 7px; background: none; border: none;">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

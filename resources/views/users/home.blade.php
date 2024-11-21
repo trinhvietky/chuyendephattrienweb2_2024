@@ -422,15 +422,24 @@
 				<div class="block2">
 					<div class="block2-pic hov-img0">
 						<img src="{{ optional($images[$index])->image_path }}" alt="IMG-PRODUCT">
+						@php
+    // Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+    $token = session('product_token', Str::random(32));
 
-						<a href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
+    // Lưu token vào session nếu nó không tồn tại
+    session(['product_token' => $token]);
+
+    // Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+    $encodedId = Crypt::encryptString($product->product_id);
+@endphp
+						<a href="{{ route('users/product-detail', ['product_id' => $encodedId]) }}?token={{ $token }}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 							Quick View
 						</a>
 					</div>
 
 					<div class="block2-txt flex-w flex-t p-t-14">
 						<div class="block2-txt-child1 flex-col-l ">
-							<a style="font-size: 15px;" href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+							<a style="font-size: 15px;" href="{{ route('users/product-detail', ['product_id' => $encodedId]) }}?token={{ $token }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								{{$product->product_name}}
 							</a>
 
@@ -440,9 +449,9 @@
 						</div>
 
 						<div class="block2-txt-child2 flex-r p-t-3">
-							<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-								<img class="icon-heart1 dis-block trans-04" src="/images/icons/icon-heart-01.png" alt="ICON">
-								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/images/icons/icon-heart-02.png" alt="ICON">
+						<a href="javascript:void(0)" data-product-id="{{ $product->product_id }}" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+								<img class="icon-heart1 dis-block trans-04" src="/images/icons/icon-heart-01.png" alt="Empty Heart"> <!-- Empty heart -->
+								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="/images/icons/icon-heart-02.png" alt="Filled Heart"> <!-- Filled heart -->
 							</a>
 						</div>
 					</div>
