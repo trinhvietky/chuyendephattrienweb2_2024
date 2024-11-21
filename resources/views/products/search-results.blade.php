@@ -1,4 +1,5 @@
 @extends('users/app')
+@section('title', 'Search')
 @section('menu-footer')
 
 <!-- Product -->
