@@ -1,17 +1,31 @@
 @extends('admin/app')
 @section('menu-footer')
     <div class="breadcome-area">
-
-        <div class="container-fluid" style="margin-top: 70px;">
+        <div class="container-fluid" style="margin-top: 70px;" >
+            {{-- thông báo --}}
             @if (session('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success" style="margin: 10px 0px -10px 0px" id="success">
                     {{ session('success') }}
                 </div>
+                <script>
+                    // Tự động ẩn thông báo sau 3 giây
+                    setTimeout(function() {
+                        document.getElementById('success').style.display = 'none';
+                    }, 5000);
+                </script>
             @endif
+
+            {{-- thông báo lỗi --}}
             @if (session('error'))
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" style="margin: 10px 0px -10px 0px" id="success">
                     {{ session('error') }}
                 </div>
+                <script>
+                    // Tự động ẩn thông báo sau 3 giây
+                    setTimeout(function() {
+                        document.getElementById('success').style.display = 'none';
+                    }, 5000);
+                </script>
             @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -67,21 +81,17 @@
                                 <tr>
                                     <td>{{ $voucher->id }}</td>
                                     <td>{{ $voucher->voucher_code }}</td>
-                                    {{-- <td>{{ $voucher->description }}</td> --}}
-                                    <td>{{ \Illuminate\Support\Str::limit($voucher->description, 10, '...') }}</td>
-                                    <td>{{ $voucher->discount_amount }}</td>
-                                    {{-- <td>{{ $voucher->start_date }}</td>
-                                    <td>{{ $voucher->end_date }}</td> --}}
+                                    <td>{{ Str::limit($voucher->description, 10, '...') }}</td>
+                                    <td>{{ $voucher->discount_amount }} %</td>  
                                     <td>{{ \Carbon\Carbon::parse($voucher->start_date)->format('d/m/Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</td>
-                                    <td>{{ \Illuminate\Support\Str::limit($voucher->minimum_order, 9, '...') }}</td>
-                                    <td>{{ \Illuminate\Support\Str::limit($voucher->usage_limit, 9, '...') }}</td>
-
+                                    <td>{{ Str::limit(number_format($voucher->minimum_order, 0, ',', '.'), 9, '...') }} VND</td>
+                                    <td>{{ Str::limit(number_format($voucher->usage_limit, 0, ',', '.'), 9, '...') }} lần</td>
                                     <td>
                                         @if (($voucher->usage_limit > 0) & ($voucher->end_date >= \Carbon\Carbon::today()))
-                                            <span class="badge badge-success">Có sẵn</span>
+                                            <span class="badge badge-success" style="background-color: green;">Có sẵn</span>
                                         @else
-                                            <span class="badge badge-danger">Hết hạn</span>
+                                            <span class="badge badge-danger" style="background-color: red;">Hết hạn</span>
                                         @endif
                                     </td>
                                     <td>
