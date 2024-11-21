@@ -103,39 +103,31 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Sản phẩm đã được xóa');
     }
 
-    //Lọc sản phẩm theo danh mục
-    public function filterByCategory($subCategoryId)
-    {
-        // Lấy danh sách sản phẩm theo subCategory_id
-        $products = Product::where('subCategory_id', $subCategoryId)->get();
 
-        // Lấy hình ảnh đầu tiên cho từng sản phẩm
-        $images = [];
-        foreach ($products as $product) {
-            $images[] = ProductImage::where('product_id', $product->product_id)
-                ->first();
+    //Fillter
+    public function filter(Request $request, $subCategoryId = null)
+    {
+        $order = $request->get('order', 'asc');
+
+        $query = Product::query();
+
+        if ($subCategoryId) {
+            $query->where('subCategory_id', $subCategoryId);
         }
 
-        // Trả về view với danh sách sản phẩm đã lọc
-        return view('users/product', compact('products', 'images'));
-    }
+        $products = $query->orderBy('price', $order)->get();
 
-    //Lọc sản phẩm theo giá
-    public function filterByPrice(Request $request)
-    {
-        $order = $request->get('order', 'asc'); // Lấy thứ tự sắp xếp từ request, mặc định là 'asc'
-
-        // Lấy danh sách sản phẩm sắp xếp theo giá
-        $products = Product::orderBy('price', $order)->get();
-
-        // Lấy hình ảnh đầu tiên cho từng sản phẩm
         $images = [];
         foreach ($products as $product) {
             $images[] = ProductImage::where('product_id', $product->product_id)->first();
         }
 
-        return view('users/product', compact('products', 'images', 'order'));
+        $Alldanhmucs = Categories::all();
+
+        return view('users/product', compact('products', 'images', 'order', 'subCategoryId', 'Alldanhmucs'));
     }
+
+
 
 
 }

@@ -185,11 +185,14 @@ Route::delete('admin/product_variants/{productVariant_id}', [ProductVariantContr
 
 Route::get('/sizes', [SizeController::class, 'getSizes'])->name('sizes.get');
 
-//Lọc product theo Categories
-Route::get('/products/filter/{subCategoryId}', [ProductController::class, 'filterByCategory'])->name('products.filter.category');
+// //Lọc product theo Categories
+// Route::get('/products/filter/{subCategoryId}', [ProductController::class, 'filterByCategory'])->name('products.filter.category');
 
-//Lọc product theo price
-Route::get('/products/filter/price', [ProductController::class, 'filterByPrice'])->name('products.filter.price');
+// //Lọc product theo price
+// Route::get('/products/filter/price', [ProductController::class, 'filterByPrice'])->name('products.filter.price');
+
+//Fillter
+Route::get('/products/filter/{subCategoryId}', [ProductController::class, 'filter'])->name('products.filter');
 
 
 // quản lý voucher
