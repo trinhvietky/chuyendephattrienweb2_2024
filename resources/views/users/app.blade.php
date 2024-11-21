@@ -115,6 +115,11 @@
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="wrap-icon-header flex-w flex-r-m">
 							<!-- Check if the user is authenticated -->
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search" style="position: relative;
+							right: 20px;
+							top: 3px;">
+									<i class="zmdi zmdi-search"></i>
+							</div>
 							@if (Route::has('login'))
 							<div class="fixed top-0 right-0 px-6 py-4 sm:block">
 								@auth
@@ -762,21 +767,22 @@
 
 									// Kiểm tra và lấy hình ảnh đầu tiên của sản phẩm, nếu không có thì sử dụng hình ảnh mặc định  
 									const imagePath = product.image_path ? product.image_path : '/images/default-product.jpg'; // Hình ảnh mặc định nếu không có
+									// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
 
 									// Tạo nội dung cho gợi ý sản phẩm
 									suggestionItem.innerHTML = `
-	<a href="/product-detail/${product.product_id}" style="text-decoration: none;">
-		<div class="flex">
-			<img src="${imagePath}" alt="${product.product_name}" 
-				 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-			<div>
-				<strong>${product.product_name}</strong>
-				<p>Price: $${product.price}</p>
-				<p>${product.description.substring(0, 50)}...</p>
-			</div>
-		</div>
-	</a>
-`;
+										<a href="/product-detail/${product.encoded_id}?token=${product.token}" style="text-decoration: none;">
+											<div class="flex">
+												<img src="${product.image_path}" alt="${product.product_name}" 
+													style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+												<div>
+													<strong>${product.product_name}</strong>
+													<p>Price: $${product.price}</p>
+													<p>${product.description.substring(0, 50)}...</p>
+												</div>
+											</div>
+										</a>
+									`;
 									suggestionBox.appendChild(suggestionItem);
 
 									// Click vào gợi ý để chọn
@@ -787,7 +793,7 @@
 									});
 								});
 							} else {
-								suggestionBox.innerHTML = '<p>No suggestions found.</p>';
+								suggestionBox.innerHTML = '<p>Không tìm thấy sản phẩm nào.</p>';
 							}
 						})
 						.catch(error => console.error('Error fetching suggestions:', error));
