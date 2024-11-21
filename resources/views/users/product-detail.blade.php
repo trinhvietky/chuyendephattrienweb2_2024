@@ -44,7 +44,6 @@
 	</div>
 </div>
 
-
 <!-- Product Detail -->
 <section class="sec-product-detail bg0 p-t-65 p-b-60">
 	<div class="container">
@@ -84,6 +83,7 @@
 
 					<!--  -->
 					<div class="p-t-33">
+
 						<div class="flex-w flex-r-m p-b-10">
 							<div class="size-203 flex-c-m respon6" style="display: flex; justify-content: flex-start;">
 								Color
@@ -92,10 +92,10 @@
 							<div class="size-204 respon6-next">
 								<div class="rs1-select2 bor8 bg0">
 									<!-- Select for Color -->
-									<select class="js-select2" name="color" id="colorSelect" style="width: 100%;">
+									<select class="js-select2" name="color_id" id="colorSelect" style="width: 100%;">
 										<option value="">Choose a color</option>
 										@foreach ($product->productVariants->unique('color_id') as $variant)
-										<option value="{{ $variant->color->id }}">
+										<option value="{{ $variant->color->color_id }}">
 											Color {{ $variant->color->color_name }}
 										</option>
 										@endforeach
@@ -113,10 +113,10 @@
 
 							<div class="size-204 respon6-next">
 								<div class="rs1-select2 bor8 bg0">
-									<select class="js-select2" name="size" id="sizeSelect" style="width: 100%;">
+									<select class="js-select2" name="size_id" id="sizeSelect" style="width: 100%;">
 										<option value="">Choose a size</option>
 										@foreach ($product->productVariants->unique('size_id') as $variant)
-										<option value="{{ $variant->size->id }}" data-quantity="{{ $variant->stock}}">
+										<option value="{{ $variant->size->size_id }}" data-quantity="{{ $variant->stock}}">
 											{{ $variant->size->size_name }}
 										</option>
 										@endforeach
@@ -143,18 +143,19 @@
 										<i class="fs-16 zmdi zmdi-minus"></i>
 									</div>
 
-									<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="0" data-max-quantity="10">
+									<input class="mtext-104 cl3 txt-center num-product" type="number" name="quantity" value="0" data-max-quantity="10">
 
 									<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 										<i class="fs-16 zmdi zmdi-plus"></i>
 									</div>
 								</div>
 
-								<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+								<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-to-cart">
 									Add to cart
 								</button>
 							</div>
 						</div>
+
 					</div>
 
 					<!--  -->
@@ -424,10 +425,10 @@
 		document.querySelector('.btn-num-product-down').addEventListener('click', changeQuantity);
 		document.querySelector('.btn-num-product-up').addEventListener('click', changeQuantity);
 		// Gắn sự kiện khi người dùng thay đổi số lượng trong input
-		document.querySelector('input[name="num-product"]').addEventListener('input', checkQuantity);
+		document.querySelector('input[name="quantity"]').addEventListener('input', checkQuantity);
 
 		// Đặt số lượng khởi đầu
-		var input = document.querySelector('input[name="num-product"]');
+		var input = document.querySelector('input[name="quantity"]');
 		input.value = 0;
 
 		// Cập nhật số lượng tồn kho khi người dùng chọn size
@@ -437,7 +438,7 @@
 			var sizeQuantity = selectedSize ? selectedSize.getAttribute('data-quantity') : 0;
 
 			// Cập nhật số lượng tối đa cho input
-			var input = document.querySelector('input[name="num-product"]');
+			var input = document.querySelector('input[name="quantity"]');
 			input.setAttribute('data-max-quantity', sizeQuantity);
 
 			// Hiển thị số lượng tồn kho
@@ -453,7 +454,7 @@
 		function changeQuantity(event) {
 			event.preventDefault(); // Ngăn ngừa sự kiện mặc định
 			var sizeSelect = document.getElementById('sizeSelect');
-			var input = document.querySelector('input[name="num-product"]');
+			var input = document.querySelector('input[name="quantity"]');
 			var maxQuantity = parseInt(input.getAttribute('data-max-quantity'), 10);
 			var currentQuantity = parseInt(input.value, 10);
 
@@ -485,7 +486,7 @@
 
 		// Kiểm tra số lượng sau khi thay đổi và hiển thị thông báo nếu cần
 		function checkQuantity() {
-			var input = document.querySelector('input[name="num-product"]');
+			var input = document.querySelector('input[name="quantity"]');
 			var currentQuantity = parseInt(input.value, 10);
 			var maxQuantity = parseInt(input.getAttribute('data-max-quantity'), 10);
 
