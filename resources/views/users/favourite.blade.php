@@ -292,7 +292,7 @@
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="{{route('users/home')}}">Home</a>
+					<a href="{{route('users/home')}}">Home</a> 
 				</li>
 
 				<li>
