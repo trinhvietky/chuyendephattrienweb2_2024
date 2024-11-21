@@ -250,7 +250,7 @@
     }
 
     // Gọi hàm để cập nhật số lượng giỏ hàng khi trang tải
-    // updateCartCount();
+    updateCartCount();
 
     // Nếu muốn cập nhật khi người dùng thay đổi số lượng trong giỏ hàng
     // $('.num-product-cart').on('change', function () {
