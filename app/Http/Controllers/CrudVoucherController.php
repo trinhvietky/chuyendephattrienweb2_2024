@@ -38,25 +38,14 @@ class CrudVoucherController extends Controller
 
     public function edit($encryptedId)
     {
-        // Giải mã ID
-        try {
-            $id = Crypt::decryptString(urldecode($encryptedId));
+        
+         // Giải mã ID sản phẩm từ URL
+         try {
+            $voucherId = Crypt::decryptString($encryptedId);     // Giải mã ID sản phẩm
         } catch (\Exception $e) {
+            // abort(404, 'ID sản phẩm không hợp lệ');
             return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
         }
-        // Lấy thông tin user theo id đã giải mã
-        // $voucher = Voucher::where('id', $id)->first();
-        // if (!$voucher) {
-        //     return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
-        // }
-
-    
-        // Giải mã ID sản phẩm từ URL
-        // try {
-        //     $colorId = Crypt::decryptString($encryptedId);     // Giải mã ID sản phẩm
-        // } catch (\Exception $e) {
-        //     abort(404, 'ID sản phẩm không hợp lệ');
-        // }
 
         // Lấy token từ URL
         $tokenFromUrl = request()->query('token');
@@ -72,14 +61,15 @@ class CrudVoucherController extends Controller
             abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
         }
         // Lấy thông tin user theo id
-        // $voucher = Voucher::findOrFail($id);
-        // Trả dữ liệu về view edit
-        // return view('admin.voucher-edit', ['voucher' => $voucher]);
+        $voucher = Voucher::where('id', $voucherId)->first();
 
-        $voucher = Voucher::where('id', $id)->first();
+        //kiểm tra voucher có tồn tại không
         if (!$voucher) {
             return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
         }
+        
+        // Trả dữ liệu về view edit
+        return view('admin.voucher-edit', ['voucher' => $voucher]);
     }
 
     /**
