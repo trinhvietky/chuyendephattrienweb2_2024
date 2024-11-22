@@ -434,11 +434,14 @@
 				success: function(response) {
 					// Xử lý khi gửi thành công
 					if (response.success) {
-						// alert("Order created successfully! Redirecting to payment...");
-						// Chuyển hướng người dùng đến trang thanh toán
-						// const fullUrl = new URL(response.payment_url, window.location.origin);
-						// console.log(response.payment_url);
-						window.location.href = response.payment_url;
+						console.log(response.payment_url);
+
+						if (response.payment_url) {
+							location.href = response.payment_url;
+						} else {
+							alert("Order create success");
+							window.location.href = "{{ route('users/shoping-cart') }}";
+						}
 					} else {
 						alert("Order creation failed: " + response.message);
 					}
