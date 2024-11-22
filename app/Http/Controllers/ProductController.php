@@ -69,6 +69,17 @@ class ProductController extends Controller
         return view('users.home', $data);
     }
 
+    public function getProductAdmin()
+    {
+        $products = Product::all();
+        $images = [];
+        foreach ($products as $product) {
+            $images[] = ProductImage::where('product_id', $product->product_id)
+                ->first();
+        }
+        return view('admin.product-list', compact('products', 'images'));
+    }
+
     // Hiển thị form thêm sản phẩm
     public function create()
     {
@@ -138,32 +149,36 @@ class ProductController extends Controller
     {
         // Lấy sản phẩm cần chỉnh sửa và danh mục con
         $product = Product::findOrFail($id);
-        $subCategories = Categories::all();
-        return view('products.edit', compact('product', 'subCategories'));
+        $categories = Categories::all();
+        // dd($categories);s
+        return view('admin/product-edit', compact('product', 'categories'));
     }
 
     // Cập nhật thông tin sản phẩm
     public function update(Request $request, $id)
     {
+        // dd($request);
         // Validate dữ liệu từ form
-        $request->validate([
+        $validate = $request->validate([
             'product_name' => 'required|string|max:255',
             'description' => 'required',
             'price' => 'required|numeric',
-            'sub_category_id' => 'required|exists:sub_categories,id'
+            'category_id' => 'required|exists:categories,category_id'
         ]);
+        // dd($validate);
 
         // Cập nhật sản phẩm
         $product = Product::findOrFail($id);
         $product->update([
-            'product_name' => $request->product_name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'sub_category_id' => $request->sub_category_id,
+            'product_name' => $validate['product_name'],
+            'description' => $validate['description'],
+            'price' => $validate['price'],
+            'category_id' => $validate['category_id'],
         ]);
+        // dd($product);
 
         // Chuyển hướng về danh sách sản phẩm
-        return redirect()->route('products.index')->with('success', 'Sản phẩm đã được cập nhật');
+        return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được cập nhật');
     }
 
     // Xóa sản phẩm
@@ -174,7 +189,7 @@ class ProductController extends Controller
         $product->delete();
 
         // Chuyển hướng về danh sách sản phẩm
-        return redirect()->route('products.index')->with('success', 'Sản phẩm đã được xóa');
+        return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được xóa');
     }
 
 
