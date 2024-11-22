@@ -82,7 +82,7 @@ class RegisterOTPController extends Controller
             ->where('email', $email)
             ->update([
                 'otp' => $otp,
-                'otp_expires_at' => now()->addMinutes(1),
+                'otp_expires_at' => now()->addMinutes(2),
             ]);
 
         // Gửi email chứa mã OTP mới
