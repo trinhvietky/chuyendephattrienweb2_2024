@@ -245,17 +245,6 @@
 <script>
 	$(document).ready(function() {
 
-		window.onload = function() {
-			// Thêm 2 trạng thái vào lịch sử trình duyệt ngay khi tải trang
-			history.pushState(null, null, window.location.href);
-			history.pushState(null, null, window.location.href);
-
-			// Lắng nghe sự kiện popstate (sự kiện khi người dùng nhấn nút quay lại)
-			window.onpopstate = function(event) {
-				// Khi sự kiện popstate xảy ra (người dùng nhấn nút back), thay thế lịch sử và giữ người dùng trên trang hiện tại
-				history.pushState(null, null, window.location.href); // Đẩy trạng thái mới vào lịch sử
-			};
-		};
 
 		const addressList = document.getElementById('address-list');
 		const addAddressForm = document.getElementById('add-address-form');
