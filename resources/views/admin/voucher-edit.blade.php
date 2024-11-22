@@ -135,7 +135,7 @@
 
                                     <div class="form-group">
                                         <label for="moTa">Mô tả</label>
-                                        <textarea class="form-control @error('description') is-invalid @enderror" id="moTa" rows="3"
+                                        <textarea class="form-control @error('description') is-invalid @enderror" id="moTa" rows="5"
                                             placeholder=" input here..." name="description" required>{{ $voucher->description }}</textarea>
                                         @error('description')
                                             <div class="invalid-feedback">{{ $message }}</div>
