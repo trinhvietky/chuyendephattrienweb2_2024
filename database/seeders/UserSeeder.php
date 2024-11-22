@@ -30,6 +30,7 @@ class UserSeeder extends Seeder
             'phone' => '0987654321',
             'password' => bcrypt('123456'), // Mã hóa mật khẩu cho admin
             'usertype' => '0', // Đặt role thành admin
+            'image' => 'images/icons/avatar_icon.png',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -39,7 +40,7 @@ class UserSeeder extends Seeder
             'phone' => '0987654321',
             'password' => bcrypt('12345678'), // Mã hóa mật khẩu cho admin
             'usertype' => '0',
-            'image' => 'images/icons/avatar_user.png',
+            'image' => 'images/icons/avatar_icon.png',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

@@ -36,6 +36,9 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('/css-home/main.css')}}">
 	<link rel="stylesheet" href="{{asset('/css/app.css')}}">
 	<!--===============================================================================================-->
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 </head>
 
 <body class="animsition">
@@ -91,7 +94,7 @@
 								<ul class="sub-menu">
 									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
-									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
+									<li><a href="index.html">{{$danhmuc->category_name}}</a></li>
 									@endforeach
 									@endif
 								</ul>
@@ -114,12 +117,6 @@
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="wrap-icon-header flex-w flex-r-m">
-							<!-- Check if the user is authenticated -->
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search" style="position: relative;
-							right: 20px;
-							top: 3px;">
-									<i class="zmdi zmdi-search"></i>
-							</div>
 							@if (Route::has('login'))
 							<div class="fixed top-0 right-0 px-6 py-4 sm:block">
 								@auth
@@ -128,8 +125,8 @@
 									<i class="zmdi zmdi-search"></i>
 								</div>
 
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-									<i class="zmdi zmdi-shopping-cart"></i>
+								<div id="cart-notify" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
+									<a href="{{route('users/shoping-cart')}}"><i class="zmdi zmdi-shopping-cart"></i></a>
 								</div>
 
 								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">
@@ -222,6 +219,11 @@
 									</div>
 								</nav>
 								@else
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search" style="position: relative;
+							right: 20px;
+							top: 3px;">
+									<i class="zmdi zmdi-search"></i>
+							</div>
 								<!-- User is not authenticated: Show login and register links -->
 								<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
 								<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
@@ -793,7 +795,7 @@
 									});
 								});
 							} else {
-								suggestionBox.innerHTML = '<p>Không tìm thấy sản phẩm nào.</p>';
+								suggestionBox.innerHTML = '<p>Không tìm thấy sản phẩm.</p>';
 							}
 						})
 						.catch(error => console.error('Error fetching suggestions:', error));
