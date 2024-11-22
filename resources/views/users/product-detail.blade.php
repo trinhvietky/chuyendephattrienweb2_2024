@@ -276,7 +276,7 @@
 									<div class="row p-b-10">
 										<div class="col-12 p-b-5">
 											<label class="stext-102 cl3" for="review">Your review</label>
-											<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review" placeholder="Write your review here...">
+											<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review" placeholder="Write your review here..." required>
 											{{ old('review', $review->content ?? '') }}
 											</textarea>
 										</div>
