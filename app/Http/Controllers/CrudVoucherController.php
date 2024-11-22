@@ -35,6 +35,7 @@ class CrudVoucherController extends Controller
     /**
      * hàm tìm voucher theo id
      */
+<<<<<<< HEAD
     public function edit($encryptedId)
     {
         // Giải mã ID
@@ -48,6 +49,33 @@ class CrudVoucherController extends Controller
         if (!$voucher) {
             return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
         }
+=======
+    public function edit($encodedId)
+    {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $colorId = Crypt::decryptString($encodedId);     // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('voucher_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
+        // Lấy thông tin user theo id
+        $voucher = Voucher::findOrFail($colorId);
+
+>>>>>>> main
         // Trả dữ liệu về view edit
         return view('admin.voucher-edit', ['voucher' => $voucher]);
     }

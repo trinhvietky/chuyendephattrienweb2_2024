@@ -21,6 +21,9 @@ class ColorsTableSeeder extends Seeder
             ['color_name' => 'Red', 'created_at' => now(), 'updated_at' => now()],
             ['color_name' => 'Blue', 'created_at' => now(), 'updated_at' => now()],
             ['color_name' => 'Green', 'created_at' => now(), 'updated_at' => now()],
+            ['color_name' => 'Olive', 'created_at' => now(), 'updated_at' => now()],
+            ['color_name' => 'Silver', 'created_at' => now(), 'updated_at' => now()],
+            ['color_name' => 'Brown', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

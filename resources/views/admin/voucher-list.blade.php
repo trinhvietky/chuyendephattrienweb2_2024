@@ -39,6 +39,20 @@
                                     <div class="breadcomb-ctn">
                                         <h2>Voucher list</h2>
                                         <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="breadcomb-report">
+                                <button data-toggle="tooltip" data-placement="left" title="Download Report"
+                                    class="btn"><i class="icon nalika-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
                                     </div>
                                 </div>
                             </div>
@@ -92,34 +106,44 @@
                                             <span class="badge badge-success" style="background-color: green;">Có sẵn</span>
                                         @else
                                             <span class="badge badge-danger" style="background-color: red;">Hết hạn</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <a href="{{ route('edit_voucher', urlencode(Crypt::encryptString($voucher->id))) }}"><i
-                                                    class='fa fa-pencil-square-o  mr-2'></i></a>
-                                            <form action="{{ route('delete_voucher', $voucher->id) }}" method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa voucher này?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="" style="border:none; background:none;">
-                                                    <i class='fa fa-trash-o' style="color: red"></i>
-                                                </button>
-                                            </form>
+ @endif
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    @php
+                                    // Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+                                    $token = session('voucher_token', Str::random(32));
+                                    // Lưu token vào session nếu nó không tồn tại
+                                    session(['voucher_token' => $token]);
 
-                                        </div>
+                                    // Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+                                    $encodedId = Crypt::encryptString($voucher->id);
+                                    @endphp
+                                    <a href="{{ route('edit_voucher', ['id' => $encodedId]) }}?token={{ $token }}"><i
+                                            class='fa fa-pencil-square-o  mr-2'></i></a>
+                                    <form action="{{ route('delete_voucher', $voucher->id) }}" method="POST"
+                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa voucher này?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="" style="border:none; background:none;">
+                                            <i class='fa fa-trash-o' style="color: red"></i>
+                                        </button>
+                                    </form>
 
-                                    </td>
+                                </div>
 
-                                </tr>
-                            @endforeach
-                        </table>
-                        {{-- {{ $vouchers->links('layouts.navigation') }} --}}
+                            </td>
+
+                        </tr>
+                        @endforeach
+                    </table>
+                    <!-- Hiển thị các liên kết phân trang -->
+                    <div class="pagination">
                         {{ $vouchers->links('pagination::bootstrap-4') }}
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection

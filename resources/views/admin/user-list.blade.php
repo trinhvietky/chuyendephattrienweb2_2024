@@ -13,6 +13,7 @@
 </script>
 @endif
 
+
 <div class="breadcome-area">
 
 
@@ -27,7 +28,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>User list</h2>
+                                    <h2>User Administrator</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -50,8 +51,8 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
                     <h4>User List</h4>
-                    <div class="add-product">
-                        <a href="user-add">Add User</a>
+                    <div class="add-product" >
+                        <a style="background-color: #337ab7;" href="user-add">Add User</a>
                     </div>
                     <table>
                         <tr>
@@ -79,11 +80,22 @@
                                     <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
                                         @csrf
                                         @method('DELETE')
+
+                                        @php
+						// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+						$token = session('user_token', Str::random(32));
+
+						// Lưu token vào session nếu nó không tồn tại
+						session(['user_token' => $token]);
+
+						// Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+						$encodedId = Crypt::encryptString($user->id);
+						@endphp
                                         <button data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="background: none; border: none;">
                                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                                         </button>
                                     </form>
-                                    <a href="{{ route('user.edit', $user->id) }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                                    <a href="{{ route('user.edit', ['id' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </a>
                                 </div>
@@ -91,14 +103,9 @@
                         </tr>
                         @endforeach
                     </table>
-                    <div class="custom-pagination">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
+                    <!-- Hiển thị các liên kết phân trang -->
+                    <div class="pagination">
+                        {{ $users->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>

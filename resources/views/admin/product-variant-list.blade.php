@@ -59,7 +59,10 @@
                         <tr>
                             <td>{{ $variant->productVariant_id }}</td>
                             <td>{{ $variant->product->product_name }}</td>
-                            <td><img src="{{ asset( $images[$index]->image_path) }}" alt=""></td>
+                            <td>@if(isset($images[$index]) && $images[$index]->image_path)
+                                <img src="{{ asset(optional($images[$index])->image_path) }}" alt="{{ $variant->product->product_name }}">
+                                @endif
+                            </td>
                             <td>{{ $variant->color->color_name }}</td>
                             <td>{{ $variant->size->size_name }}</td>
                             <td>{{ $variant->stock }}</td>

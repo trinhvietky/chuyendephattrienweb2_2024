@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class SizeController extends Controller
 {
@@ -15,7 +16,7 @@ class SizeController extends Controller
     public function index()
     {
         // Lấy tất cả dữ liệu từ bảng size
-        $sizes = Size::all();
+        $sizes = Size::paginate(2);
 
         // Trả dữ liệu về view
         return view('admin.size-list', compact('sizes'));
@@ -45,12 +46,15 @@ class SizeController extends Controller
                 'size_name' => [
                     'required',
                     'string',
-                    'max:255'
+                    'max:10',
+                    'regex:/^[A-Za-z0-9\-]+$/',
                 ],
             ],
             [
-                'size_name.required' => 'Tên là bắt buộc.',
-                'size_name.unique' => 'Tên là bắt buộc.',
+                'size_name.required' => 'Tên size là bắt buộc. Vui lòng điền đầy đủ thông tin',
+                'size_name.unique' => 'Tên là duy nhất.',
+                'size_name.regex' => 'Tên chỉ được phép chứa các ký tự chữ cái, số và dấu gạch ngang, không được chứa khoảng trắng hoặc ký tự đặc biệt khác.',
+                'size_name.max' => 'Tên size có độ dài là 10 ký tự. Vui lòng kiểm tra lại.',
             ]
         );
 
@@ -80,13 +84,33 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($encodedId)
     {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $sizeId = Crypt::decryptString($encodedId); // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('size_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
         // Lấy thông tin user theo id
-        $size = Size::where('size_id', $id)->first();
+        $size = Size::where('size_id', $sizeId)->first();
 
         // Trả dữ liệu về view edit
-        return view('admin.size.size-edit', compact('size'));
+        return view('admin.size-edit', compact('size'));
     }
 
     /**
@@ -100,6 +124,24 @@ class SizeController extends Controller
     {
         // Tìm user theo ID
         $size = Size::where('size_id', $id)->first();
+
+         // Validate the incoming request data
+         $validated = $request->validate(
+            [
+                'size_name' => [
+                    'required',
+                    'string',
+                    'max:10',
+                    'regex:/^[A-Za-z0-9\-]+$/',
+                ],
+            ],
+            [
+                'size_name.required' => 'Tên size là bắt buộc. Vui lòng điền đầy đủ thông tin',
+                'size_name.unique' => 'Tên là duy nhất.',
+                'size_name.regex' => 'Tên chỉ được phép chứa các ký tự chữ cái, số và dấu gạch ngang, không được chứa khoảng trắng hoặc ký tự đặc biệt khác.',
+                'size_name.max' => 'Tên size có độ dài là 10 ký tự. Vui lòng kiểm tra lại.',
+            ]
+        );
 
         // Cập nhật các thông tin khác
         $size->size_name = $request->input('size_name');

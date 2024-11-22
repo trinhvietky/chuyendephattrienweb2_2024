@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
-use GuzzleHttp\Client;
-use App\Models\Tinh;
-use App\Models\Quan;
-use App\Models\Phuong;
 
 class AddressController extends Controller
 {
@@ -16,64 +12,51 @@ class AddressController extends Controller
     {
         return view('users/address');
     }
+    public function showFormProfile()
+    {
+        return view('profile.edit');
+    }
 
+    // Hàm thêm địa chỉ
     public function saveAddress(Request $request)
     {
-        $address = new Address();
-        $address->user_id = auth()->id();
-        $address->name = $request->input('name');
-        $address->phone = $request->input('phone');
-        $address->tinh = $request->input('tinh');
-        $address->quan = $request->input('quan');
-        $address->phuong = $request->input('phuong');
-        $address->address = $request->input('address');
+        // Lấy user_id từ session hoặc Auth
+        $userId = auth()->id();
 
-        // Kiểm tra nếu người dùng đã chọn "mặc định" và chỉ cập nhật khi có chọn
-        if ($request->has('is_default') && $request->input('is_default') == '1') {
-            // Nếu chọn, đặt địa chỉ này là mặc định và đảm bảo không có địa chỉ nào khác là mặc định
-            Address::where('user_id', auth()->id())->update(['is_default' => false]);
-            $address->is_default = true;
-        } else {
-            // Nếu không chọn, để địa chỉ này không phải mặc định
-            $address->is_default = false;
+        // Gọi hàm xử lý từ model
+        $address = Address::saveNewAddress($request->all(), $userId);
+
+        if ($address) {
+            return redirect()->back()->with('success', 'Địa chỉ đã được lưu thành công!');
         }
-
-        $address->save();
-
-
-        return response('Địa chỉ đã được lưu thành công');
     }
     // Controller method để cập nhật địa chỉ
     public function update(Request $request)
     {
-        // Kiểm tra và chuyển giá trị 'on' thành true và 'off' thành false
+        $user = $request->user();
+
+        // Kiểm tra xem người dùng có chọn làm mặc định không
         $isDefault = $request->has('is_default') && $request->is_default === 'on';
-    
-        // Nếu người dùng chọn làm mặc định, đặt tất cả các địa chỉ khác thành không phải mặc định
-        if ($isDefault) {
-            Address::where('user_id', auth()->id())
-                ->update(['is_default' => false]);
+
+        // Cập nhật địa chỉ bằng cách gọi hàm updateAddress từ Address model
+        $address = Address::updateAddress($request->all(), $request->address_id, $user->id);
+
+        if ($address) {
+            return redirect()->route('profile.edit')->with('success', 'Địa chỉ đã được cập nhật');
         }
-    
-        // Cập nhật địa chỉ
-        $address = Address::find($request->address_id);
-        $address->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'phuong' => $request->phuong,
-            'quan' => $request->quan,
-            'tinh' => $request->tinh,
-            'is_default' => $isDefault ? true : false,
-        ]);
-    
-        return redirect()->route('profile.edit')->with('success', 'Địa chỉ đã được cập nhật');
+
+        return redirect()->route('profile.edit')->with('error', 'Có lỗi xảy ra khi cập nhật địa chỉ');
     }
-    
+    // Hàm xóa địa chỉ
+    public function destroy(Request $request)
+    {
+        $address = Address::where('id', $request->input('address_id'))->where('user_id', auth()->id())->first();
 
+        if ($address) {
+            $address->delete();
+            return response()->json(['message' => 'Địa chỉ đã được xóa thành công.']);
+        }
 
+        return response()->json(['message' => 'Không tìm thấy địa chỉ.'], 404);
+    }
 }
-
-
-
-
