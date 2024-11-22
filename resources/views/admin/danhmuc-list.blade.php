@@ -6,7 +6,7 @@
     {{ session('success') }}
 </div>
 <script>
-    // Tự động ẩn thông báo sau 3 giây
+    // Tự động ẩn thông báo sau 5 giây
     setTimeout(function() {
         document.getElementById('success').style.display = 'none';
     }, 5000);
@@ -25,7 +25,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>danhmuc list</h2>
+                                    <h2>Danh sách danh muc</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -62,13 +62,13 @@
                         <tbody>
                             @foreach($danhmucs as $danhmuc)
                             <tr>
-                                <td>{{ $danhmuc->danhmuc_ID }}</td>
-                                <td>{{ $danhmuc->danhmuc_Ten }}</td>
+                                <td>{{ $danhmuc->category_id }}</td>
+                                <td>{{ $danhmuc->category_name }}</td>
                                 <td>
 
                                     <div style="display: flex; margin-left: -12px;">
-                                        <form action="{{ route('danhmuc.destroy', $danhmuc->danhmuc_ID) }}" method="POST"
-                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục {{ $danhmuc->danhmuc_Ten }} không ?');"
+                                        <form action="{{ route('danhmuc.destroy', $danhmuc->category_id) }}" method="POST"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục {{ $danhmuc->category_name }} không ?');"
                                             style="margin-right: 5px;">
                                             @csrf
                                             @method('DELETE')
@@ -80,6 +80,7 @@
                                         @php
                                         // Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
                                         $token = session('danhmuc_token', Str::random(32));
+
 
                                         // Lưu token vào session nếu nó không tồn tại
                                         session(['danhmuc_token' => $token]);

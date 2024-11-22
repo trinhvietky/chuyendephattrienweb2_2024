@@ -54,18 +54,18 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{route('danhmuc.update', $danhmuc->danhmuc_ID)}}" method="POST">
+                                    <form action="{{route('danhmuc.update', $danhmuc->category_id)}}" method="POST">
                                         @csrf
                                         @method('PUT')
 
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user"
                                                     aria-hidden="true"></i></span>
-                                            <input type="text" name="danhmuc_Ten" class="form-control"
-                                                placeholder="Tên danh mục" value="{{ $danhmuc->danhmuc_Ten }}" required
+                                            <input type="text" name="category_name" class="form-control"
+                                                placeholder="Tên danh mục" value="{{ $danhmuc->category_name }}" required
                                                 style="background: #152036;
                                             font-size: 17px;">
-                                        @error('danhmuc_Ten')
+                                        @error('category_name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                         </div>
