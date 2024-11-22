@@ -89,18 +89,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            @foreach($images as $image)
-                                            <div class="col-md-6">
-                                                <div class="input-group mg-b-pro-edt">
-                                                    <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
-                                                    <div class="custom-file form-control">
-                                                        <input type="file" name="product_image[]" id="image1" class="custom-file-input" onchange="previewImage()">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
+
                                 </div>
 
                             </div>

@@ -66,12 +66,12 @@
                                         </div>
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                            <select name="subCategory_id" class="form-control" id="sub_category_id" required>
+                                            <select name="category_id" class="form-control" id="sub_category_id" required>
                                                 <option value="" selected disabled>Category</option>
 
-                                                @foreach ($subCategories as $subCategory)
-                                                <option value="{{ $subCategory->category_id }}" {{ old('sub_category_id') == $subCategory->id ? 'selected' : '' }}>
-                                                    {{ $subCategory->category_name }}
+                                                @foreach ($categories as $category)
+                                                <option value="{{ $category->category_id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->category_name }}
                                                 </option>
                                                 @endforeach
                                             </select>

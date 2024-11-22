@@ -17,7 +17,7 @@ class Product extends Model
         'product_name',
         'description',
         'price',
-        'categories',
+        'category_id',
     ];
     // Định nghĩa hàm tìm kiếm Full-Text
     public static function search($query)

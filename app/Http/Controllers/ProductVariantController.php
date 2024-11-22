@@ -10,6 +10,7 @@ use App\Models\ProductImage;
 use App\Models\Size;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProductVariantController extends Controller
 {
@@ -18,7 +19,7 @@ class ProductVariantController extends Controller
     {
 
         // Hiển thị danh sách sản phẩm
-        $productVariants = ProductVariant::where('product_id', $id)->get();
+        $productVariants = ProductVariant::where('product_id', $id)->paginate(5);
         $variantDetails = [];
         foreach ($productVariants as $variant) {
             $image = ProductImage::where('product_id', $variant->product->product_id)
@@ -44,9 +45,10 @@ class ProductVariantController extends Controller
 
 
     // Hiển thị form để tạo biến thể sản phẩm mới
-    public function create()
+    public function create($id)
     {
         // $products = Product::findOrFail($product_id);
+        session(['product_id' => $id]);
         $colors = Color::all();
         $sizes = Size::all();
         $categories = Categories::all();
@@ -88,7 +90,7 @@ class ProductVariantController extends Controller
             }
         }
 
-        return redirect()->route('product_variants.index')->with('success', 'Biến thể sản phẩm đã được thêm');
+        return redirect()->route('productAdmin.index')->with('success', 'Biến thể sản phẩm đã được thêm');
     }
 
 
@@ -116,18 +118,14 @@ class ProductVariantController extends Controller
     // Cập nhật biến thể sản phẩm
     public function update(Request $request, $product_id)
     {
-        // dd($product_id);
-        // dd($request);
+        // Xác thực dữ liệu từ request
         $validatedData = $request->validate([
             'color_id' => 'required|exists:colors,color_id',
             'size_id' => 'required|exists:sizes,size_id',
             'stock' => 'required|integer|min:0',
         ]);
 
-        // Xử lý ảnh nếu có
-
-
-        // dd($validatedData);
+        // Cập nhật thông tin biến thể sản phẩm
         $productVariant = ProductVariant::findOrFail($product_id);
         $productVariant->update([
             'color_id' => $validatedData['color_id'],
@@ -135,12 +133,50 @@ class ProductVariantController extends Controller
             'stock' => $validatedData['stock'],
         ]);
 
-        // $productVariant->save();
+        // Lặp qua từng ảnh nếu có trong request
+        if ($request->has('product_image')) {
+            foreach ($request->product_image as $index => $image) {
+                // dd($image);  // In ra đối tượng và kiểu của nó
+                // Kiểm tra nếu có ảnh mới
+                if ($image) {
 
-        // dd($productVariant);
+                    // Lấy ID của ảnh cũ từ request
+                    $image_id = $request->productImage_id[$index]; // ID của ảnh cũ
 
+                    // Kiểm tra và xử lý ảnh cũ
+                    $productImage = ProductImage::find($image_id);
+                    if ($productImage) {
+
+                        // Xóa ảnh cũ nếu tồn tại
+                        if (file_exists(public_path($productImage->image_path))) {
+                            unlink(public_path($productImage->image_path)); // Xóa ảnh cũ khỏi hệ thống
+
+                        }
+
+                        // Lưu ảnh mới
+                        $path = 'img/product/';
+                        // dd($productImage->image_path);s
+                        $imageName = time() . '_' . rand(0, 999) . '.' . $image->getClientOriginalExtension();
+
+                        $image->move(public_path($path), $imageName);
+
+                        // Cập nhật thông tin ảnh vào cơ sở dữ liệu
+                        $productImage->update([
+                            'product_id' => $product_id,
+                            'color_id' => $validatedData['color_id'],
+                            'image_path' => $path . $imageName,
+                            'alt_text' => 'Ảnh sản phẩm',  // Bạn có thể tùy chỉnh
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // Chuyển hướng về trang quản lý sản phẩm với thông báo thành công
         return redirect()->route('productAdmin.index')->with('success', 'Biến thể sản phẩm đã được cập nhật');
     }
+
+
 
     // Xóa biến thể sản phẩm
     public function destroy($id)
@@ -154,22 +190,37 @@ class ProductVariantController extends Controller
         ]);
     }
 
-    private function updateImage($image, $productVariantId, $colorId)
+    private function updateImage($image, $imageId, $productVariantId, $colorId)
     {
-        // Lưu ảnh vào thư mục
         $path = 'img/product/';
-        $imageName = time() . '_' . rand(0, 999) . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path($path), $imageName);
+        // Kiểm tra nếu image là một đối tượng file
+        if ($image instanceof \Illuminate\Http\UploadedFile) {
+            // Xóa ảnh cũ nếu tồn tại
+            $productImage = ProductImage::find($imageId);
+            dd($productImage);
+            if ($productImage) {
+                if (file_exists(public_path($productImage->image_path))) {
+                    unlink(public_path($productImage->image_path)); // Xóa ảnh cũ
+                }
 
+                $imageName = time() . '_' . rand(0, 999) . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path($path), $imageName);
 
-        // Lưu thông tin ảnh vào bảng Image
-        ProductImage::create([
-            'product_id' => $productVariantId, // ID biến thể sản phẩm
-            'color_id' => $colorId,
-            'image_path' => $path . $imageName,
-            'alt_text' => 'Ảnh sản phẩm', // Tùy chỉnh văn bản thay thế
-        ]);
+                // Cập nhật thông tin ảnh vào cơ sở dữ liệu
+                $productImage->update([
+                    'product_id' => $productVariantId,
+                    'color_id' => $colorId,
+                    'image_path' => $path . $imageName,
+                    'alt_text' => 'Ảnh sản phẩm',
+                ]);
+            }
+        } else {
+            // Nếu không phải là file hợp lệ, bạn có thể log lỗi hoặc xử lý khác
+            Log::error('Image is not a valid file.');
+        }
     }
+
+
 
     private function saveImage($image, $productVariantId, $colorId)
     {

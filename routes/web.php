@@ -221,7 +221,7 @@ Route::post('admin/product/{product_id}', [ProductController::class, 'update'])-
 Route::delete('admin/product/{product_id}', [ProductController::class, 'destroy'])->name('product.destroy');
 
 Route::get('/admin/productVariant/{id}', [ProductVariantController::class, 'index'])->name('productVariant.index');
-Route::get('admin/product_variants/create', [ProductVariantController::class, 'create'])->name('product_variants.create');
+Route::get('admin/product_variants/create/{id}', [ProductVariantController::class, 'create'])->name('product_variants.create');
 Route::post('admin/product_variants', [ProductVariantController::class, 'store'])->name('product_variants.store');
 Route::get('admin/product_variants/{productVariant_id}/edit', [ProductVariantController::class, 'edit'])->name('product_variants.edit');
 Route::put('admin/product_variants/{productVariant_id}', [ProductVariantController::class, 'update'])->name('product_variants.update');

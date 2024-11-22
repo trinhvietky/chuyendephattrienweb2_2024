@@ -213,14 +213,8 @@
                         </tbody>
                     </table>
 
-                    <div class="custom-pagination">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
+                    <div class="pagination">
+                        {{ $products->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
 
@@ -415,7 +409,7 @@
                         var variantsHtml = '';
 
                         // Build the HTML from the response data
-                        variantsHtml += `<form action="product_variants/${response.productVariant.productVariant_id}" method="post">
+                        variantsHtml += `<form action="product_variants/${response.productVariant.productVariant_id}" method="post" enctype="multipart/form-data">
                          @csrf
                          @method('PUT')
                         <div class="review-tab-pro-inner">
@@ -458,6 +452,28 @@
                                 </div>
                             </div>
                         </div>
+                         
+    ${response.images.map((image, index) => `
+    <div class="row mb-4">
+    <div class="col-md-8">
+        <div class="input-group mg-b-pro-edt">
+            <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
+            <div class="custom-file form-control">
+                <input type="file"  name="product_image[]" id="image${index}" class="custom-file-input" onchange="previewImage(this, ${index})">
+                <input type="hidden" name="productImage_id[]" value="${image.image_id}">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <!-- Phần hiển thị hình ảnh đã chọn -->
+        <div id="imagePreviewContainer${index}">
+            <img id="imagePreview${index}" src="${baseUrl}/${image.image_path}" alt="Image Preview" style="    width: 100px;
+    height: 100px;
+    ">
+        </div>
+    </div>
+    </div>
+    `).join('')}
 
 
                         <div class="text-center custom-pro-edt-ds mt-2">
@@ -627,7 +643,7 @@
                     var variantsHtml = '';
                     variantsHtml += `<div class="product-status-wrap product-variant">
                     <h4>Product List</h4>
-                    <div class="add-product"><a href="#">Add Product</a></div>
+                    <div class="add-product"><a href="product_variants/create/${productId}">Add Product</a></div>
                     <table>
                         <thead>
                             <tr>
