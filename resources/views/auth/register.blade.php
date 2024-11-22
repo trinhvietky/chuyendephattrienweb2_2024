@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('auth.register') }}">
+    <form method="POST" action="{{ route('auth.register') }}" novalidate>
         @csrf
 
         <!-- Name -->
