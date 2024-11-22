@@ -56,10 +56,10 @@
                                     <form action="{{ route('danhmuc.store') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="danhmuc_Ten" style="color: aliceblue">Tên danh mục</label>
-                                            <input type="text" name="danhmuc_Ten" class="form-control" required style="background: #152036;
+                                            <label for="category_name" style="color: aliceblue">Tên danh mục</label>
+                                            <input type="text" name="category_name" class="form-control" required style="background: #152036;
                                             font-size: 17px;">
-                                            @error('danhmuc_Ten')
+                                            @error('category_name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>

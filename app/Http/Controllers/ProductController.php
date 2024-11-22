@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Models\SubCategory;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Models\Favourite;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -73,7 +73,7 @@ class ProductController extends Controller
     public function create()
     {
         // Lấy danh mục con để gán cho sản phẩm
-        $subCategories = SubCategory::all();
+        $subCategories = Categories::all();
         return view('admin/product-add', compact('subCategories'));
     }
 
@@ -138,7 +138,7 @@ class ProductController extends Controller
     {
         // Lấy sản phẩm cần chỉnh sửa và danh mục con
         $product = Product::findOrFail($id);
-        $subCategories = SubCategory::all();
+        $subCategories = Categories::all();
         return view('products.edit', compact('product', 'subCategories'));
     }
 
@@ -176,6 +176,35 @@ class ProductController extends Controller
         // Chuyển hướng về danh sách sản phẩm
         return redirect()->route('products.index')->with('success', 'Sản phẩm đã được xóa');
     }
+
+
+    //Fillter
+    public function filter(Request $request, $subCategoryId = null)
+    {
+        $order = $request->get('order', 'asc');
+
+        $query = Product::query();
+
+        if ($subCategoryId) {
+            $query->where('subCategory_id', $subCategoryId);
+        }
+
+        $products = $query->orderBy('price', $order)->paginate(8);
+
+        $images = [];
+        foreach ($products as $product) {
+            $images[] = ProductImage::where('product_id', $product->product_id)->first();
+        }
+
+        $Alldanhmucs = Categories::all();
+
+        return view('users/product', compact('products', 'images', 'order', 'subCategoryId', 'Alldanhmucs'));
+    }
+
+
+
+
+    
     // tìm kiếm
     public function search(Request $request)
     {

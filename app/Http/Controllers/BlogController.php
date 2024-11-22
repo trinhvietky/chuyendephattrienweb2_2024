@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
-use App\Models\Danhmuc;
+use App\Models\Categories;
 use App\Models\Product;
 use Illuminate\Support\Facades\File;
 
@@ -22,7 +22,7 @@ class BlogController extends Controller
     {
         // Lấy tất cả blog từ cơ sở dữ liệu
         $blogs = Blog::paginate(2);
-        $categories = Danhmuc::all();
+        $categories = Categories::all();
         $latestProducts = Product::with('images')->latest()->take(3)->get();
 
         // Trả về view và truyền dữ liệu blog vào
@@ -114,7 +114,7 @@ class BlogController extends Controller
     public function show($id)
     {
         $blog = Blog::findOrFail($id); // Tìm blog theo ID
-        $categories = Danhmuc::all();
+        $categories = Categories::all();
         $latestProducts = Product::with('images')->latest()->take(3)->get();
         return view('users.blog-detail', compact('blog', 'categories','latestProducts')); // Truyền blog vào view
     }
