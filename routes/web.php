@@ -22,6 +22,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReviewController;
 
 
 /*
@@ -34,6 +35,17 @@ use App\Http\Controllers\PaymentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::post('/products/{product_id}', [ReviewController::class, 'storeReview'])->name('products.reviews');
+// Route cho việc chỉnh sửa review
+Route::get('/reviews/{review_id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+Route::put('/reviews/{review_id}', [ReviewController::class, 'update'])->name('reviews.update');
+// Xử lý xóa review
+Route::delete('reviews/{review_id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+// Route cho việc tạo review mới
+Route::post('/products/{product_id}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
+
 
 // search user
 Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
@@ -322,4 +334,3 @@ Route::get('blog', [BlogController::class, 'AllBlog'])->name('users/blog');
 
 Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
 Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
-
