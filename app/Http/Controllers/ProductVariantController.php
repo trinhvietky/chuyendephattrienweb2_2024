@@ -96,16 +96,27 @@ class ProductVariantController extends Controller
     public function edit($id)
     {
         $productVariant = ProductVariant::findOrFail($id);
-        $products = Product::all();
+        $product_name = $productVariant->product->product_name;
         $colors = Color::all();
         $sizes = Size::all();
-        $categories = Categories::all();
-        return view('admin/product-edit', compact('productVariant', 'products', 'colors', 'sizes', 'categories'));
+        $images = ProductImage::where('product_id', $productVariant->product->product_id)
+            ->where('color_id', $productVariant->color->color_id)
+            ->get();
+        // Return the data as a JSON response
+        return response()->json([
+            'success' => true,
+            'productVariant' => $productVariant,
+            'product_name' => $product_name,
+            'colors' => $colors,
+            'sizes' => $sizes,
+            'images' => $images
+        ]);
     }
 
     // Cập nhật biến thể sản phẩm
     public function update(Request $request, $product_id)
     {
+        // dd($product_id);
         // dd($request);
         $validatedData = $request->validate([
             'color_id' => 'required|exists:colors,color_id',
@@ -113,15 +124,22 @@ class ProductVariantController extends Controller
             'stock' => 'required|integer|min:0',
         ]);
 
+        // Xử lý ảnh nếu có
+
+
+        // dd($validatedData);
         $productVariant = ProductVariant::findOrFail($product_id);
         $productVariant->update([
-            'product_id' => $product_id,
             'color_id' => $validatedData['color_id'],
             'size_id' => $validatedData['size_id'],
             'stock' => $validatedData['stock'],
         ]);
 
-        return redirect()->route('product_variants.index')->with('success', 'Biến thể sản phẩm đã được cập nhật');
+        // $productVariant->save();
+
+        // dd($productVariant);
+
+        return redirect()->route('productAdmin.index')->with('success', 'Biến thể sản phẩm đã được cập nhật');
     }
 
     // Xóa biến thể sản phẩm
@@ -133,6 +151,23 @@ class ProductVariantController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Biến thể sản phẩm đã được xóa'
+        ]);
+    }
+
+    private function updateImage($image, $productVariantId, $colorId)
+    {
+        // Lưu ảnh vào thư mục
+        $path = 'img/product/';
+        $imageName = time() . '_' . rand(0, 999) . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path($path), $imageName);
+
+
+        // Lưu thông tin ảnh vào bảng Image
+        ProductImage::create([
+            'product_id' => $productVariantId, // ID biến thể sản phẩm
+            'color_id' => $colorId,
+            'image_path' => $path . $imageName,
+            'alt_text' => 'Ảnh sản phẩm', // Tùy chỉnh văn bản thay thế
         ]);
     }
 

@@ -51,6 +51,11 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        // Get the authenticated user
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
         // Validate input data
         $validatedData = $request->validate([
             'color_id' => 'required|exists:colors,color_id',
@@ -68,11 +73,7 @@ class CartController extends Controller
         if ($productVariant) {
             $productVariantId = $productVariant->productVariant_id;
         }
-        // Get the authenticated user
-        $user = auth()->user();
-        if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+
 
         // Check if the product variant already exists in the cart
         $cartItem = Cart::where('user_id', $user->id)

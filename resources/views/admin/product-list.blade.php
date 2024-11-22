@@ -39,11 +39,12 @@
     .modal-content {
         display: flex;
         flex-direction: column;
+        height: 600px;
     }
 
     /* Modal header */
     .modal-header {
-        padding: 16px;
+        padding: 10px;
         background-color: #f4f4f4;
         display: flex;
         justify-content: space-between;
@@ -78,11 +79,12 @@
         background-color: #1b2a47;
         color: white;
         flex-grow: 1;
+        overflow-y: auto;
     }
 
     /* Modal footer */
     .modal-footer {
-        padding: 16px;
+        padding: 5px;
         background-color: #f4f4f4;
         display: flex;
         justify-content: flex-end;
@@ -239,7 +241,6 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" id="closeModalFooter">Close</button>
-                <button class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -304,7 +305,7 @@
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </button>
                     </form>
-                    <a href="{{ route('product_variants.edit', $product->product_id) }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                    <a href="" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -343,6 +344,32 @@
             modal.style.display = "none";
         }
 
+        // function previewImage(input, index) {
+        //     const imagePreview = document.getElementById(`imagePreview${index}`);
+        //     const file = input.files[0];
+
+        //     if (file) {
+        //         const reader = new FileReader();
+        //         reader.onload = function(e) {
+        //             imagePreview.src = e.target.result;
+        //             imagePreview.style.display = "block";
+        //         };
+        //         reader.readAsDataURL(file);
+        //     }
+        // }
+
+        // // Hàm để khởi tạo hình ảnh từ `response.images`
+        // function initializeImages(response) {
+        //     response.images.forEach((imagePath, index) => {
+        //         const imagePreview = document.getElementById(`imagePreview${index}`);
+        //         if (imagePreview) {
+        //             imagePreview.src = imagePath;
+        //             imagePreview.style.display = "block";
+        //         }
+        //     });
+        // }
+
+
         // Event listeners
         closeModalButton.addEventListener("click", closeModal);
         closeModalFooter.addEventListener("click", closeModal);
@@ -372,6 +399,89 @@
             },
         );
 
+        const baseUrl = window.location.origin;
+        // Bắt sự kiện click vào nút sua
+        $(document).on('click', '.edit-button', function() {
+            const variantId = $(this).data('id'); // Lấy ID của sản phẩm
+            console.log(variantId);
+
+            $.ajax({
+                url: '/admin/product_variants/' + variantId + '/edit', // URL to the controller method
+                type: 'GET',
+                success: function(response) {
+                    console.log(response);
+
+                    if (response.success) {
+                        var variantsHtml = '';
+
+                        // Build the HTML from the response data
+                        variantsHtml += `<form action="product_variants/${response.productVariant.productVariant_id}" method="post">
+                         @csrf
+                         @method('PUT')
+                        <div class="review-tab-pro-inner">
+                <ul id="myTab3" class="tab-review-design">
+                    <li class="active"><a href="#description"><i class="icon nalika-edit" aria-hidden="true"></i> Add Product</a></li>
+                </ul>
+                <div id="myTabContent" class="tab-content custom-product-edit">
+                    <div class="product-tab-list tab-pane fade active in" id="description">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mg-b-pro-edt">
+                                    <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
+                                    <input type="text" name="product_name" class="form-control" placeholder="Product Name" id="product_name" value="${response.product_name}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group mg-b-pro-edt">
+                                    <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
+                                    <input type="number" name="stock" class="form-control" placeholder="Số lượng" required min="0" value="${response.productVariant.stock}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mg-b-pro-edt">
+                                    <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
+                                    <select name="size_id" class="form-control" required>
+                                        <option value="" selected disabled>Chọn kích thước</option>
+                                        ${response.sizes.map(size => `<option value="${size.size_id}" ${size.size_id === response.productVariant.size_id ? 'selected' : ''}>${size.size_name}</option>`).join('')}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group mg-b-pro-edt">
+                                    <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
+                                    <select name="color_id" id="color_id" class="form-control" required>
+                                        <option value="" selected disabled>Chọn màu sắc</option>
+                                        ${response.colors.map(color => `<option value="${color.color_id}" ${color.color_id === response.productVariant.color_id ? 'selected' : ''}>${color.color_name}</option>`).join('')}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="text-center custom-pro-edt-ds mt-2">
+                            <button data-id="${response.productVariant.productVariant_id}" class="btn btn-ctl-bt waves-effect waves-light m-r-10 btn-edit-productVariant ">Cập nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </div> </form>`;
+
+                        // Insert the generated HTML into the modal
+                        $('.modal-body').html(variantsHtml);
+                    } else {
+                        alert('Failed to load product data.');
+                    }
+                },
+                error: function(respone) {
+                    alert('thong bao')
+                    console.log(response);
+                }
+            });
+
+
+        });
+
         // Bắt sự kiện click vào nút xóa
         $(document).on('click', '.delete-button', function() {
             const variantId = $(this).data('id'); // Lấy ID của sản phẩm
@@ -386,7 +496,108 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            row.remove(); // Xóa dòng khỏi giao diện
+                            var variantsHtml = '';
+                            variantsHtml += `<div class="review-tab-pro-inner">
+                        <ul id="myTab3" class="tab-review-design">
+                            <li class="active"><a href="#description"><i class="icon nalika-edit" aria-hidden="true"></i> Add Product</a></li>
+
+                        </ul>
+                        <div id="myTabContent" class="tab-content custom-product-edit">
+                            <div class="product-tab-list tab-pane fade active in" id="description">
+                                <div class="row">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group mg-b-pro-edt">
+                                                <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
+                                                <input type="text" name="product_name" class="form-control" placeholder="Product Name" id="product_name" value="{{ $product->product_name }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group mg-b-pro-edt">
+                                                <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
+                                                <input type="number" name="stock" class="form-control" placeholder="Số lượng" required min="0" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group mg-b-pro-edt">
+                                                <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
+                                                <select name="size_id" class="form-control" required>
+                                                    <option value="" selected disabled>Chọn kích thước</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group mg-b-pro-edt">
+                                                <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
+                                                <select name="color_id" id="color_id" class="form-control" required>
+                                                    <option value="" selected disabled>Chọn màu sắc</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group mg-b-pro-edt">
+                                                <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
+                                                <div class="custom-file form-control">
+                                                    <input type="file" name="product_image[]" id="image1" class="custom-file-input" onchange="previewImage()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!-- Phần hiển thị hình ảnh đã chọn -->
+                                            <div id="imagePreviewContainer" style="margin-top: 10px; width: 150px; height: 150px;">
+                                                <img id="imagePreview" src="/img/notification/4.jpg" alt="Image Preview" style="max-width: 100%; display: none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group mg-b-pro-edt">
+                                                <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
+                                                <div class="custom-file form-control">
+                                                    <input type="file" name="product_image[]" id="image1" class="custom-file-input" onchange="previewImage()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!-- Phần hiển thị hình ảnh đã chọn -->
+                                            <div id="imagePreviewContainer" style="margin-top: 10px; width: 150px; height: 150px;">
+                                                <img id="imagePreview" src="/img/notification/4.jpg" alt="Image Preview" style="max-width: 100%; display: none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group mg-b-pro-edt">
+                                                <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
+                                                <div class="custom-file form-control">
+                                                    <input type="file" name="product_image[]" id="image1" class="custom-file-input" onchange="previewImage()">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <!-- Phần hiển thị hình ảnh đã chọn -->
+                                            <div id="imagePreviewContainer" style="margin-top: 10px; width: 150px; height: 150px;">
+                                                <img id="imagePreview" src="/img/notification/4.jpg" alt="Image Preview" style="max-width: 100%; display: none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center custom-pro-edt-ds mt-2">
+                                        <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
+                                        <button type="reset" class="btn btn-ctl-bt waves-effect waves-light">Discard</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>`;
                         } else {
                             alert('Failed to delete product variant.');
                         }
@@ -446,9 +657,9 @@
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 </button>
 
-                            <a href="/admin/product_variants/${variant.product_id}/edit" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                            <button data-toggle="tooltip" data-id="${variant.productVariant_id}" title="Edit" class="pd-setting-ed edit-button" style="color: white; margin-top: 7px; background: none; border: none;">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </a>
+                            </button>
                         </div>
                     </td>
                 </tr>

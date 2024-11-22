@@ -150,8 +150,10 @@ class ProductController extends Controller
         // Lấy sản phẩm cần chỉnh sửa và danh mục con
         $product = Product::findOrFail($id);
         $categories = Categories::all();
+        $images = ProductImage::where('product_id', $product->product_id)
+            ->get();
         // dd($categories);s
-        return view('admin/product-edit', compact('product', 'categories'));
+        return view('admin/product-edit', compact('product', 'categories', 'images'));
     }
 
     // Cập nhật thông tin sản phẩm
