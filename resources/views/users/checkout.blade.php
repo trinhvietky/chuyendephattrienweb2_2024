@@ -360,6 +360,8 @@
 			});
 		});
 
+
+
 		$('#place-order').on('click', function(event) {
 			event.preventDefault(); // Ngừng gửi form mặc định
 
@@ -405,6 +407,7 @@
 			// 	return;
 			// }
 
+
 			// Gửi dữ liệu tới backend qua AJAX
 			$.ajax({
 				url: '/payment', // Đảm bảo URL chính xác
@@ -447,6 +450,7 @@
 				}
 			});
 		});
+		// Ngăn không cho người dùng quay lại trang trước khi thanh toán
 
 	});
 </script>

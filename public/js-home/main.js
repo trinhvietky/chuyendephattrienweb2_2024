@@ -309,10 +309,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         // Chọn tất cả checkbox
         const selectAll = document.getElementById('select-all');
-        if (selectAll.checked) {
-            // Cập nhật lại tổng giỏ hàng sau khi chọn/bỏ chọn tất cả
-            updateCartTotal();
-        }
         if (selectAll) {
             selectAll.addEventListener('change', function () {
                 let isChecked = this.checked;

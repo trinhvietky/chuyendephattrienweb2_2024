@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Payment;
 use App\Models\ProductVariant;
 use Carbon\Carbon;
@@ -34,7 +35,7 @@ class PaymentController extends Controller
         $vnp_BankCode = "VNBANK";
 
         // Tạo mã giao dịch duy nhất
-        $vnp_TxnRef = $order->order_id;
+        $vnp_TxnRef = $order->order_id . '-' . time();
 
         // Thời gian hết hạn thanh toán
         // Lấy thời gian hiện tại
@@ -56,7 +57,7 @@ class PaymentController extends Controller
             "vnp_CurrCode" => "VND",
             "vnp_IpAddr" => request()->ip(),
             "vnp_Locale" => "vn",
-            "vnp_OrderInfo" => "Thanh toán đơn hàng #" . $order->id,
+            "vnp_OrderInfo" => "Thanh toán đơn hàng #" . $order->order_id,
             "vnp_OrderType" => "billpayment",
             "vnp_ReturnUrl" => route('payment.return'),
             "vnp_TxnRef" => $vnp_TxnRef,
@@ -144,7 +145,7 @@ class PaymentController extends Controller
                     foreach ($carts as $cart) {
                         Cart::where('cart_id', $cart['cart_id'])->delete();
                         $productVariant = ProductVariant::where('productVariant_id', $cart['productVariant_id'])->first();
-                        $productVariant->stock -= 1;
+                        $productVariant->stock -= $cart['quantity'];
                         $productVariant->save();
                     }
                 }
@@ -161,6 +162,7 @@ class PaymentController extends Controller
                     'payment_time' => htmlspecialchars($dateString)
                 ]);
             } else {
+                Order::where('order_id', $inputData['vnp_TxnRef'])->delete();
                 return view('notification/fail', [
                     'message' => 'Giao dịch thất bại',
                     'rspCode' => '01'
