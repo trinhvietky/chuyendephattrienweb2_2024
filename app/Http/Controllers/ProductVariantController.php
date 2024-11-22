@@ -23,10 +23,6 @@ class ProductVariantController extends Controller
                 ->where('color_id', $variant->color->color_id)
                 ->first();
         }
-
-        // dd($images);
-
-
         // Truyền cả hai biến vào view
         return view('admin/product-variant-list', compact('productVariants', 'images'));
     }
@@ -163,4 +159,25 @@ class ProductVariantController extends Controller
         // Nếu không tìm thấy ảnh, thông báo lỗi
         return back()->with('error', 'Không tìm thấy ảnh.');
     }
+    public function search(Request $request)
+{
+    // Lấy từ khóa tìm kiếm
+    $keyword = $request->get('keyword');
+    
+    // Truy vấn dữ liệu từ ProductVariant và eager load các quan hệ
+    $productVariants = ProductVariant::with(['product.images', 'color', 'size']) // Eager load các quan hệ
+        ->whereHas('product', function ($query) use ($keyword) {
+            $query->where('product_name', 'like', '%' . $keyword . '%');
+        })
+        ->orWhereHas('color', function ($query) use ($keyword) {
+            $query->where('color_name', 'like', '%' . $keyword . '%');
+        })
+        ->orWhereHas('size', function ($query) use ($keyword) {
+            $query->where('size_name', 'like', '%' . $keyword . '%');
+        })
+        ->get();
+
+    return response()->json(['productVariants' => $productVariants]);
+}
+
 }

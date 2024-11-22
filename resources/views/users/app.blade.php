@@ -114,12 +114,6 @@
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="wrap-icon-header flex-w flex-r-m">
-							<!-- Check if the user is authenticated -->
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search" style="position: relative;
-							right: 20px;
-							top: 3px;">
-									<i class="zmdi zmdi-search"></i>
-							</div>
 							@if (Route::has('login'))
 							<div class="fixed top-0 right-0 px-6 py-4 sm:block">
 								@auth
@@ -222,6 +216,11 @@
 									</div>
 								</nav>
 								@else
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search" style="position: relative;
+							right: 20px;
+							top: 3px;">
+									<i class="zmdi zmdi-search"></i>
+							</div>
 								<!-- User is not authenticated: Show login and register links -->
 								<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
 								<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
@@ -793,7 +792,7 @@
 									});
 								});
 							} else {
-								suggestionBox.innerHTML = '<p>Không tìm thấy sản phẩm nào.</p>';
+								suggestionBox.innerHTML = '<p>Không tìm thấy sản phẩm.</p>';
 							}
 						})
 						.catch(error => console.error('Error fetching suggestions:', error));
