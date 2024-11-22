@@ -35,7 +35,7 @@ class CrudVoucherController extends Controller
     /**
      * hàm tìm voucher theo id
      */
-<<<<<<< HEAD
+
     public function edit($encryptedId)
     {
         // Giải mã ID
@@ -45,19 +45,18 @@ class CrudVoucherController extends Controller
             return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
         }
         // Lấy thông tin user theo id đã giải mã
-        $voucher = Voucher::where('id', $id)->first();
-        if (!$voucher) {
-            return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
-        }
-=======
-    public function edit($encodedId)
-    {
+        // $voucher = Voucher::where('id', $id)->first();
+        // if (!$voucher) {
+        //     return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
+        // }
+
+    
         // Giải mã ID sản phẩm từ URL
-        try {
-            $colorId = Crypt::decryptString($encodedId);     // Giải mã ID sản phẩm
-        } catch (\Exception $e) {
-            abort(404, 'ID sản phẩm không hợp lệ');
-        }
+        // try {
+        //     $colorId = Crypt::decryptString($encryptedId);     // Giải mã ID sản phẩm
+        // } catch (\Exception $e) {
+        //     abort(404, 'ID sản phẩm không hợp lệ');
+        // }
 
         // Lấy token từ URL
         $tokenFromUrl = request()->query('token');
@@ -73,11 +72,14 @@ class CrudVoucherController extends Controller
             abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
         }
         // Lấy thông tin user theo id
-        $voucher = Voucher::findOrFail($colorId);
-
->>>>>>> main
+        // $voucher = Voucher::findOrFail($id);
         // Trả dữ liệu về view edit
-        return view('admin.voucher-edit', ['voucher' => $voucher]);
+        // return view('admin.voucher-edit', ['voucher' => $voucher]);
+
+        $voucher = Voucher::where('id', $id)->first();
+        if (!$voucher) {
+            return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
+        }
     }
 
     /**
