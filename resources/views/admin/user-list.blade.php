@@ -44,66 +44,68 @@
         </div>
     </div>
 </div>
+
+<!-- Phần Tìm Kiếm -->
+<div class="search" style="margin: 0 auto; max-width: 500px; display: flex; gap: 10px; position: relative; top: -15px;">
+    <input type="text" id="search-keyword" class="form-control" placeholder="Tìm kiếm người dùng..."
+        style="flex: 1; padding: 8px; border: 1px solid #ddd; color: black; font-size: 16px; border-radius: 5px;">
+    <button type="button" class="btn btn-primary" id="search-button" style="padding: 8px 16px; border: none; border-radius: 5px;">Tìm</button>
 </div>
+
 <div class="product-status mg-b-30">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
                     <h4>User List</h4>
-                    <div class="add-product" >
+                    <div class="add-product">
                         <a style="background-color: #337ab7;" href="user-add">Add User</a>
                     </div>
+                    <!-- Table to display users -->
                     <table>
-                        <tr>
-                            <th>Id</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Quyền</th>
-                            <th>Action</th>
-                        </tr>
-                        @foreach($users as $user)
-                        <tr>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->phone}}</td>
-                            <td>
-                                @if($user->usertype === '1')
-                                Admin
-                                @else
-                                User
-                                @endif</td>
-                            <td>
-                                <div style="display: flex; margin-left: -12px;">
-                                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        @php
-						// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
-						$token = session('user_token', Str::random(32));
-
-						// Lưu token vào session nếu nó không tồn tại
-						session(['user_token' => $token]);
-
-						// Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
-						$encodedId = Crypt::encryptString($user->id);
-						@endphp
-                                        <button data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="background: none; border: none;">
-                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                        </button>
-                                    </form>
-                                    <a href="{{ route('user.edit', ['id' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
-                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Họ và tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Quyền</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($users as $user)
+                            <tr>
+                                <td>{{$user->id}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->email}}</td>
+                                <td>{{$user->phone}}</td>
+                                <td>{{ $user->usertype === '1' ? 'Admin' : 'User' }}</td>
+                                <td>
+                                    <div style="display: flex; margin-left: -12px;">
+                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
+                                            @csrf
+                                            @method('DELETE')
+                                            @php
+                                            $token = session('user_token', Str::random(32));
+                                            session(['user_token' => $token]);
+                                            $encodedId = Crypt::encryptString($user->id);
+                                            @endphp
+                                            <button data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="background: none; border: none;">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('user.edit', ['id' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
                     </table>
-                    <!-- Hiển thị các liên kết phân trang -->
+
+                    <!-- Pagination Links -->
                     <div class="pagination">
                         {{ $users->links('pagination::bootstrap-4') }}
                     </div>
@@ -112,5 +114,66 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search-button').on('click', function(e) {
+            e.preventDefault();
+
+            let keyword = $('#search-keyword').val(); // Lấy từ khóa tìm kiếm
+
+            if (keyword.length > 2) { // Kiểm tra từ khóa có ít nhất 3 ký tự
+                $.ajax({
+                    url: "{{ route('admin.user.search') }}", // Gọi API tìm kiếm
+                    method: 'GET',
+                    data: {
+                        keyword: keyword
+                    },
+                    success: function(response) {
+                        $('table tbody').empty(); // Xóa dữ liệu cũ trong bảng
+
+                        // Kiểm tra nếu không có kết quả
+                        if (response.users.length === 0) {
+                            $('table tbody').append('<tr><td colspan="7" style="text-align:center;">Không tìm thấy người dùng nào</td></tr>');
+                        } else {
+                            response.users.forEach(function(user) {
+
+                                let row = `<tr>
+                                            <td>${user.id}</td>
+                                            <td>${user.name}</td>
+                                            <td>${user.email}</td>
+                                            <td>${user.phone}</td>
+                                            <td>${user.usertype === 1 ? 'Admin' : 'User'}</td>
+                                            <td>
+                                                <div style="display: flex; margin-left: -12px;">
+                                                    <form action="" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');" style="margin-right: 5px;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="background: none; border: none;">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="{{ route('user.edit', ['id' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                          </tr>`;
+                                $('table tbody').append(row);
+                            });
+                        }
+                        // Reset input field after search
+                        $('#search-keyword').val(''); // Reset ô tìm kiếm sau khi tìm
+                    },
+                    error: function() {
+                        alert("Có lỗi xảy ra trong khi tìm kiếm.");
+                    }
+                });
+            } else {
+                alert('Vui lòng nhập từ khóa dài hơn 2 ký tự.');
+            }
+        });
+    });
+</script>
 
 @endsection

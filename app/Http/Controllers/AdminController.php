@@ -214,4 +214,16 @@ class AdminController extends Controller
         // Chuyển hướng lại trang danh sách với thông báo thành công
         return redirect()->route('admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
     }
+    public function search(Request $request)
+{
+    $keyword = $request->input('keyword');  // Lấy từ khóa tìm kiếm
+
+    $users = User::where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('email', 'like', '%' . $keyword . '%')
+                ->get();  // Lấy tất cả người dùng khớp với từ khóa
+
+    return response()->json(['users' => $users]);  // Trả về dữ liệu JSON
+}
+
+
 }

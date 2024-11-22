@@ -31,9 +31,14 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-
+// search user
 Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
 Route::get('/products/suggestions', [ProductController::class, 'suggestions'])->name('products.suggestions');
+
+Route::get('/product-variants/search', [ProductVariantController::class, 'search'])->name('product_variants.search');
+
+// Add this to routes/web.php
+Route::get('/admin/user-search', [AdminController::class, 'search'])->name('admin.user.search');
 
 
 Route::get('/', function () {
