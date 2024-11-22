@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 
 class AdminController extends Controller
 {
@@ -109,10 +110,30 @@ class AdminController extends Controller
         return redirect()->route('admin/user-list')->with('success', 'User added successfully!');
     }
 
-    public function edit($id)
+    public function edit($encodedId)
     {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $userId = Crypt::decryptString($encodedId); // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('user_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
         // Lấy thông tin user theo id
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($userId);
         // Trả dữ liệu về view edit
         return view('admin/user-edit', compact('user'));
     }
@@ -193,4 +214,16 @@ class AdminController extends Controller
         // Chuyển hướng lại trang danh sách với thông báo thành công
         return redirect()->route('admin/user-list')->with('success', 'Thông tin người dùng đã được cập nhật thành công.');
     }
+    public function search(Request $request)
+{
+    $keyword = $request->input('keyword');  // Lấy từ khóa tìm kiếm
+
+    $users = User::where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('email', 'like', '%' . $keyword . '%')
+                ->get();  // Lấy tất cả người dùng khớp với từ khóa
+
+    return response()->json(['users' => $users]);  // Trả về dữ liệu JSON
+}
+
+
 }

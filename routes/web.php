@@ -15,8 +15,11 @@ use App\Http\Controllers\ProductVariantController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 
 /*
@@ -30,9 +33,14 @@ use App\Http\Controllers\BlogController;
 |
 */
 
-
+// search user
 Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
 Route::get('/products/suggestions', [ProductController::class, 'suggestions'])->name('products.suggestions');
+
+Route::get('/product-variants/search', [ProductVariantController::class, 'search'])->name('product_variants.search');
+
+// Add this to routes/web.php
+Route::get('/admin/user-search', [AdminController::class, 'search'])->name('admin.user.search');
 
 
 Route::get('/', function () {
@@ -66,8 +74,9 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-use App\Http\Controllers\WishlistController;
 
+use App\Http\Controllers\WishlistController;
+use App\Models\Cart;
 
 Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
 Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
@@ -107,9 +116,9 @@ Route::get('/about', function () {
 // })->name('users/product-detail');
 
 // Những route của những trang chưa đăng nhập
-Route::get('/shoping-cart', function () {
-    return view('users/shoping-cart');
-})->name('user/shoping-cart');
+// Route::get('/shoping-cart', function () {
+//     return view('users/shoping-cart');
+// })->name('users/shoping-cart');
 
 Route::get('/address', function () {
     return view('users/address');
@@ -130,6 +139,33 @@ Route::put('/address/update', [AddressController::class, 'update'])->name('addre
 Route::get('/', [ProductController::class, 'index'])->name('users.home');
 Route::get('/product', [ProductController::class, 'product'])->name('product');
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
+
+//Shoping-cart
+Route::get('/shoping-cart', [CartController::class, 'index'])->name('users/shoping-cart');
+
+Route::patch('/shoping-cart/update/{cartId}', [CartController::class, 'update'])->name('shoping-cart.update');
+
+Route::delete('/shoping-cart/{id}', [CartController::class, 'destroy'])->name('shoping-cart.destroy');
+
+Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+
+Route::post('/cart', [CartController::class, 'store']);
+
+Route::post('/btn_checkout', [CartController::class, 'checkout'])->name('checkout');
+
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
+
+Route::post('/apply-voucher', [OrderController::class, 'applyVoucher']);
+
+
+//Payment
+Route::post('/payment', [OrderController::class, 'store'])->name('order.store');
+
+Route::get('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
+
+Route::post('/payment/ipn', [PaymentController::class, 'ipnUrl'])->name('payment.ipn');
+
+Route::get('/payment/notification', [PaymentController::class, 'returnUrl'])->name('payment.return');
 
 
 // Route::get('/admin/home', function () {
@@ -274,4 +310,6 @@ Route::put('/blogs/{blog_id}', [BlogController::class, 'update'])->name('blogs.u
 
 Route::get('blog', [BlogController::class, 'AllBlog'])->name('users/blog');
 
-Route::get('users/blog/{blog_id}', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
+Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
+
