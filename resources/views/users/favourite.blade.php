@@ -91,7 +91,7 @@
 								<ul class="sub-menu">
 									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
-									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
+									<li><a href="index.html">{{$danhmuc->category_name}}</a></li>
 									@endforeach
 									@endif
 								</ul>
@@ -123,8 +123,8 @@
 									<i class="zmdi zmdi-search"></i>
 								</div>
 
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-									<i class="zmdi zmdi-shopping-cart"></i>
+								<div id="cart-notify" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
+									<a href="{{route('users/shoping-cart')}}"><i class="zmdi zmdi-shopping-cart"></i></a>
 								</div>
 
 								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">

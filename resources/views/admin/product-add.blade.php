@@ -70,8 +70,8 @@
                                                 <option value="" selected disabled>Category</option>
 
                                                 @foreach ($subCategories as $subCategory)
-                                                <option value="{{ $subCategory->subCategory_id }}" {{ old('sub_category_id') == $subCategory->id ? 'selected' : '' }}>
-                                                    {{ $subCategory->subCategory_name }}
+                                                <option value="{{ $subCategory->category_id }}" {{ old('sub_category_id') == $subCategory->id ? 'selected' : '' }}>
+                                                    {{ $subCategory->category_name }}
                                                 </option>
                                                 @endforeach
                                             </select>
