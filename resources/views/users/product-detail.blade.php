@@ -95,7 +95,7 @@
 									<select class="js-select2" name="color_id" id="colorSelect" style="width: 100%;">
 										<option value="">Choose a color</option>
 										@foreach ($product->productVariants->unique('color_id') as $variant)
-										<option value="{{ $variant->color->id }}">
+										<option value="{{ $variant->color->color_id }}">
 											{{ $variant->color->color_name }}
 										</option>
 										@endforeach

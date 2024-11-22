@@ -95,6 +95,7 @@ require __DIR__ . '/auth.php';
 
 use App\Http\Controllers\WishlistController;
 use App\Models\Cart;
+use App\Models\Product;
 
 Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
 Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
@@ -233,8 +234,13 @@ Route::delete('/admin/danhmuc/{id}', [CategoriesController::class, 'destroy'])->
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('products', [ProductController::class, 'store'])->name('products.store');
 
-Route::get('admin/product_variants', [ProductVariantController::class, 'index'])->name('product_variants.index');
-Route::get('admin/product_variants/create', [ProductVariantController::class, 'create'])->name('product_variants.create');
+Route::get('admin/product', [ProductController::class, 'getProductAdmin'])->name('productAdmin.index');
+Route::get('admin/product/{product_id}/edit', [ProductController::class, 'edit'])->name('productAdmin.edit');
+Route::post('admin/product/{product_id}', [ProductController::class, 'update'])->name('productAdmin.update');
+Route::delete('admin/product/{product_id}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+Route::get('/admin/productVariant/{id}', [ProductVariantController::class, 'index'])->name('productVariant.index');
+Route::get('admin/product_variants/create/{id}', [ProductVariantController::class, 'create'])->name('product_variants.create');
 Route::post('admin/product_variants', [ProductVariantController::class, 'store'])->name('product_variants.store');
 Route::get('admin/product_variants/{productVariant_id}/edit', [ProductVariantController::class, 'edit'])->name('product_variants.edit');
 Route::put('admin/product_variants/{productVariant_id}', [ProductVariantController::class, 'update'])->name('product_variants.update');

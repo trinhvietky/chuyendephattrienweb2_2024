@@ -17,7 +17,7 @@ class Product extends Model
         'product_name',
         'description',
         'price',
-        'categories',
+        'category_id',
     ];
     // Định nghĩa hàm tìm kiếm Full-Text
     public static function search($query)
@@ -30,7 +30,7 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
-    public function Categories()
+    public function category()
     {
         return $this->belongsTo(Categories::class, 'category_id');
     }

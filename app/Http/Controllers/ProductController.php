@@ -11,6 +11,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -69,31 +70,44 @@ class ProductController extends Controller
         return view('users.home', $data);
     }
 
+    public function getProductAdmin()
+    {
+        $products = Product::paginate(5);
+        $images = [];
+        foreach ($products as $product) {
+            $images[] = ProductImage::where('product_id', $product->product_id)
+                ->first();
+        }
+        return view('admin.product-list', compact('products', 'images'));
+    }
+
     // Hiển thị form thêm sản phẩm
     public function create()
     {
         // Lấy danh mục con để gán cho sản phẩm
-        $subCategories = Categories::all();
-        return view('admin/product-add', compact('subCategories'));
+        $categories = Categories::all();
+        return view('admin/product-add', compact('categories'));
     }
 
     // Lưu sản phẩm mới vào database
     public function store(Request $request)
     {
+        // dd($request);
         // Validate dữ liệu từ form
         $validate = $request->validate([
             'product_name' => 'required|string|max:255',
             'description' => 'required',
             'price' => 'required|numeric',
-            'subCategory_id' => 'required|exists:sub_categories,subCategory_id'
+            'category_id' => 'required|exists:categories,category_id'
         ]);
         // Tạo sản phẩm mới
         $product = Product::create($validate);
+        // dd($product);
         // dd($product->product_id);
         // Lưu product_id vào session
         session(['product_id' => $product->product_id]);
 
-        return redirect()->route('product_variants.create')->with('success', 'Sản phẩm đã được thêm');
+        return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được thêm');
     }
 
     // Hiển thị một sản phẩm cụ thể
@@ -148,32 +162,65 @@ class ProductController extends Controller
     {
         // Lấy sản phẩm cần chỉnh sửa và danh mục con
         $product = Product::findOrFail($id);
-        $subCategories = Categories::all();
-        return view('products.edit', compact('product', 'subCategories'));
+        $categories = Categories::all();
+        $images = ProductImage::where('product_id', $product->product_id)
+            ->get();
+        // dd($categories);s
+        return view('admin/product-edit', compact('product', 'categories', 'images'));
     }
 
     // Cập nhật thông tin sản phẩm
     public function update(Request $request, $id)
     {
-        // Validate dữ liệu từ form
-        $request->validate([
+        // Validate dữ liệu
+        $validate = $request->validate([
             'product_name' => 'required|string|max:255',
             'description' => 'required',
             'price' => 'required|numeric',
-            'sub_category_id' => 'required|exists:sub_categories,id'
+            'category_id' => 'required|exists:categories,category_id',
         ]);
+
+        // Tìm sản phẩm
+        $product = Product::findOrFail($id);
 
         // Cập nhật sản phẩm
-        $product = Product::findOrFail($id);
-        $product->update([
-            'product_name' => $request->product_name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'sub_category_id' => $request->sub_category_id,
-        ]);
+        $product->product_name = $validate['product_name'];
+        $product->description = $validate['description'];
+        $product->price = $validate['price'];
+        $product->category_id = $validate['category_id']; // Gán thủ công
+        $product->save(); // Lưu lại
 
-        // Chuyển hướng về danh sách sản phẩm
-        return redirect()->route('products.index')->with('success', 'Sản phẩm đã được cập nhật');
+        return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được cập nhật.');
+    }
+
+
+    private function updateImage($image, $imageId, $productVariantId, $colorId)
+    {
+        // Kiểm tra nếu image là một đối tượng file
+        if ($image instanceof \Illuminate\Http\UploadedFile) {
+            // Xóa ảnh cũ nếu tồn tại
+            $productImage = ProductImage::find($imageId);
+
+            if ($productImage) {
+                if (file_exists(public_path($productImage->image_path))) {
+                    unlink(public_path($productImage->image_path)); // Xóa ảnh cũ
+                }
+
+                // Lưu ảnh mới vào thư mục
+                $imagePath = $image->store('product_images', 'public'); // Lưu ảnh vào thư mục 'product_images'
+
+                // Cập nhật thông tin ảnh vào cơ sở dữ liệu
+                $productImage->update([
+                    'product_id' => $productVariantId,
+                    'color_id' => $colorId,
+                    'image_path' => 'storage/' . $imagePath,
+                    'alt_text' => 'Ảnh sản phẩm',
+                ]);
+            }
+        } else {
+            // Nếu không phải là file hợp lệ, bạn có thể log lỗi hoặc xử lý khác
+            Log::error('Image is not a valid file.');
+        }
     }
 
     // Xóa sản phẩm
@@ -184,7 +231,7 @@ class ProductController extends Controller
         $product->delete();
 
         // Chuyển hướng về danh sách sản phẩm
-        return redirect()->route('products.index')->with('success', 'Sản phẩm đã được xóa');
+        return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được xóa');
     }
 
 
@@ -212,7 +259,47 @@ class ProductController extends Controller
     }
 
 
+    private function saveImage($image, $productVariantId, $colorId)
+    {
+        // Lưu ảnh vào thư mục
+        $path = 'img/product/';
+        $imageName = time() . '_' . rand(0, 999) . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path($path), $imageName);
 
+        // Lưu thông tin ảnh vào bảng Image
+        ProductImage::create([
+            'product_id' => $productVariantId, // ID biến thể sản phẩm
+            'color_id' => $colorId,
+            'image_path' => $path . $imageName,
+            'alt_text' => 'Ảnh sản phẩm', // Tùy chỉnh văn bản thay thế
+        ]);
+    }
+
+    public function deleteImage($imageId)
+    {
+        // Tìm ảnh dựa trên ID trong bảng ProductImage
+        $productImages = ProductImage::find($imageId);
+
+        if ($productImages) {
+            // Lấy đường dẫn đầy đủ của ảnh cần xóa
+            $fullImagePath = public_path($productImages->image_path);
+
+            // Kiểm tra xem file có tồn tại trong thư mục hay không
+            if (file_exists($fullImagePath)) {
+                // Xóa ảnh từ thư mục
+                unlink($fullImagePath);
+            }
+
+            // Xóa bản ghi ảnh từ bảng ProductImage
+            $productImages->delete();
+
+            // Thông báo thành công
+            return back()->with('success', 'Ảnh đã được xóa thành công.');
+        }
+
+        // Nếu không tìm thấy ảnh, thông báo lỗi
+        return back()->with('error', 'Không tìm thấy ảnh.');
+    }
 
 
     // tìm kiếm
