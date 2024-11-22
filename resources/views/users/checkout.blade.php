@@ -437,7 +437,12 @@
 					if (response.success) {
 						console.log(response.payment_url);
 
-						// location.href = response.payment_url;
+						if (response.payment_url) {
+							location.href = response.payment_url;
+						} else {
+							alert("Order create success");
+							window.location.href = "{{ route('users/shoping-cart') }}";
+						}
 					} else {
 						alert("Order creation failed: " + response.message);
 					}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductImage;
@@ -121,14 +122,30 @@ class OrderController extends Controller
             ]);
         }
 
-        // Gọi hàm createPayment để xử lý thanh toán
-        $paymentUrl = PaymentController::createPayment($order, $request->paymentMethod);
+        if ($request->paymentMethod == 1) {
+            // Gọi hàm createPayment để xử lý thanh toán
+            $paymentUrl = PaymentController::createPayment($order, $request->paymentMethod);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Order created successfully.',
-            'payment_url' => $paymentUrl,
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Order created successfully.',
+                'payment_url' => $paymentUrl,
+            ]);
+        } else {
+            session()->forget('carts');  // Xóa giỏ hàng khỏi session
+            if ($carts) {
+                foreach ($carts as $cart) {
+                    Cart::where('cart_id', $cart['cart_id'])->delete();
+                    $productVariant = ProductVariant::where('productVariant_id', $cart['productVariant_id'])->first();
+                    $productVariant->stock -= $cart['quantity'];
+                    $productVariant->save();
+                }
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Order created successfully.',
+            ]);
+        }
     }
 
     /**
