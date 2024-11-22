@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\SubCategory;
@@ -123,12 +124,18 @@ class ProductController extends Controller
         // Tìm sản phẩm
         $product = Product::with(['images', 'productVariants.size', 'productVariants.color'])->findOrFail($productId);
 
+        // Lấy các comment liên quan đến sản phẩm
+        $comments = Comment::where('product_id', $productId)
+            ->with('user') // Lấy thông tin người dùng của comment
+            ->latest()
+            ->get();
+
         // Lấy sản phẩm liên quan và hình ảnh
         $relatedProductsData = $this->getLatestProducts();
         $relatedProducts = $relatedProductsData['products'];
         $relatedImages = $relatedProductsData['images'];
 
-        return view('users.product-detail', compact('product', 'relatedProducts', 'relatedImages'));
+        return view('users.product-detail', compact('product', 'relatedProducts', 'relatedImages','comments'));
     }
 
 

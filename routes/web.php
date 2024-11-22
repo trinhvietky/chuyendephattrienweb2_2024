@@ -16,6 +16,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -252,3 +253,17 @@ Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
 Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
 
 Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/comments/{id}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+});
+
+Route::get('/products/{productId}/comments', [CommentController::class, 'index'])->name('comments.index');
+Route::get('/products/{id}/detail', [CommentController::class, 'index'])->name('product.detail');
+
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/comments/{product_id}', [CommentController::class, 'fetch'])->name('comments.fetch');
+Route::post('/submit-comment', [CommentController::class, 'store'])->name('comments.store');

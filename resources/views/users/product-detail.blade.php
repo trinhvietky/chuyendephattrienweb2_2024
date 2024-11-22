@@ -195,7 +195,7 @@
 					</li>
 
 					<li class="nav-item p-b-10">
-						<a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
+						<a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews ({{ count($comments) }})</a>
 					</li>
 				</ul>
 
@@ -258,80 +258,75 @@
 					<div class="tab-pane fade" id="reviews" role="tabpanel">
 						<div class="row">
 							<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-								<div class="p-b-30 m-lr-15-sm">
+								<div class="p-b-30 m-lr-15-sm bi-dao">
 									<!-- Review -->
-									<div class="flex-w flex-t p-b-68">
-										<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-											<img src="images/avatar-01.jpg" alt="AVATAR">
-										</div>
-
-										<div class="size-207">
-											<div class="flex-w flex-sb-m p-b-17">
-												<span class="mtext-107 cl2 p-r-20">
-													Ariana Grande
-												</span>
-
-												<span class="fs-18 cl11">
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star"></i>
-													<i class="zmdi zmdi-star-half"></i>
-												</span>
-											</div>
-
-											<p class="stext-102 cl6">
-												Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
-											</p>
-										</div>
+									<!-- Form thêm comment -->
+									@if (auth()->check())
+									<div id="commentSection" data-product-id="{{ $product->product_id }}">
+										<div class="comments"></div> <!-- Đây là nơi chứa các bình luận -->
+										<textarea id="commentContent" class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" placeholder="Write your comment..." required></textarea>
+										<div id="commentError" class="text-danger mt-2" style="display: none;"></div>
+										<button id="postCommentBtn" class="btn btn-primary">Post Comment</button>
 									</div>
 
-									<!-- Add review -->
-									<form class="w-full">
-										<h5 class="mtext-108 cl2 p-b-7">
-											Add a review
-										</h5>
+										@if ($comments->isEmpty())
+										<p class="m-b-20">Chưa có comment nào để hiện thị. Hãy là người đầu tiên để lại bình luận cho sản phẩm nào</p>
+										@else
+										@foreach ($comments as $comment)
+										<div class="flex-w flex-t p-b-68 bi-dao">
 
-										<p class="stext-102 cl6">
-											Your email address will not be published. Required fields are marked *
-										</p>
+											<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+												<img src="{{asset($comment->user->image)}}" alt="AVATAR">
+											</div>
 
-										<div class="flex-w flex-m p-t-50 p-b-23">
-											<span class="stext-102 cl3 m-r-16">
-												Your Rating
-											</span>
+											<div class="size-207">
+												<div class="flex-w flex-sb-m">
+													<span class="mtext-107 cl2 p-r-20">
+														{{ $comment->user->name }}
+													</span>
 
-											<span class="wrap-rating fs-18 cl11 pointer">
-												<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-												<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-												<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-												<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-												<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-												<input class="dis-none" type="number" name="rating">
-											</span>
+
+													<span class="fs-18 cl11">
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star"></i>
+														<i class="zmdi zmdi-star-half"></i>
+													</span>
+												</div>
+												<div class="flex-w flex-sb-m p-b-17">
+													<span style="font-size: 14px; color: gray;">
+														Comment on: {{ $comment->created_at->format('d-m-Y') }}
+													</span>
+													@if ($comment->user_id == auth()->id()) <!-- Hiển thị nút nếu là người đăng nhập -->
+													<div class="comment-actions">
+														<a href="{{ route('comments.edit', $comment->comment_id) }}">Edit</a>
+
+														<form action="{{ route('comments.destroy', $comment->comment_id) }}" method="POST" style="display:inline;">
+															@csrf
+															@method('DELETE')
+															<button type="submit">Delete</button>
+														</form>
+													</div>
+													@endif
+												</div>
+
+												<p class="stext-102 cl6">
+													{{ $comment->content }}
+												</p>
+											</div>
+
 										</div>
+										@endforeach
+										@endif
+									</div>
 
-										<div class="row p-b-25">
-											<div class="col-12 p-b-5">
-												<label class="stext-102 cl3" for="review">Your review</label>
-												<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review"></textarea>
-											</div>
 
-											<div class="col-sm-6 p-b-5">
-												<label class="stext-102 cl3" for="name">Name</label>
-												<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name">
-											</div>
 
-											<div class="col-sm-6 p-b-5">
-												<label class="stext-102 cl3" for="email">Email</label>
-												<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" name="email">
-											</div>
-										</div>
+									@else
+									<p>Please <a href="{{ route('login') }}">log in</a> to add a comment.</p>
+									@endif
 
-										<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-											Submit
-										</button>
-									</form>
 								</div>
 							</div>
 						</div>
@@ -503,5 +498,113 @@
 		}
 	});
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+		const productId = document.getElementById('commentSection').getAttribute('data-product-id');
+
+		// Gửi bình luận
+		$('#postCommentBtn').click(function() {
+			const content = $('#commentContent').val();
+			$('#commentError').hide();
+
+			if (!content) {
+				$('#commentError').text('Content cannot be empty').show();
+				return;
+			}
+
+			$.ajax({
+				url: "{{ route('comments.store') }}",
+				type: "POST",
+				data: {
+					product_id: productId,
+					content: content,
+					_token: "{{ csrf_token() }}"
+				},
+				success: function(response) {
+					if (response.success) {
+						$('#commentContent').val(''); // Clear input field
+						loadComments(); // Load lại bình luận sau khi gửi thành công
+					}
+				},
+				error: function(xhr) {
+					if (xhr.status === 422) {
+						const errors = xhr.responseJSON.errors;
+						let errorMessage = '';
+						for (let field in errors) {
+							errorMessage += errors[field][0] + '<br>';
+						}
+						$('#commentError').html(errorMessage).show();
+					} else {
+						$('#commentError').text('An error occurred. Please try again later.').show();
+					}
+				}
+			});
+		});
+
+		function loadComments() {
+			$.ajax({
+				url: `/comments/${productId}`,
+				type: "GET",
+				success: function(response) {
+					if (response.success) {
+						const comments = response.comments;
+						$('#bi-dao').empty();
+						let html = `<div id="commentSection" data-product-id="{{ $product->product_id }}">
+										<div class="comments"></div> <!-- Đây là nơi chứa các bình luận -->
+										<textarea id="commentContent" class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" placeholder="Write your comment..." required></textarea>
+										<div id="commentError" class="text-danger mt-2" style="display: none;"></div>
+										<button id="postCommentBtn" class="btn btn-primary">Post Comment</button>
+									</div>`; // Khởi tạo biến html để tích lũy các bình luận
+						comments.forEach(comment => {
+							let row = ` <!-- Tích lũy tất cả HTML comment ở đây -->
+                        <div class="flex-w flex-t p-b-68">
+                            <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                <img src="/${comment.user.image}" alt="AVATAR">
+                            </div>
+                            <div class="size-207">
+                                <div class="flex-w flex-sb-m">
+                                    <span class="mtext-107 cl2 p-r-20">
+                                        ${comment.user.name}
+                                    </span>
+                                    <span class="fs-18 cl11">
+                                        <i class="zmdi zmdi-star"></i>
+                                        <i class="zmdi zmdi-star"></i>
+                                        <i class="zmdi zmdi-star"></i>
+                                        <i class="zmdi zmdi-star"></i>
+                                        <i class="zmdi zmdi-star-half"></i>
+                                    </span>
+                                </div>
+                                <div class="flex-w flex-sb-m p-b-17">
+                                    <span style="font-size: 14px; color: gray;">
+                                        Comment on: ${new Date(comment.created_at).toLocaleString()}
+                                    </span>
+                                </div>
+                                <p class="stext-102 cl6">
+                                    ${comment.content}
+                                </p>
+                            </div>
+                        </div>
+						`;
+							html += row; // Thêm mỗi bình luận vào biến html
+						});
+
+						// Giữ lại form comment và thêm các comment vào sau phần tử chứa form
+						$('#commentSection').html(html); // Chỉ thay đổi phần chứa comment
+					}
+				},
+				error: function(xhr, status, error) {
+					$('#commentError').text('Có lỗi xảy ra khi tải bình luận. Vui lòng thử lại.').show();
+				}
+			});
+		}
+
+
+
+	});
+</script>
+
 
 @endsection()
