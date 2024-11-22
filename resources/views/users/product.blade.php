@@ -254,12 +254,6 @@
 						<div class="block2-pic hov-img0">
 							<img src="{{'/' . $images[$index]->image_path}}" alt="IMG-PRODUCT">
 
-			<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-				<!-- Block2 -->
-				<div class="block2">
-					<div class="block2-pic hov-img0">
-						<img src="{{ $images[$index]->image_path }}" alt="IMG-PRODUCT">
-
 						@php
 						// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
 						$token = session('product_token', Str::random(32));

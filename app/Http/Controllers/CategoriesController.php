@@ -64,7 +64,7 @@ class CategoriesController extends Controller
         if ($tokenFromUrl !== $tokenFromSession) {
             abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
         }
-        $danhmuc = Danhmuc::findOrFail($danhmucId);
+        $danhmuc = Categories::findOrFail($danhmucId);
         return view('/admin/danhmuc-edit', compact('danhmuc'));
     }
 

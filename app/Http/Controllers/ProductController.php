@@ -189,7 +189,7 @@ class ProductController extends Controller
             $query->where('subCategory_id', $subCategoryId);
         }
 
-        $products = $query->orderBy('price', $order)->get();
+        $products = $query->orderBy('price', $order)->paginate(8);
 
         $images = [];
         foreach ($products as $product) {
