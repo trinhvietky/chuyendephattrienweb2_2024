@@ -162,39 +162,25 @@ class ProductController extends Controller
     // Cập nhật thông tin sản phẩm
     public function update(Request $request, $id)
     {
-
-        // Validate dữ liệu từ form
+        // Validate dữ liệu
         $validate = $request->validate([
             'product_name' => 'required|string|max:255',
             'description' => 'required',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,category_id',
-            'product_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Xác thực tệp
-            'productImage_id[]' => 'required|numeric'
         ]);
-        // dd($validate);
-        dd($$request->product_image);
-        foreach ($request->product_image as $index =>  $image) {
 
-            if ($image) {
-                //xu ly hinh nah
-                $image_id = $request->productImage_id[$index];
-                $this->updateImage($image, $image_id, $product_id, $validatedData['color_id']);
-            }
-        }
+        // Tìm sản phẩm
+        $product = Product::findOrFail($id);
 
         // Cập nhật sản phẩm
-        $product = Product::findOrFail($id);
-        $product->update([
-            'product_name' => $validate['product_name'],
-            'description' => $validate['description'],
-            'price' => $validate['price'],
-            'category_id' => $validate['category_id'],
-        ]);
-        // dd($product);
+        $product->product_name = $validate['product_name'];
+        $product->description = $validate['description'];
+        $product->price = $validate['price'];
+        $product->category_id = $validate['category_id']; // Gán thủ công
+        $product->save(); // Lưu lại
 
-        // Chuyển hướng về danh sách sản phẩm
-        return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được cập nhật');
+        return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được cập nhật.');
     }
 
 
