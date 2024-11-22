@@ -245,10 +245,23 @@
 <script>
 	$(document).ready(function() {
 
+		window.onload = function() {
+			// Thêm 2 trạng thái vào lịch sử trình duyệt ngay khi tải trang
+			history.pushState(null, null, window.location.href);
+			history.pushState(null, null, window.location.href);
+
+			// Lắng nghe sự kiện popstate (sự kiện khi người dùng nhấn nút quay lại)
+			window.onpopstate = function(event) {
+				// Khi sự kiện popstate xảy ra (người dùng nhấn nút back), thay thế lịch sử và giữ người dùng trên trang hiện tại
+				history.pushState(null, null, window.location.href); // Đẩy trạng thái mới vào lịch sử
+			};
+		};
+
 		const addressList = document.getElementById('address-list');
 		const addAddressForm = document.getElementById('add-address-form');
 		const addNewAddressBtn = document.getElementById('add-new-address');
 		const selectAddressBtn = document.getElementById('select-address');
+
 
 		// Hiển thị form "Thêm địa chỉ mới"
 		addNewAddressBtn.addEventListener('click', function(e) {
@@ -360,6 +373,8 @@
 			});
 		});
 
+
+
 		$('#place-order').on('click', function(event) {
 			event.preventDefault(); // Ngừng gửi form mặc định
 
@@ -405,6 +420,7 @@
 			// 	return;
 			// }
 
+
 			// Gửi dữ liệu tới backend qua AJAX
 			$.ajax({
 				url: '/payment', // Đảm bảo URL chính xác
@@ -429,24 +445,21 @@
 					address: address
 				},
 				success: function(response) {
-					// Xử lý khi gửi thành công
 					if (response.success) {
-						// alert("Order created successfully! Redirecting to payment...");
-						// Chuyển hướng người dùng đến trang thanh toán
-						// const fullUrl = new URL(response.payment_url, window.location.origin);
-						// console.log(response.payment_url);
-						window.location.href = response.payment_url;
+						console.log(response.payment_url);
+
+						// location.href = response.payment_url;
 					} else {
 						alert("Order creation failed: " + response.message);
 					}
 				},
 				error: function(response) {
-
-					console.log(response);
-
+					console.error('AJAX error:', response);
+					alert('An error occurred. Please try again.');
 				}
 			});
 		});
+		// Ngăn không cho người dùng quay lại trang trước khi thanh toán
 
 	});
 </script>
