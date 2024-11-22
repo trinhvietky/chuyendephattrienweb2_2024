@@ -94,12 +94,26 @@
 						<ul>
 							@foreach($latestProducts as $product)
 							<li class="flex-w flex-t p-b-30">
-								<a href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
+
+
+							@php
+						// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+						$token = session('product_token', Str::random(32));
+
+						// Lưu token vào session nếu nó không tồn tại
+						session(['product_token' => $token]);
+
+						// Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+						$encodedId = Crypt::encryptString($product->product_id);
+						@endphp
+
+
+								<a href="{{ route('users/product-detail', ['product_id' => $encodedId]) }}?token={{ $token }}" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
 									<img src="{{ asset($product->images->first()->image_path) }}" alt="PRODUCT">
 								</a>
 
 								<div class="size-215 flex-col-t p-t-8">
-									<a href="{{ route('users/product-detail', ['product_id' => $product->product_id]) }}" class="stext-116 cl8 hov-cl1 trans-04">
+									<a href="{{ route('users/product-detail', ['product_id' => $encodedId]) }}?token={{ $token }}" class="stext-116 cl8 hov-cl1 trans-04">
 										{{$product->product_name}}
 									</a>
 
