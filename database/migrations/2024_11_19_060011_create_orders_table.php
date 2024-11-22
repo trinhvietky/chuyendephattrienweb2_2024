@@ -34,6 +34,9 @@ return new class extends Migration
 
             $table->string('note')->nullable(); // Ghi chú của khách hàng (tùy chọn)
 
+            $table->string('photo_path')->nullable();//ảnh
+            $table->string('product_name')->nullable();//tên sản phẩm
+            
             $table->timestamps(); // created_at, updated_at
 
             // Định nghĩa khóa ngoại
