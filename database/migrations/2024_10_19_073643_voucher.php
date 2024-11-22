@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->double('minimum_order');
-            $table->integer('usage_limit');
+            $table->double('usage_limit');
             $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();

@@ -9,7 +9,11 @@ use App\Models\Categories;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\DanhmucController;
+
+use App\Http\Controllers\ContactController;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\ProductVariantController;
@@ -22,6 +26,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReviewController;
 
 
 /*
@@ -34,6 +39,17 @@ use App\Http\Controllers\PaymentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::post('/products/{product_id}', [ReviewController::class, 'storeReview'])->name('products.reviews');
+// Route cho việc chỉnh sửa review
+Route::get('/reviews/{review_id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+Route::put('/reviews/{review_id}', [ReviewController::class, 'update'])->name('reviews.update');
+// Xử lý xóa review
+Route::delete('reviews/{review_id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+// Route cho việc tạo review mới
+Route::post('/products/{product_id}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
+
 
 // search user
 Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
@@ -211,6 +227,9 @@ Route::put('/admin/danhmuc/{danhmuc_ID}', [CategoriesController::class, 'update'
 
 Route::delete('/admin/danhmuc/{id}', [CategoriesController::class, 'destroy'])->name('danhmuc.destroy');
 
+
+
+
 //Quan ly product
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('products', [ProductController::class, 'store'])->name('products.store');
@@ -253,6 +272,7 @@ Route::get('admin/edit_voucher/{id}', [CrudVoucherController::class, 'edit'])->n
 Route::post('admin/update-voucher/{id}', [CrudVoucherController::class, 'updateVoucher'])->name('update_voucher');
 // xóa voucher
 Route::delete('admin/delete-voucher/{id}', [CrudVoucherController::class, 'deleteVoucher'])->name('delete_voucher');
+
 
 
 //-------SIZE
@@ -305,6 +325,15 @@ Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
 Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
 
 Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
+ 
+
+
+
+
+//contact
+Route::post('/send', [ContactController::class, 'send'])->name('contact.send');
+
+
 
 //blog
 Route::get('/blog-list', [BlogController::class, 'index'])->name('blog-list');

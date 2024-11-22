@@ -135,14 +135,24 @@ class ProductController extends Controller
         }
 
         // Tìm sản phẩm
-        $product = Product::with(['images', 'productVariants.size', 'productVariants.color'])->findOrFail($productId);
+        $product = Product::with([
+            'images',                    // Eager load hình ảnh của sản phẩm
+            'reviews' => function ($query) {  // Eager load đánh giá, có thể sắp xếp theo thời gian mới nhất
+                $query->orderBy('created_at', 'desc'); // Sắp xếp các đánh giá từ mới nhất
+            },
+            'productVariants.size',       // Eager load các size của sản phẩm (nếu có)
+            'productVariants.color'      // Eager load các màu của sản phẩm (nếu có)
+        ])->findOrFail($productId); // Tìm sản phẩm với id đã mã hóa, hoặc lỗi 404 nếu không tìm thấy
+
 
         // Lấy sản phẩm liên quan và hình ảnh
         $relatedProductsData = $this->getLatestProducts();
         $relatedProducts = $relatedProductsData['products'];
         $relatedImages = $relatedProductsData['images'];
 
-        return view('users.product-detail', compact('product', 'relatedProducts', 'relatedImages'));
+        $reviewsCount = $product->reviews->count();
+
+        return view('users.product-detail', compact('product', 'reviewsCount', 'relatedProducts', 'relatedImages'));
     }
 
 

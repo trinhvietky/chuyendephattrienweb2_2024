@@ -17,13 +17,19 @@ class PasswordController extends Controller
     {
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'password' => ['required', 
+            Password::min(8)
+                ->letters()    // Bao gồm chữ cái
+                ->mixedCase()  // Bao gồm chữ hoa và chữ thường
+                ->numbers()    // Bao gồm số
+                ->symbols(), 'confirmed'],
         ]);
+
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('status', 'password-updated');
+        return back()->with('status', 'Mật khẩu được cập nhật thành công');
     }
 }
