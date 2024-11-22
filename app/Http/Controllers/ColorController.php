@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Color;
+use Illuminate\Support\Facades\Crypt;
 
 class ColorController extends Controller
 {
     public function index()
     {
         // Lấy tất cả dữ liệu từ bảng size
-        $colors = Color::all();
+        $colors = Color::paginate(2);
 
         // Trả dữ liệu về view
         return view('admin/color-list', compact('colors'));
@@ -32,26 +33,56 @@ class ColorController extends Controller
     public function store(Request $request)
     {
         // Validate the incoming request data
-        $validated = $request->validate([
-            'color_name' => 'required|string|max:255',
-        ], 
-        [
-            'color_name.required' => 'Tên là bắt buộc.',
-        ]);
-
-        // Create a new user
+        $validated = $request->validate(
+            [
+                'color_name' => [
+                    'required',
+                    'string',
+                    'max:20',
+                    'regex:/^[\pL0-9\s\-]+$/u', // Chỉ cho phép ký tự chữ cái, số, và dấu gạch ngang
+                ],
+            ],
+            [
+                'color_name.required' => 'Tên màu không được để trống. Vui lòng điền đầy đủ thông tin. ',
+                'color_name.regex' => 'Tên màu chỉ được phép chứa các ký tự chữ cái, số và dấu gạch ngang, không được chứa ký tự đặc biệt khác.',
+                'color_name.max' => 'Tên màu có độ dài là 20 ký tự. Vui lòng kiểm tra lại.',
+            ]
+        );
+    
+        // Create a new color record
         $color = Color::create([
             'color_name' => $validated['color_name'],
         ]);
-
+    
         // Redirect to a specific page after saving
         return redirect()->route('color-list')->with('success', 'Color added successfully!');
     }
+    
 
-    public function edit($id)
+    public function edit($encodedId)
     {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $colorId = Crypt::decryptString($encodedId); // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('color_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
         // Lấy thông tin user theo id
-        $color = Color::where('color_id', $id)->first();
+        $color = Color::where('color_id', $colorId)->first();
 
         // Trả dữ liệu về view edit
         return view('admin/color-edit', compact('color'));
@@ -59,6 +90,22 @@ class ColorController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validate the incoming request data
+        $validated = $request->validate(
+            [
+                'color_name' => [
+                    'required',
+                    'string',
+                    'max:20',
+                    'regex:/^[\pL0-9\s\-]+$/u', // Chỉ cho phép ký tự chữ cái, số, và dấu gạch ngang
+                ],
+            ],
+            [
+                'color_name.required' => 'Tên màu không được để trống. Vui lòng điền đầy đủ thông tin.',
+                'color_name.regex' => 'Tên màu chỉ được phép chứa các ký tự chữ cái, số và dấu gạch ngang, không được chứa ký tự đặc biệt khác.',
+                'color_name.max' => 'Tên màu có độ dài là 20 ký tự. Vui lòng kiểm tra lại.',
+            ]
+        );
         // Tìm user theo ID
         $color = Color::where('color_id', $id)->first();
 

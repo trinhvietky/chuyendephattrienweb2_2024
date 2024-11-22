@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Address;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -62,4 +63,24 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    public function updateAvatar(Request $request)
+{
+    // Lấy người dùng hiện tại
+    $user = $request->user();
+
+    // Kiểm tra nếu có file ảnh
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+
+        // Gọi phương thức trong model User
+        $newImagePath = $user->updateAvatar($file);
+
+        // Trả về JSON với đường dẫn ảnh
+        return response()->json(['image_url' => asset($newImagePath)]);
+    }
+
+    // Trường hợp không có ảnh
+    return response()->json(['error' => 'No image uploaded'], 400);
+}
+
 }

@@ -35,19 +35,39 @@ class CrudVoucherController extends Controller
     /**
      * hàm tìm voucher theo id
      */
+
     public function edit($encryptedId)
     {
-        // Giải mã ID
-        try {
-            $id = Crypt::decryptString(urldecode($encryptedId));
+        
+         // Giải mã ID sản phẩm từ URL
+         try {
+            $voucherId = Crypt::decryptString($encryptedId);     // Giải mã ID sản phẩm
         } catch (\Exception $e) {
+            // abort(404, 'ID sản phẩm không hợp lệ');
             return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
         }
-        // Lấy thông tin user theo id đã giải mã
-        $voucher = Voucher::where('id', $id)->first();
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('voucher_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
+        // Lấy thông tin user theo id
+        $voucher = Voucher::where('id', $voucherId)->first();
+
+        //kiểm tra voucher có tồn tại không
         if (!$voucher) {
             return redirect('admin/voucher-list')->with('error', 'voucher không tồn tại');
         }
+        
         // Trả dữ liệu về view edit
         return view('admin.voucher-edit', ['voucher' => $voucher]);
     }

@@ -103,55 +103,56 @@
 
 <body>
     <div class="header-form">
-    <div class="container">
-        <h3>Địa chỉ mới</h3>
+        <div class="container">
+            <h3>Địa chỉ mới</h3>
 
-        <form action="{{route('address.form')}}" method="POST">
-            @csrf
-            <!-- Liên hệ Section -->
-            <div>
-                <p class="section-title">Liên hệ</p>
-                <input type="text" id="name" name="name" class="form-control mb-3" placeholder="Họ và tên" required>
-                <input type="text" id="phone" name="phone" class="form-control mb-3" placeholder="Số điện thoại" required>
-            </div>
+            <form action="{{route('address.edit')}}" method="POST">
+                @csrf
+                <!-- Liên hệ Section -->
+                <div>
+                    <p class="section-title">Liên hệ</p>
+                    <input type="text" id="name" name="name" class="form-control mb-3" placeholder="Họ và tên" required>
+                    <input type="text" id="phone" name="phone" class="form-control mb-3" placeholder="Số điện thoại" required>
+                </div>
 
-            <!-- Địa chỉ Section -->
-            <div>
-                <p class="section-title">Địa chỉ</p>
-                <select id="tinh" name="tinh" class="form-select mb-3" title="Chọn Tỉnh Thành" required>
-                    <option value="0">Chọn Tỉnh/Thành phố</option>
-                </select>
+                <!-- Địa chỉ Section -->
+                <div>
+                    <p class="section-title">Địa chỉ</p>
+                    <select id="tinh" name="tinh" class="form-select mb-3" title="Chọn Tỉnh Thành" required>
+                        <option value="0">Chọn Tỉnh/Thành phố</option>
+                    </select>
 
-                <select id="quan" name="quan" class="form-select mb-3" required>
-                    <option value="0">Chọn Quận/Huyện</option>
-                </select>
+                    <select id="quan" name="quan" class="form-select mb-3" required>
+                        <option value="0">Chọn Quận/Huyện</option>
+                    </select>
 
-                <select id="phuong" name="phuong" class="form-select mb-3" required>
-                    <option value="0">Chọn Phường/Xã</option>
-                </select>
-                <input type="text" id="address" name="address" class="form-control mb-3" placeholder="Tên đường, Tòa nhà, Số nhà" required>
-            </div>
+                    <select id="phuong" name="phuong" class="form-select mb-3" required>
+                        <option value="0">Chọn Phường/Xã</option>
+                    </select>
+                    <input type="text" id="address" name="address" class="form-control mb-3" placeholder="Tên đường, Tòa nhà, Số nhà" required>
+                </div>
 
-            <!-- Cài đặt Section -->
-            <div class="form-check form-switch mt-3">
-                <input class="form-check-input" type="checkbox" id="is_default" name="is_default" value="1">
-                <label class="form-check-label" for="is_default">
-                    <p style="margin-top: 6px;">Đặt làm địa chỉ mặc định</p>
-                </label>
-            </div>
+                <!-- Cài đặt Section -->
+                <div class="form-check form-switch mt-3">
+                    <input class="form-check-input" type="checkbox" id="is_default" name="is_default" value="1">
+                    <label class="form-check-label" for="is_default">
+                        <p style="margin-top: 6px;">Đặt làm địa chỉ mặc định</p>
+                    </label>
+                </div>
 
-            <!-- Nút Hoàn Thành -->
-            <button type="submit" id="submitBtn" class="submit-btn" disabled>HOÀN THÀNH</button>
+                <!-- Nút Hoàn Thành -->
+                <button type="submit" id="submitBtn" class="submit-btn" disabled>HOÀN THÀNH</button>
 
-        </form>
+            </form>
+        </div>
     </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="/js-home/apiJquery.js"></script>
     <script>
         $(document).ready(function() {
             // Fetch provinces
-            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function(data_tinh) {
+            $.getJSON('/js-home/api/data.json', function(data_tinh) {
                 if (data_tinh.error === 0) {
                     $.each(data_tinh.data, function(key_tinh, val_tinh) {
                         $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
@@ -160,28 +161,33 @@
                     // Fetch districts on province change
                     $("#tinh").change(function() {
                         let idtinh = $(this).val();
-                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function(data_quan) {
-                            if (data_quan.error === 0) {
-                                $("#quan").html('<option value="0">Quận Huyện</option>');
-                                $("#phuong").html('<option value="0">Phường Xã</option>');
-                                $.each(data_quan.data, function(key_quan, val_quan) {
-                                    $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                        let selectedProvince = data_tinh.data.find(function(item) {
+                            return item.id === idtinh;
+                        });
+
+                        if (selectedProvince) {
+                            $("#quan").html('<option value="0">Quận Huyện</option>');
+                            $("#phuong").html('<option value="0">Phường Xã</option>');
+
+                            $.each(selectedProvince.data2, function(key_quan, val_quan) {
+                                $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                            });
+
+                            // Fetch wards on district change
+                            $("#quan").change(function() {
+                                let idquan = $(this).val();
+                                let selectedDistrict = selectedProvince.data2.find(function(item) {
+                                    return item.id === idquan;
                                 });
 
-                                // Fetch wards on district change
-                                $("#quan").change(function() {
-                                    let idquan = $(this).val();
-                                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function(data_phuong) {
-                                        if (data_phuong.error === 0) {
-                                            $("#phuong").html('<option value="0">Phường Xã</option>');
-                                            $.each(data_phuong.data, function(key_phuong, val_phuong) {
-                                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
-                                            });
-                                        }
+                                if (selectedDistrict) {
+                                    $("#phuong").html('<option value="0">Phường Xã</option>');
+                                    $.each(selectedDistrict.data3, function(key_phuong, val_phuong) {
+                                        $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
                                     });
-                                });
-                            }
-                        });
+                                }
+                            });
+                        }
                     });
                 }
             });
@@ -194,7 +200,7 @@
                 let tinh = $('#tinh option:selected').text();
                 let quan = $('#quan option:selected').text();
                 let phuong = $('#phuong option:selected').text();
-                let is_default = $('#is_default').is(':checked'); // Checkbox for default address
+                let is_default = $('#is_default').is(':checked') ? '1' : '0';
 
                 $.ajax({
                     type: 'POST',
@@ -220,9 +226,7 @@
             });
             // Kích hoạt nút hoàn thành khi có đầy đủ thông tin
             document.querySelectorAll('.form-control, .form-select').forEach(input => {
-                input.addEventListener('input', () => {
-                    checkFormCompletion();
-                });
+                input.addEventListener('input', checkFormCompletion);
             });
 
             function checkFormCompletion() {

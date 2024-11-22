@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Home</title>
+	<title>@yield('title', 'Home')</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -87,16 +87,14 @@
 							</li>
 
 							<li>
-								<a href="{{route('users/product')}}">Shop</a>
+								<a href="{{route('product')}}">Shop</a>
 								<ul class="sub-menu">
-								@foreach($danhmucs as $danhmuc)
+									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
+									@foreach($Alldanhmucs as $danhmuc)
 									<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
-								@endforeach
+									@endforeach
+									@endif
 								</ul>
-							</li>
-
-							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.html">Features</a>
 							</li>
 
 							<li>
@@ -116,95 +114,121 @@
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="wrap-icon-header flex-w flex-r-m">
-						<!-- Check if the user is authenticated -->
-						@if (Route::has('login'))
-						<div class="fixed top-0 right-0 px-6 py-4 sm:block">
-							@auth
-							<!-- User is authenticated: Show the dropdown menu -->
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
-						</div>
+							<!-- Check if the user is authenticated -->
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search" style="position: relative;
+							right: 20px;
+							top: 3px;">
+									<i class="zmdi zmdi-search"></i>
+							</div>
+							@if (Route::has('login'))
+							<div class="fixed top-0 right-0 px-6 py-4 sm:block">
+								@auth
+								<!-- User is authenticated: Show the dropdown menu -->
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+									<i class="zmdi zmdi-search"></i>
+								</div>
 
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+									<i class="zmdi zmdi-shopping-cart"></i>
+								</div>
 
-						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</a>
-							<nav x-data="{ open: false }">
-								<div class="flex justify-between h-16">
-									<!-- Settings Dropdown -->
-									<div class="hidden sm:flex sm:items-center sm:ml-6">
-										<x-dropdown align="right" width="48">
-											<x-slot name="trigger">
-												<button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-													<div>{{ Auth::user()->name }}</div>
-													<div class="ml-1">
+								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">
+									<i class="zmdi zmdi-favorite-outline"></i>
+								</a>
+								<style>
+									.btn-link {
+										margin-left: 30px;
+										color: black;
+									}
+
+									.btn-link:hover {
+										color: blue;
+										text-decoration: none;
+									}
+								</style>
+								@if(Auth::user()->usertype === '1')
+								<a href="{{route('dashboard')}}" class="btn-link">
+									Dashboard
+								</a>
+								@endif
+								<nav x-data="{ open: false }">
+									<div class="flex justify-between h-16">
+										<!-- Settings Dropdown -->
+										<div class="hidden sm:flex sm:items-center sm:ml-6">
+											<x-dropdown align="right" width="48">
+												<x-slot name="trigger">
+													<!-- <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" >  -->
+													<!-- <div>{{ Auth::user()->name }}</div> -->
+													@if(Auth::user()->usertype === '0')
+													<img src="{{ asset(Auth::user()->image) }}" alt="" style="width: 50px; height: 50px; border-radius: 50%;
+													cursor: pointer;" />
+													@endif
+
+													<!-- <div class="ml-1">
 														<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
 															<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
 														</svg>
-													</div>
-												</button>
-											</x-slot>
-											<x-slot name="content">
-												<x-dropdown-link :href="route('profile.edit')">
+													</div> -->
+													<!-- </button> -->
+												</x-slot>
+												<x-slot name="content">
+													<x-dropdown-link :href="route('profile.edit')">
+														{{ __('Profile') }}
+													</x-dropdown-link>
+													<form method="POST" action="{{ route('logout') }}">
+														@csrf
+														<x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+															{{ __('Log Out') }}
+														</x-dropdown-link>
+													</form>
+												</x-slot>
+											</x-dropdown>
+										</div>
+										<!-- Hamburger for mobile -->
+										<div class="-mr-2 flex items-center sm:hidden">
+											<button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+												<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+													<path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+													<path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+												</svg>
+											</button>
+										</div>
+									</div>
+									<!-- Responsive Navigation Menu -->
+									<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+										<div class="pt-2 pb-3 space-y-1">
+											<x-responsive-nav-link :href="route('users/home')" :active="request()->routeIs('users/home')">
+												{{ __('Dashboard') }}
+											</x-responsive-nav-link>
+										</div>
+										<!-- Responsive Settings Options -->
+										<div class="pt-4 pb-1 border-t border-gray-200">
+											<div class="px-4">
+												<div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+												<div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+											</div>
+											<div class="mt-3 space-y-1">
+												<x-responsive-nav-link :href="route('profile.edit')">
 													{{ __('Profile') }}
-												</x-dropdown-link>
+												</x-responsive-nav-link>
 												<form method="POST" action="{{ route('logout') }}">
 													@csrf
-													<x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+													<x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
 														{{ __('Log Out') }}
-													</x-dropdown-link>
+													</x-responsive-nav-link>
 												</form>
-											</x-slot>
-										</x-dropdown>
-									</div>
-									<!-- Hamburger for mobile -->
-									<div class="-mr-2 flex items-center sm:hidden">
-										<button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-											<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-												<path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-												<path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-											</svg>
-										</button>
-									</div>
-								</div>
-								<!-- Responsive Navigation Menu -->
-								<div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-									<div class="pt-2 pb-3 space-y-1">
-										<x-responsive-nav-link :href="route('users/home')" :active="request()->routeIs('users/home')">
-											{{ __('Dashboard') }}
-										</x-responsive-nav-link>
-									</div>
-									<!-- Responsive Settings Options -->
-									<div class="pt-4 pb-1 border-t border-gray-200">
-										<div class="px-4">
-											<div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-											<div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-										</div>
-										<div class="mt-3 space-y-1">
-											<x-responsive-nav-link :href="route('profile.edit')">
-												{{ __('Profile') }}
-											</x-responsive-nav-link>
-											<form method="POST" action="{{ route('logout') }}">
-												@csrf
-												<x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-													{{ __('Log Out') }}
-												</x-responsive-nav-link>
-											</form>
+											</div>
 										</div>
 									</div>
-								</div>
-							</nav>
-							@else
-							<!-- User is not authenticated: Show login and register links -->
-							<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
-							<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
-							@endauth
+								</nav>
+								@else
+								<!-- User is not authenticated: Show login and register links -->
+								<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
+								<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
+								@endauth
+							</div>
+							@endif
 						</div>
-						@endif
-					</div>
 					</div>
 				</nav>
 			</div>
@@ -273,38 +297,91 @@
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
-					<ul class="sub-menu-m">
-						<li><a href="index.html">Homepage 1</a></li>
-						<li><a href="home-02.html">Homepage 2</a></li>
-						<li><a href="home-03.html">Homepage 3</a></li>
+					<a href="{{route('users/home')}}">Home</a>
+				</li>
+
+				<li>
+					<a href="{{route('product')}}">Shop</a>
+					<ul class="sub-menu">
+						@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
+						@foreach($Alldanhmucs as $danhmuc)
+						<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
+						@endforeach
+						@endif
 					</ul>
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
 				</li>
 
 				<li>
-					<a href="product.html">Shop</a>
+					<a href="{{route('users/blog')}}">Blog</a>
 				</li>
 
 				<li>
-					<a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+					<a href="{{route('users/about')}}">About</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
-				</li>
-
-				<li>
-					<a href="about.html">About</a>
-				</li>
-
-				<li>
-					<a href="contact.html">Contact</a>
+					<a href="{{route('users/contact')}}">Contact</a>
 				</li>
 			</ul>
 		</div>
+
+		<style>
+			.suggestion-box {
+				position: absolute;
+				background: #fff;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				max-height: 300px;
+				/* Tăng chiều cao tối đa */
+				overflow-y: auto;
+				width: 100%;
+				z-index: 1000;
+				margin-top: 5px;
+				padding: 10px;
+				/* Tăng khoảng cách bên trong */
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			.suggestion-item {
+				display: flex;
+				align-items: flex-start;
+				/* Căn theo góc trái trên */
+				margin-bottom: 15px;
+				/* Tăng khoảng cách giữa các mục */
+			}
+
+			.suggestion-item img {
+				width: 80px;
+				/* Chiều rộng hình ảnh */
+				height: 80px;
+				/* Chiều cao hình ảnh */
+				object-fit: cover;
+				border-radius: 8px;
+				/* Bo góc hình ảnh */
+				margin-right: 15px;
+				/* Khoảng cách giữa hình ảnh và nội dung */
+				border: 1px solid #ddd;
+				/* Viền xung quanh hình ảnh */
+			}
+
+			.suggestion-item:hover {
+				background: #f8f9fa;
+				/* Hiệu ứng hover */
+			}
+
+			.suggestion-item p {
+				margin: 5px 0;
+				font-size: 14px;
+				/* Tăng kích thước chữ */
+				color: #555;
+			}
+
+			.suggestion-item strong {
+				font-size: 16px;
+				/* Kích thước chữ tiêu đề lớn hơn */
+				color: #333;
+			}
+		</style>
 
 		<!-- Modal Search -->
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
@@ -313,12 +390,19 @@
 					<img src="/images/icons/icon-close2.png" alt="CLOSE">
 				</button>
 
-				<form class="wrap-search-header flex-w p-l-15">
+				<form class="wrap-search-header flex-w p-l-15" action="{{ route('products.search') }}" method="GET">
 					<button class="flex-c-m trans-04">
 						<i class="zmdi zmdi-search"></i>
 					</button>
-					<input class="plh3" type="text" name="search" placeholder="Search...">
+					<input
+						class="plh3 search-input"
+						type="text"
+						name="search"
+						placeholder="Search..."
+						value="{{ request()->get('search') }}"
+						autocomplete="off">
 				</form>
+				<div class="suggestion-box" style="display: none;"></div>
 			</div>
 		</div>
 	</header>
@@ -661,6 +745,73 @@
 		$('.parallax100').parallax100();
 	</script>
 	<!--===============================================================================================-->
+	<!-- search có gợi ý -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const searchInput = document.querySelector('.search-input');
+			const suggestionBox = document.querySelector('.suggestion-box');
+
+			searchInput.addEventListener('input', function() {
+				const query = this.value.trim();
+				if (query.length > 2) {
+					fetch(`/products/suggestions?query=${query}`)
+						.then(response => response.json())
+						.then(data => {
+							suggestionBox.innerHTML = '';
+							suggestionBox.style.display = 'block';
+
+							if (data.length > 0) {
+								data.forEach(product => {
+									const suggestionItem = document.createElement('div');
+									suggestionItem.classList.add('suggestion-item');
+
+									// Kiểm tra và lấy hình ảnh đầu tiên của sản phẩm, nếu không có thì sử dụng hình ảnh mặc định  
+									const imagePath = product.image_path ? product.image_path : '/images/default-product.jpg'; // Hình ảnh mặc định nếu không có
+									// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+
+									// Tạo nội dung cho gợi ý sản phẩm
+									suggestionItem.innerHTML = `
+										<a href="/product-detail/${product.encoded_id}?token=${product.token}" style="text-decoration: none;">
+											<div class="flex">
+												<img src="${product.image_path}" alt="${product.product_name}" 
+													style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+												<div>
+													<strong>${product.product_name}</strong>
+													<p>Price: $${product.price}</p>
+													<p>${product.description.substring(0, 50)}...</p>
+												</div>
+											</div>
+										</a>
+									`;
+									suggestionBox.appendChild(suggestionItem);
+
+									// Click vào gợi ý để chọn
+									suggestionItem.addEventListener('click', () => {
+										searchInput.value = product.product_name;
+										suggestionBox.innerHTML = '';
+										suggestionBox.style.display = 'none';
+									});
+								});
+							} else {
+								suggestionBox.innerHTML = '<p>Không tìm thấy sản phẩm nào.</p>';
+							}
+						})
+						.catch(error => console.error('Error fetching suggestions:', error));
+				} else {
+					suggestionBox.style.display = 'none';
+				}
+			});
+
+			// Ẩn gợi ý khi click bên ngoài
+			document.addEventListener('click', function(e) {
+				if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
+					suggestionBox.style.display = 'none';
+				}
+			});
+		});
+	</script>
+
+	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/MagnificPopup/jquery.magnific-popup.min.js')}}"></script>
 	<script>
 		$('.gallery-lb').each(function() { // the containers for all your galleries
@@ -678,41 +829,136 @@
 	<script src="{{asset('/vendor/isotope/isotope.pkgd.min.js')}}"></script>
 	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/sweetalert/sweetalert.min.js')}}"></script>
+	<!-- yêu thích -->
 	<script>
-		$('.js-addwish-b2').on('click', function(e) {
-			e.preventDefault();
+		$(document).ready(function() {
+			// Fetch danh sách yêu thích của người dùng khi trang được tải
+			fetchWishlist();
+
+			// Hàm để lấy danh sách yêu thích và cập nhật giao diện
+			function fetchWishlist() {
+				fetch('/get-wishlist') // Gửi yêu cầu GET tới server để lấy dữ liệu danh sách yêu thích
+					.then(response => response.json()) // Chuyển đổi phản hồi thành dạng JSON
+					.then(data => {
+						var wishlist = data.wishlist; // Danh sách các sản phẩm yêu thích
+
+						// Thêm trạng thái 'added' cho các sản phẩm đã có trong danh sách yêu thích
+						$('.js-addwish-b2').each(function() {
+							var productId = $(this).data('product-id'); // Lấy ID của sản phẩm
+							if (wishlist.includes(productId)) { // Kiểm tra xem sản phẩm có trong danh sách yêu thích không
+								$(this).addClass('js-addedwish-b2'); // Thêm class để đánh dấu sản phẩm đã yêu thích
+								$(this).off('click'); // Vô hiệu hóa sự kiện click để không thể thêm lại
+							}
+						});
+					})
+					.catch(error => console.error('Error fetching wishlist:', error)); // Xử lý lỗi nếu có
+			}
+
+			// Hàm để thêm sản phẩm vào danh sách yêu thích
+			function addToWishlist(e) {
+				e.preventDefault(); // Ngừng hành động mặc định của sự kiện (ví dụ: reload trang)
+				var $button = $(this); // Lấy đối tượng button đã được nhấn
+				var productId = $button.data('product-id'); // Lấy ID sản phẩm
+				var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Lấy tên sản phẩm
+
+				// Gửi yêu cầu POST tới server để thêm sản phẩm vào danh sách yêu thích
+				fetch('/add-to-wishlist', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': '{{ csrf_token() }}' // Thêm token CSRF để bảo vệ
+						},
+						body: JSON.stringify({
+							product_id: productId
+						}) // Gửi ID sản phẩm trong body của yêu cầu
+					})
+					.then(response => response.json()) // Chuyển phản hồi từ server thành JSON
+					.then(data => {
+						if (data.success) { // Nếu thêm sản phẩm thành công
+							swal(nameProduct, "Thêm sản phẩm vào danh sách yêu thích thành công", "success"); // Hiển thị thông báo thành công
+
+							// Thêm trạng thái 'added' cho nút và vô hiệu hóa nút
+							$button.addClass('js-addedwish-b2');
+							$button.off('click'); // Vô hiệu hóa sự kiện click để không thể thêm lại
+
+							// Cập nhật số lượng thông báo yêu thích (wishlist)
+							updateWishlistCount();
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						swal("Oops!", "Đăng nhập trước khi thêm sản phẩm vào danh sách yêu thích.", "error"); // Thông báo lỗi
+					});
+			}
+
+			// Hàm để xóa sản phẩm khỏi danh sách yêu thích
+			function removeFromWishlist(e) {
+				e.preventDefault(); // Ngừng hành động mặc định của sự kiện (ví dụ: reload trang)
+				var $button = $(this); // Lấy đối tượng button đã được nhấn
+				var productId = $button.data('product-id'); // Lấy ID sản phẩm
+				var nameProduct = $button.closest('.block2').find('.js-name-b2').text(); // Lấy tên sản phẩm
+
+				// Gửi yêu cầu POST tới server để xóa sản phẩm khỏi danh sách yêu thích
+				fetch('/remove-from-wishlist', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRF-TOKEN': '{{ csrf_token() }}' // Thêm token CSRF để bảo vệ
+						},
+						body: JSON.stringify({
+							product_id: productId
+						}) // Gửi ID sản phẩm trong body của yêu cầu
+					})
+					.then(response => response.json()) // Chuyển phản hồi từ server thành JSON
+					.then(data => {
+						if (data.success) { // Nếu xóa sản phẩm thành công
+							swal(nameProduct, "Xóa sản phẩm yêu thích thành công", "success"); // Hiển thị thông báo thành công
+
+							// Xóa trạng thái 'added' cho nút và bật lại chức năng thêm sản phẩm vào wishlist
+							$button.removeClass('js-addedwish-b2');
+							$button.on('click', addToWishlist); // Kích hoạt lại sự kiện click để có thể thêm lại sản phẩm
+
+							// Cập nhật số lượng thông báo yêu thích
+							var currentNotify = parseInt($('.js-show-wishlist').attr('data-notify')) || 0; // Lấy số lượng yêu thích hiện tại
+							if (currentNotify > 0) {
+								$('.js-show-wishlist').attr('data-notify', currentNotify - 1); // Giảm số lượng thông báo yêu thích
+							}
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						swal("Oops!", "Có lỗi khi xóa sản phẩm khỏi danh sách yêu thích.", "error"); // Thông báo lỗi
+					});
+			}
+
+			// Gắn sự kiện click cho cả hai hành động: thêm và xóa sản phẩm trong danh sách yêu thích
+			$(document).on('click', '.js-addwish-b2', addToWishlist); // Khi nhấn nút 'Thêm yêu thích'
+			$(document).on('click', '.js-addedwish-b2', removeFromWishlist); // Khi nhấn nút 'Xóa yêu thích'
+
+			// Cập nhật số lượng yêu thích (lấy từ API)
+			function updateWishlistCount() {
+				fetch('/get-wishlist')
+					.then(response => response.json())
+					.then(data => {
+						var wishlistCount = data.wishlist.length;
+						$('.js-show-wishlist').attr('data-notify', wishlistCount);
+					});
+			}
 		});
-
-		$('.js-addwish-b2').each(function() {
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function() {
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
-			});
-		});
-
-		$('.js-addwish-detail').each(function() {
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function() {
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
-			});
-		});
-
-		/*---------------------------------------------*/
-
-		$('.js-addcart-detail').each(function() {
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function() {
-				swal(nameProduct, "is added to cart !", "success");
-			});
+		// Khi trang được tải lại, lấy số lượng yêu thích từ server
+		$(document).ready(function() {
+			fetch('/get-wishlist-count') // API lấy số lượng wishlist của người dùng
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						// Cập nhật số lượng yêu thích trong giao diện
+						$('.js-show-wishlist').attr('data-notify', data.wishlistCount);
+					}
+				})
+				.catch(error => console.error('Error fetching wishlist count:', error));
 		});
 	</script>
+
 	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
 	<script>

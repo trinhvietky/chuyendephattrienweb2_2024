@@ -199,7 +199,7 @@ Reset links to optimize for opt-in styling instead of opt-out.
 
 a {
   color: inherit;
-  text-decoration: inherit;
+  text-decoration: none;
 }
 
 /*
@@ -1070,6 +1070,7 @@ select {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  text-decoration: none;
 }
 .py-4 {
   padding-top: 1rem;

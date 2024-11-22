@@ -115,7 +115,7 @@ class ForgotPasswordController extends Controller
         ->where('email', $email)
         ->update([
             'otp' => $otp,
-            'expiry' => now()->addMinutes(1), // Đặt lại thời gian hết hạn
+            'expiry' => now()->addMinutes(2), // Đặt lại thời gian hết hạn
         ]);
 
     // Gửi email chứa mã OTP mới
