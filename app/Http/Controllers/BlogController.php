@@ -13,7 +13,7 @@ class BlogController extends Controller
     public function index()
     {
         // Lấy tất cả blog từ cơ sở dữ liệu
-        $blogs = Blog::paginate(10);
+        $blogs = Blog::paginate(2);
 
         // Trả về view và truyền dữ liệu blog vào
         return view('admin/blog-list', compact('blogs'));

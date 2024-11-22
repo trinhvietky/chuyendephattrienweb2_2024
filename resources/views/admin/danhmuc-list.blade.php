@@ -25,7 +25,7 @@
                                     <i class="icon nalika-home"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>Danh sách danh muc</h2>
+                                    <h2>Categories Administrator</h2>
                                     <p>Welcome to T-Fashion <span class="bread-ntd">Shop</span></p>
                                 </div>
                             </div>
@@ -48,15 +48,15 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
-                    <h4>Danh muc List</h4>
+                    <h4>Categories List</h4>
                     <div class="add-product">
-                        <a href="danhmuc-add" class="btn btn-primary">Thêm danh mục</a>
+                        <a href="danhmuc-add" style="background-color: #337ab7;" class="btn btn-primary">Add Categories</a>
                     </div>
                     <table>
                         <tr>
                             <th>ID</th>
-                            <th>Tên danh mục</th>
-                            <th>Hành động</th>
+                            <th>Category name</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>

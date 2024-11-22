@@ -9,7 +9,7 @@
     // Tự động ẩn thông báo sau 3 giây
     setTimeout(function() {
         document.getElementById('success').style.display = 'none';
-    }, 5000);
+    }, 50000);
 </script>
 @endif
 

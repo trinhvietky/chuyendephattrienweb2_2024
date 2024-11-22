@@ -73,7 +73,7 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="{{route('dashboard')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
+                <a href="{{route('dashboard')}}"><img class="main-logo" style="background-color: white; margin: 20px 30px;" src="/img/logo/logo-01.png" alt="" /></a>
                 <strong><img src="/img/logo/logosn.png" alt="" /></strong>
             </div>
             <div class="nalika-profile">
