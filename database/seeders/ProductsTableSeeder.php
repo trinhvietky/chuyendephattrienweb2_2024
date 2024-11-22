@@ -20,7 +20,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Women\'s Elegant Dress',
                 'description' => 'An elegant dress for special occasions.',
                 'price' => 100000,
-                'subCategory_id' => 3, // Dresses
+                'category_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -28,7 +28,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Women\'s Casual Top',
                 'description' => 'Comfortable and stylish top for women.',
                 'price' => 150000,
-                'subCategory_id' => 4, // Tops
+                'category_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -36,7 +36,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Men\'s Sports Jacket',
                 'description' => 'A sporty jacket for men for outdoor activities.',
                 'price' => 200000,
-                'subCategory_id' => 5, // Jackets
+                'category_id' => 5,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -44,7 +44,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Women\'s Skirt',
                 'description' => 'Stylish skirt for every occasion.',
                 'price' => 180000,
-                'subCategory_id' => 6, // Skirts
+                'category_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -52,7 +52,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Men\'s Leather Boots',
                 'description' => 'Durable leather boots for men.',
                 'price' => 120000,
-                'subCategory_id' => 1, // Footwear
+                'category_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -60,7 +60,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Women\'s Heeled Sandals',
                 'description' => 'Stylish heeled sandals for women.',
                 'price' => 210000,
-                'subCategory_id' => 2, // Footwear
+                'category_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -68,7 +68,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Men\'s Running Shoes',
                 'description' => 'Lightweight and comfortable shoes for running.',
                 'price' => 300000,
-                'subCategory_id' => 3, // Footwear
+                'category_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -76,7 +76,7 @@ class ProductsTableSeeder extends Seeder
                 'product_name' => 'Women\'s Handbag',
                 'description' => 'Elegant handbag for women.',
                 'price' => 280000,
-                'subCategory_id' => 4, // Bags
+                'category_id' => 4,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

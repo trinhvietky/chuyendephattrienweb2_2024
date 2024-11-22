@@ -179,14 +179,14 @@ class ProductController extends Controller
 
 
     //Fillter
-    public function filter(Request $request, $subCategoryId = null)
+    public function filter(Request $request, $category_id = null)
     {
         $order = $request->get('order', 'asc');
 
         $query = Product::query();
 
-        if ($subCategoryId) {
-            $query->where('subCategory_id', $subCategoryId);
+        if ($category_id) {
+            $query->where('category_id', $category_id);
         }
 
         $products = $query->orderBy('price', $order)->paginate(8);
@@ -198,13 +198,13 @@ class ProductController extends Controller
 
         $Alldanhmucs = Categories::all();
 
-        return view('users/product', compact('products', 'images', 'order', 'subCategoryId', 'Alldanhmucs'));
+        return view('users/product', compact('products', 'images', 'order', 'category_id', 'Alldanhmucs'));
     }
 
 
 
 
-    
+
     // tìm kiếm
     public function search(Request $request)
     {

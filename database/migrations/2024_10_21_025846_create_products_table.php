@@ -13,10 +13,10 @@ class CreateProductsTable extends Migration
             $table->string('product_name', 255);
             $table->text('description');
             $table->double('price');
-            $table->unsignedBigInteger('subCategory_id');  // Khóa ngoại tới bảng sub_categories
+            $table->unsignedBigInteger('category_id');  // Khóa ngoại tới bảng sub_categories
 
             // Định nghĩa khóa ngoại
-            $table->foreign('subCategory_id')->references('subCategory_id')->on('sub_categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
 
             $table->timestamps();
         });
