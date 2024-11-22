@@ -22,10 +22,17 @@ class OrderController extends Controller
     {
         // Lấy giỏ hàng từ session
         $carts = session('carts');
+
+        if ($carts->isEmpty()) {
+            // dd($carts);
+            return redirect()->back();
+        }
+
         $user = auth()->user();
         $listAddress = Address::where('user_id', $user->id)->get();
         $images = [];
         $totalQuantity = 0;
+
         foreach ($carts as $cart) {
             $totalQuantity += $cart->quantity;
             $images[] = ProductImage::where('product_id', $cart->productVariant->product->product_id)
