@@ -17,7 +17,7 @@ class Product extends Model
         'product_name',
         'description',
         'price',
-        'subCategory_id',
+        'categories',
     ];
     // Định nghĩa hàm tìm kiếm Full-Text
     public static function search($query)
@@ -30,9 +30,9 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
-    public function subCategory()
+    public function Categories()
     {
-        return $this->belongsTo(SubCategory::class, 'subCategory_id');
+        return $this->belongsTo(Categories::class, 'category_id');
     }
 
     public function images()
@@ -83,8 +83,8 @@ class Product extends Model
                 ->get();
 
             // Kiểm tra và tạo token nếu chưa có
-    $token = session('product_token', Str::random(32));
-    session(['product_token' => $token]);
+            $token = session('product_token', Str::random(32));
+            session(['product_token' => $token]);
             // Chỉ lấy thông tin cần thiết: ID sản phẩm, tên, giá, mô tả và hình ảnh
             return $suggestions->map(function ($product) use ($token) {
                 $imagePath = $product->images->isNotEmpty() ? url($product->images->first()->image_path) : null;
