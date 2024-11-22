@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Blog;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductVariantsTableSeeder::class);
         $this->call(ProductImagesSeeder::class);
         $this->call(CartSeeder::class);
+        $this->call(BlogSeeder::class);
     }
 }
