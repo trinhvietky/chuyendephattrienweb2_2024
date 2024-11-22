@@ -1,4 +1,5 @@
 @extends('users/app')
+@section('title', 'Contact')
 @section('menu-footer')
 
 

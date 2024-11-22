@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Color;
+use Illuminate\Support\Facades\Crypt;
 
 class ColorController extends Controller
 {
@@ -58,10 +59,30 @@ class ColorController extends Controller
     }
     
 
-    public function edit($id)
+    public function edit($encodedId)
     {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $colorId = Crypt::decryptString($encodedId); // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('color_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
         // Lấy thông tin user theo id
-        $color = Color::where('color_id', $id)->first();
+        $color = Color::where('color_id', $colorId)->first();
 
         // Trả dữ liệu về view edit
         return view('admin/color-edit', compact('color'));

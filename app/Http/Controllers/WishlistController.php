@@ -93,4 +93,6 @@ class WishlistController extends Controller
 
         return response()->json(['success' => true, 'wishlistCount' => $wishlistCount]);
     }
+
+    
 }

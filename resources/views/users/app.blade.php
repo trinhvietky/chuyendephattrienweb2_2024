@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>Home</title>
+	<title>@yield('title', 'Home')</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
@@ -36,6 +36,9 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('/css-home/main.css')}}">
 	<link rel="stylesheet" href="{{asset('/css/app.css')}}">
 	<!--===============================================================================================-->
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 </head>
 
 <body class="animsition">
@@ -87,7 +90,7 @@
 							</li>
 
 							<li>
-								<a href="{{route('users/product')}}">Shop</a>
+								<a href="{{route('product')}}">Shop</a>
 								<ul class="sub-menu">
 									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
@@ -114,7 +117,6 @@
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="wrap-icon-header flex-w flex-r-m">
-							<!-- Check if the user is authenticated -->
 							@if (Route::has('login'))
 							<div class="fixed top-0 right-0 px-6 py-4 sm:block">
 								@auth
@@ -123,8 +125,8 @@
 									<i class="zmdi zmdi-search"></i>
 								</div>
 
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-									<i class="zmdi zmdi-shopping-cart"></i>
+								<div id="cart-notify" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="0">
+									<a href="{{route('users/shoping-cart')}}"><i class="zmdi zmdi-shopping-cart"></i></a>
 								</div>
 
 								<a href="{{route('users/favourite')}}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist" data-notify="0">
@@ -142,7 +144,7 @@
 									}
 								</style>
 								@if(Auth::user()->usertype === '1')
-								<a href="{{route('admin/dashboard')}}" class="btn-link">
+								<a href="{{route('dashboard')}}" class="btn-link">
 									Dashboard
 								</a>
 								@endif
@@ -217,6 +219,11 @@
 									</div>
 								</nav>
 								@else
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search" style="position: relative;
+							right: 20px;
+							top: 3px;">
+									<i class="zmdi zmdi-search"></i>
+							</div>
 								<!-- User is not authenticated: Show login and register links -->
 								<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
 								<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
@@ -292,38 +299,91 @@
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
-					<ul class="sub-menu-m">
-						<li><a href="index.html">Homepage 1</a></li>
-						<li><a href="home-02.html">Homepage 2</a></li>
-						<li><a href="home-03.html">Homepage 3</a></li>
+					<a href="{{route('users/home')}}">Home</a>
+				</li>
+
+				<li>
+					<a href="{{route('product')}}">Shop</a>
+					<ul class="sub-menu">
+						@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
+						@foreach($Alldanhmucs as $danhmuc)
+						<li><a href="index.html">{{$danhmuc->danhmuc_Ten}}</a></li>
+						@endforeach
+						@endif
 					</ul>
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
 				</li>
 
 				<li>
-					<a href="product.html">Shop</a>
+					<a href="{{route('users/blog')}}">Blog</a>
 				</li>
 
 				<li>
-					<a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+					<a href="{{route('users/about')}}">About</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
-				</li>
-
-				<li>
-					<a href="about.html">About</a>
-				</li>
-
-				<li>
-					<a href="contact.html">Contact</a>
+					<a href="{{route('users/contact')}}">Contact</a>
 				</li>
 			</ul>
 		</div>
+
+		<style>
+			.suggestion-box {
+				position: absolute;
+				background: #fff;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				max-height: 300px;
+				/* Tăng chiều cao tối đa */
+				overflow-y: auto;
+				width: 100%;
+				z-index: 1000;
+				margin-top: 5px;
+				padding: 10px;
+				/* Tăng khoảng cách bên trong */
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			.suggestion-item {
+				display: flex;
+				align-items: flex-start;
+				/* Căn theo góc trái trên */
+				margin-bottom: 15px;
+				/* Tăng khoảng cách giữa các mục */
+			}
+
+			.suggestion-item img {
+				width: 80px;
+				/* Chiều rộng hình ảnh */
+				height: 80px;
+				/* Chiều cao hình ảnh */
+				object-fit: cover;
+				border-radius: 8px;
+				/* Bo góc hình ảnh */
+				margin-right: 15px;
+				/* Khoảng cách giữa hình ảnh và nội dung */
+				border: 1px solid #ddd;
+				/* Viền xung quanh hình ảnh */
+			}
+
+			.suggestion-item:hover {
+				background: #f8f9fa;
+				/* Hiệu ứng hover */
+			}
+
+			.suggestion-item p {
+				margin: 5px 0;
+				font-size: 14px;
+				/* Tăng kích thước chữ */
+				color: #555;
+			}
+
+			.suggestion-item strong {
+				font-size: 16px;
+				/* Kích thước chữ tiêu đề lớn hơn */
+				color: #333;
+			}
+		</style>
 
 		<!-- Modal Search -->
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
@@ -332,12 +392,19 @@
 					<img src="/images/icons/icon-close2.png" alt="CLOSE">
 				</button>
 
-				<form class="wrap-search-header flex-w p-l-15">
+				<form class="wrap-search-header flex-w p-l-15" action="{{ route('products.search') }}" method="GET">
 					<button class="flex-c-m trans-04">
 						<i class="zmdi zmdi-search"></i>
 					</button>
-					<input class="plh3" type="text" name="search" placeholder="Search...">
+					<input
+						class="plh3 search-input"
+						type="text"
+						name="search"
+						placeholder="Search..."
+						value="{{ request()->get('search') }}"
+						autocomplete="off">
 				</form>
+				<div class="suggestion-box" style="display: none;"></div>
 			</div>
 		</div>
 	</header>
@@ -680,6 +747,73 @@
 		$('.parallax100').parallax100();
 	</script>
 	<!--===============================================================================================-->
+	<!-- search có gợi ý -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const searchInput = document.querySelector('.search-input');
+			const suggestionBox = document.querySelector('.suggestion-box');
+
+			searchInput.addEventListener('input', function() {
+				const query = this.value.trim();
+				if (query.length > 2) {
+					fetch(`/products/suggestions?query=${query}`)
+						.then(response => response.json())
+						.then(data => {
+							suggestionBox.innerHTML = '';
+							suggestionBox.style.display = 'block';
+
+							if (data.length > 0) {
+								data.forEach(product => {
+									const suggestionItem = document.createElement('div');
+									suggestionItem.classList.add('suggestion-item');
+
+									// Kiểm tra và lấy hình ảnh đầu tiên của sản phẩm, nếu không có thì sử dụng hình ảnh mặc định  
+									const imagePath = product.image_path ? product.image_path : '/images/default-product.jpg'; // Hình ảnh mặc định nếu không có
+									// Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+
+									// Tạo nội dung cho gợi ý sản phẩm
+									suggestionItem.innerHTML = `
+										<a href="/product-detail/${product.encoded_id}?token=${product.token}" style="text-decoration: none;">
+											<div class="flex">
+												<img src="${product.image_path}" alt="${product.product_name}" 
+													style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+												<div>
+													<strong>${product.product_name}</strong>
+													<p>Price: $${product.price}</p>
+													<p>${product.description.substring(0, 50)}...</p>
+												</div>
+											</div>
+										</a>
+									`;
+									suggestionBox.appendChild(suggestionItem);
+
+									// Click vào gợi ý để chọn
+									suggestionItem.addEventListener('click', () => {
+										searchInput.value = product.product_name;
+										suggestionBox.innerHTML = '';
+										suggestionBox.style.display = 'none';
+									});
+								});
+							} else {
+								suggestionBox.innerHTML = '<p>Không tìm thấy sản phẩm.</p>';
+							}
+						})
+						.catch(error => console.error('Error fetching suggestions:', error));
+				} else {
+					suggestionBox.style.display = 'none';
+				}
+			});
+
+			// Ẩn gợi ý khi click bên ngoài
+			document.addEventListener('click', function(e) {
+				if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
+					suggestionBox.style.display = 'none';
+				}
+			});
+		});
+	</script>
+
+	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/MagnificPopup/jquery.magnific-popup.min.js')}}"></script>
 	<script>
 		$('.gallery-lb').each(function() { // the containers for all your galleries
@@ -697,6 +831,7 @@
 	<script src="{{asset('/vendor/isotope/isotope.pkgd.min.js')}}"></script>
 	<!--===============================================================================================-->
 	<script src="{{asset('/vendor/sweetalert/sweetalert.min.js')}}"></script>
+	<!-- yêu thích -->
 	<script>
 		$(document).ready(function() {
 			// Fetch danh sách yêu thích của người dùng khi trang được tải

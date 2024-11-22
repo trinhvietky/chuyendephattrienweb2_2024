@@ -17,7 +17,12 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +34,15 @@ use App\Http\Controllers\ColorController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// search user
+Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
+Route::get('/products/suggestions', [ProductController::class, 'suggestions'])->name('products.suggestions');
+
+Route::get('/product-variants/search', [ProductVariantController::class, 'search'])->name('product_variants.search');
+
+// Add this to routes/web.php
+Route::get('/admin/user-search', [AdminController::class, 'search'])->name('admin.user.search');
 
 
 Route::get('/', function () {
@@ -47,16 +61,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'checkUserType'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin/dashboard');
-    })->name('admin/dashboard');
-    Route::get('/home', function () {
-        return view('users/home');
-    })->name('users/home');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/home', [UserController::class, 'index'])->name('users/home');
 });
 
-Route::get('/admin/home', [AdminController::class, 'index'])->name('dashboard');
-Route::get('/users/home', [UserController::class, 'index'])->name('home');
+Route::get('/home', [UserController::class, 'index'])->name('users/home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -67,8 +76,9 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-use App\Http\Controllers\WishlistController;
 
+use App\Http\Controllers\WishlistController;
+use App\Models\Cart;
 
 Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
 Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
@@ -77,10 +87,10 @@ Route::post('/add-to-wishlist', [WishlistController::class, 'addToWishlist'])->m
 Route::post('/remove-from-wishlist', [WishlistController::class, 'removeFromWishlist']);
 Route::get('/favourite', [WishlistController::class, 'index'])->name('users/favourite');
 
-//user/blog
-Route::get('/blog', function () {
-    return view('users/blog');
-})->name('users/blog');
+// //user/blog
+// Route::get('/blog', function () {
+//     return view('users/blog');
+// })->name('users/blog');
 
 //user/blog-detail
 Route::get('/blog-detail', function () {
@@ -108,9 +118,9 @@ Route::get('/about', function () {
 // })->name('users/product-detail');
 
 // Những route của những trang chưa đăng nhập
-Route::get('/shoping-cart', function () {
-    return view('users/shoping-cart');
-})->name('user/shoping-cart');
+// Route::get('/shoping-cart', function () {
+//     return view('users/shoping-cart');
+// })->name('users/shoping-cart');
 
 Route::get('/address', function () {
     return view('users/address');
@@ -128,8 +138,36 @@ Route::delete('/address/delete', [AddressController::class, 'destroy'])->name('a
 Route::put('/address/update', [AddressController::class, 'update'])->name('address.update');
 
 //Test
-Route::get('/product', [ProductController::class, 'index'])->name('users/product');
+Route::get('/', [ProductController::class, 'index'])->name('users.home');
+Route::get('/product', [ProductController::class, 'product'])->name('product');
 Route::get('/product-detail/{product_id}', [ProductController::class, 'show'])->name('users/product-detail');
+
+//Shoping-cart
+Route::get('/shoping-cart', [CartController::class, 'index'])->name('users/shoping-cart');
+
+Route::patch('/shoping-cart/update/{cartId}', [CartController::class, 'update'])->name('shoping-cart.update');
+
+Route::delete('/shoping-cart/{id}', [CartController::class, 'destroy'])->name('shoping-cart.destroy');
+
+Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+
+Route::post('/cart', [CartController::class, 'store']);
+
+Route::post('/btn_checkout', [CartController::class, 'checkout'])->name('checkout');
+
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
+
+Route::post('/apply-voucher', [OrderController::class, 'applyVoucher']);
+
+
+//Payment
+Route::post('/payment', [OrderController::class, 'store'])->name('order.store');
+
+Route::get('/payment', [PaymentController::class, 'createPayment'])->name('payment.create');
+
+Route::post('/payment/ipn', [PaymentController::class, 'ipnUrl'])->name('payment.ipn');
+
+Route::get('/payment/notification', [PaymentController::class, 'returnUrl'])->name('payment.return');
 
 
 // Route::get('/admin/home', function () {
@@ -261,3 +299,27 @@ Route::post('/colors', [ColorController::class, 'store'])->name('color.store');
 Route::get('/color/{color_id}/edit', [ColorController::class, 'edit'])->name('color.edit');
 
 Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.update');
+
+//blog
+Route::get('/blog-list', [BlogController::class, 'index'])->name('blog-list');
+
+Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+Route::get('/blog-add', function () {
+    return view('/admin/blog-add');
+});
+
+// Xử lý lưu blog mới
+Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
+
+// Hiển thị form sửa blog
+Route::get('/blogs/{blog_id}/edit', [BlogController::class, 'edit'])->name('blog.edit');
+
+// Xử lý cập nhật blog
+Route::put('/blogs/{blog_id}', [BlogController::class, 'update'])->name('blog.update');
+Route::put('/blogs/{blog_id}', [BlogController::class, 'update'])->name('blogs.update');
+
+Route::get('blog', [BlogController::class, 'AllBlog'])->name('users/blog');
+
+Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
+Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
+

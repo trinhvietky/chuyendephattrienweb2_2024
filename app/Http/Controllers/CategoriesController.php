@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class CategoriesController extends Controller
 {
@@ -41,9 +42,29 @@ class CategoriesController extends Controller
         return redirect()->route('danhmuc.index')->with('success', 'Thêm thành công');
     }
 
-    public function edit($id)
+    public function edit($encodedId)
     {
-        $danhmuc = Categories::findOrFail($id);
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $danhmucId = Crypt::decryptString($encodedId); // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('danhmuc_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
+        $danhmuc = Danhmuc::findOrFail($danhmucId);
         return view('/admin/danhmuc-edit', compact('danhmuc'));
     }
 

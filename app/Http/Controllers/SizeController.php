@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class SizeController extends Controller
 {
@@ -83,10 +84,30 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($encodedId)
     {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $sizeId = Crypt::decryptString($encodedId); // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('size_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
         // Lấy thông tin user theo id
-        $size = Size::where('size_id', $id)->first();
+        $size = Size::where('size_id', $sizeId)->first();
 
         // Trả dữ liệu về view edit
         return view('admin.size-edit', compact('size'));

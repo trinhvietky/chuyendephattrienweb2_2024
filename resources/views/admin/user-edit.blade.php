@@ -88,14 +88,6 @@
                                             @enderror
                                         </div>
 
-                                        <div class="input-group mg-b-pro-edt">
-                                            <span class="input-group-addon"><i class="icon nalika-unlocked" aria-hidden="true"></i></span>
-                                            <input type="password" name="password" class="form-control" placeholder="Mật khẩu" value="{{ $user->password }}" required style="background: #152036; font-size: 17px;">
-                                            @error('password')
-                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
                                         <div class="text-center custom-pro-edt-ds">
                                             <button type="submit" style="background-color: #337ab7; color: white;" class="btn">Cập nhật</button>
                                         </div>

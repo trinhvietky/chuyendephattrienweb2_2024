@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Voucher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 
 class CrudVoucherController extends Controller
@@ -31,10 +32,30 @@ class CrudVoucherController extends Controller
     /**
      * hàm tìm voucher theo id
      */
-    public function edit($id)
+    public function edit($encodedId)
     {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $colorId = Crypt::decryptString($encodedId);     // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('voucher_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
         // Lấy thông tin user theo id
-        $voucher = Voucher::findOrFail($id);
+        $voucher = Voucher::findOrFail($colorId);
 
         // Trả dữ liệu về view edit
         return view('admin.voucher-edit', ['voucher' => $voucher]);

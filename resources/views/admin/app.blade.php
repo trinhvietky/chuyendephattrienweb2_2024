@@ -73,7 +73,7 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="{{route('admin/dashboard')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
+                <a href="{{route('dashboard')}}"><img class="main-logo" src="/img/logo/logo.png" alt="" /></a>
                 <strong><img src="/img/logo/logosn.png" alt="" /></strong>
             </div>
             <div class="nalika-profile">
@@ -117,6 +117,7 @@
                             <a class="has-arrow" href="{{route('danhmuc.index')}}" aria-expanded="false"><i class="icon nalika-menu-task icon-wrap"></i> <span class="mini-click-non">Danh mục</span></a>
                             <a class="has-arrow" href="{{route ('size-list')}}" aria-expanded="false"><i class="icon nalika-gear icon-wrap"></i> <span class="mini-click-non">Size</span></a>
                             <a class="has-arrow" href="{{route ('color-list')}}" aria-expanded="false"><i class="icon nalika-diamond icon-wrap"></i> <span class="mini-click-non">Color</span></a>
+                            <a class="has-arrow" href="{{route ('blog-list')}}" aria-expanded="false"><i class="icon nalika-diamond icon-wrap"></i> <span class="mini-click-non">Blog</span></a>
                         </li>
                         <!-- <li>
                             <a class="has-arrow" href="mailbox.html" aria-expanded="false"><i class="icon nalika-mail icon-wrap"></i> <span class="mini-click-non">Mailbox</span></a>
@@ -222,24 +223,15 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="header-top-wraper">
                                 <div class="row">
-                                    <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
+                                    <div class="col-lg-6 col-md-0 col-sm-1 col-xs-12">
                                         <div class="menu-switcher-pro">
                                             <button type="button" id="sidebarCollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
                                                 <i class="icon nalika-menu-task"></i>
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
-                                        <div class="header-top-menu tabl-d-n hd-search-rp">
-                                            <div class="breadcome-heading">
-                                                <form role="search" class="">
-                                                    <input type="text" placeholder="Search..." class="form-control">
-                                                    <a href=""><i class="fa fa-search"></i></a>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                    
+                                    <div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                                 <div style="margin-top: -10px;">
