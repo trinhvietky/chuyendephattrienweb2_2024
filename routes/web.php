@@ -312,4 +312,5 @@ Route::get('blog', [BlogController::class, 'AllBlog'])->name('users/blog');
 
 Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
 Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
 

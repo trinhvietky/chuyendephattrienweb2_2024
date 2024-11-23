@@ -21,7 +21,7 @@
 					@foreach ($blogs as $blog)
 					<div class="blog" style="display: flex;">
 						<div class="p-b-63">
-							<a href="{{ route('blogs.store', $blog->blog_id) }}" class="hov-img0 how-pos5-parent">
+							<a href="{{ route('blogs.show', $blog->blog_id) }}" class="hov-img0 how-pos5-parent">
 								<img src="{{ asset($blog->cover_image) }}" alt="IMG-BLOG" style="max-width: 100%; max-height: 100%; height: auto; width: auto;">
 
 								<div class="flex-col-c-m size-123 bg9 how-pos5">
@@ -37,7 +37,7 @@
 
 							<div class="p-t-32">
 								<h4 class="p-b-15">
-									<a href="{{ route('blogs.store', $blog->blog_id) }}" class="ltext-108 cl2 hov-cl1 trans-04">
+									<a href="{{ route('blogs.show', $blog->blog_id) }}" class="ltext-108 cl2 hov-cl1 trans-04">
 										{{ $blog->title }}
 									</a>
 								</h4>
@@ -48,7 +48,7 @@
 
 								<div class="flex-w flex-sb-m p-t-18">
 
-									<a href="{{ route('blogs.store', $blog->blog_id) }}" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
+									<a href="{{ route('blogs.show', $blog->blog_id) }}" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
 										Continue Reading
 
 										<i class="fa fa-long-arrow-right m-l-9"></i>
