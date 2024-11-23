@@ -60,6 +60,7 @@
                                                     <input type="text" name="product_name" class="form-control" placeholder="Product Name" id="product_name" value="{{ $product->product_name }}" required>
                                                 </div>
 
+
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-phone" aria-hidden="true"></i></span>
                                                     <input type="number" name="price" class="form-control" placeholder="Price" id="price" value="{{ $product->price }}" required step="1">
@@ -97,8 +98,7 @@
 
 
                         <div class="text-center custom-pro-edt-ds">
-                            <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
-                            <button type="reset" class="btn btn-ctl-bt waves-effect waves-light">Discard</button>
+                            <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Cập nhật</button>
                         </div>
                         </form>
 

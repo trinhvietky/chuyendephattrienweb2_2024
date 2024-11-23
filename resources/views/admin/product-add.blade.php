@@ -50,11 +50,14 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{ route('products.store') }}" method="POST">
+                                    <form action="{{ route('products.store') }}" method="POST" novalidate>
                                         @csrf
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
                                             <input type="text" name="product_name" class="form-control" placeholder="Product Name" id="product_name" value="{{ old('product_name') }}" required>
+                                            @error('product_name')
+                                            <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="input-group mg-b-pro-edt">
                                             <span class="input-group-addon"><i class="icon nalika-mail" aria-hidden="true"></i></span>
@@ -79,7 +82,6 @@
 
                                         <div class="text-center custom-pro-edt-ds">
                                             <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
-                                            <button type="reset" class="btn btn-ctl-bt waves-effect waves-light">Discard</button>
                                         </div>
                                     </form>
 

@@ -160,13 +160,33 @@ class ProductController extends Controller
     // Hiển thị form chỉnh sửa sản phẩm
     public function edit($id)
     {
+        // Giải mã ID sản phẩm từ URL
+        try {
+            $productId = Crypt::decryptString($id); // Giải mã ID sản phẩm
+        } catch (\Exception $e) {
+            abort(404, 'ID sản phẩm không hợp lệ');
+        }
+
+        // Lấy token từ URL
+        $tokenFromUrl = request()->query('token');
+
+        // Kiểm tra nếu token không tồn tại hoặc không hợp lệ
+        if (!$tokenFromUrl) {
+            abort(404);
+        }
+
+        // Kiểm tra token với token trong session
+        $tokenFromSession = session('product_token');
+        if ($tokenFromUrl !== $tokenFromSession) {
+            abort(404, 'Token không hợp lệ hoặc đã hết hạn.');
+        }
         // Lấy sản phẩm cần chỉnh sửa và danh mục con
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($productId);
         $categories = Categories::all();
-        $images = ProductImage::where('product_id', $product->product_id)
-            ->get();
+        // $images = ProductImage::where('product_id', $product->product_id)
+        //     ->get();
         // dd($categories);s
-        return view('admin/product-edit', compact('product', 'categories', 'images'));
+        return view('admin/product-edit', compact('product', 'categories'));
     }
 
     // Cập nhật thông tin sản phẩm
