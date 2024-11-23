@@ -54,7 +54,7 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{route('danhmuc.update', $danhmuc->category_id)}}" method="POST">
+                                    <form action="{{route('danhmuc.update', $danhmuc->category_id)}}" method="POST" novalidate>
                                         @csrf
                                         @method('PUT')
 
