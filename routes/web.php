@@ -26,6 +26,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReviewController;
 
 
 /*
@@ -38,6 +39,17 @@ use App\Http\Controllers\PaymentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::post('/products/{product_id}', [ReviewController::class, 'storeReview'])->name('products.reviews');
+// Route cho việc chỉnh sửa review
+Route::get('/reviews/{review_id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+Route::put('/reviews/{review_id}', [ReviewController::class, 'update'])->name('reviews.update');
+// Xử lý xóa review
+Route::delete('reviews/{review_id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+// Route cho việc tạo review mới
+Route::post('/products/{product_id}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
+
 
 // search user
 Route::get('/search-products', [ProductController::class, 'search'])->name('products.search');
@@ -83,6 +95,7 @@ require __DIR__ . '/auth.php';
 
 use App\Http\Controllers\WishlistController;
 use App\Models\Cart;
+use App\Models\Product;
 
 Route::get('/get-wishlist', [WishlistController::class, 'getWishlist']);
 Route::get('/get-wishlist-count', [WishlistController::class, 'getWishlistCount']);
@@ -221,8 +234,13 @@ Route::delete('/admin/danhmuc/{id}', [CategoriesController::class, 'destroy'])->
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('products', [ProductController::class, 'store'])->name('products.store');
 
-Route::get('admin/product_variants', [ProductVariantController::class, 'index'])->name('product_variants.index');
-Route::get('admin/product_variants/create', [ProductVariantController::class, 'create'])->name('product_variants.create');
+Route::get('admin/product', [ProductController::class, 'getProductAdmin'])->name('productAdmin.index');
+Route::get('admin/product/{product_id}/edit', [ProductController::class, 'edit'])->name('productAdmin.edit');
+Route::post('admin/product/{product_id}', [ProductController::class, 'update'])->name('productAdmin.update');
+Route::delete('admin/product/{product_id}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+Route::get('/admin/productVariant/{id}', [ProductVariantController::class, 'index'])->name('productVariant.index');
+Route::get('admin/product_variants/create/{id}', [ProductVariantController::class, 'create'])->name('product_variants.create');
 Route::post('admin/product_variants', [ProductVariantController::class, 'store'])->name('product_variants.store');
 Route::get('admin/product_variants/{productVariant_id}/edit', [ProductVariantController::class, 'edit'])->name('product_variants.edit');
 Route::put('admin/product_variants/{productVariant_id}', [ProductVariantController::class, 'update'])->name('product_variants.update');
@@ -311,7 +329,6 @@ Route::put('/color/{id}', [ColorController::class, 'update'])->name('color.updat
 
 
 
-
 //contact
 Route::post('/send', [ContactController::class, 'send'])->name('contact.send');
 
@@ -337,7 +354,8 @@ Route::put('/blogs/{blog_id}', [BlogController::class, 'update'])->name('blogs.u
 
 Route::get('blog', [BlogController::class, 'AllBlog'])->name('users/blog');
 
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
+
 Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
 Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
-
 

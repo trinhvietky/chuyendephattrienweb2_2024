@@ -48,7 +48,7 @@ class User extends Authenticatable
     public function updateAvatar($file)
     {
         // Đường dẫn ảnh mặc định
-        $defaultImage = 'images/icons/avatar_user.png';
+        $defaultImage = 'images/icons/avatar_icon.png';
 
         // Xóa ảnh cũ nếu không phải ảnh mặc định
         if ($this->image && $this->image !== $defaultImage && file_exists(public_path($this->image))) {

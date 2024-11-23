@@ -399,61 +399,78 @@
             const sizeId = sizeSelect.value;
             const quantity = parseInt(quantityInput.value, 10);
 
+            if (!colorId || !sizeId || !quantity) {
+                swal({
+                    title: "Thông báo",
+                    text: "Bạn cần chọn kích thước màu sắc và số lượng để thêm sản phẩm vào giỏ hàng.",
+                    icon: "warning",
+                    buttons: {
+                        cancel: "Đóng",
+                    }
+                })
+                stop();
+            }
 
-            $.ajax({
-                url: '/cart', // URL của route cập nhật
-                method: 'POST',
-                data: {
-                    color_id: colorId,
-                    size_id: sizeId,
-                    quantity: quantity,
-                    _token: $('meta[name="csrf-token"]').attr('content') // Lấy token từ meta tag
-                },
+            else {
+                $.ajax({
+                    url: '/cart', // URL của route cập nhật
+                    method: 'POST',
+                    data: {
+                        color_id: colorId,
+                        size_id: sizeId,
+                        quantity: quantity,
+                        _token: $('meta[name="csrf-token"]').attr('content') // Lấy token từ meta tag
+                    },
 
-                success: function (response) {
-                    updateCartCount();
-                    swal({
-                        title: "",  // Tiêu đề
-                        text: response.message,  // Nội dung
-                        icon: "success",  // Icon
-                        buttons: {
-                            cancel: "Tiếp tục mua sắm",  // Nút Hủy
-                            confirm: "Xem giỏ hàng"  // Nút Xác nhận
-                        }
-                    }).then((value) => {
-                        if (value === true) {
-                            window.location.href = '/shoping-cart';  // Chuyển hướng đến giỏ hàng
-                        } else {
-                            // Nếu người dùng nhấn "Tiếp tục mua sắm"
-                            console.log("Tiếp tục mua sắm");
-                        }
-                    });
-
-
-                },
-                error: function (xhr) {
-                    if (xhr.status === 401) {
-                        // Hiển thị thông báo yêu cầu đăng nhập
+                    success: function (response) {
+                        updateCartCount();
                         swal({
-                            title: "Thông báo",
-                            text: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.",
-                            icon: "warning",
+                            title: "",  // Tiêu đề
+                            text: response.message,  // Nội dung
+                            icon: "success",  // Icon
                             buttons: {
-                                cancel: "Đóng",
-                                confirm: "Đăng nhập"
+                                cancel: "Tiếp tục mua sắm",  // Nút Hủy
+                                confirm: "Xem giỏ hàng"  // Nút Xác nhận
                             }
                         }).then((value) => {
                             if (value === true) {
-                                // Chuyển hướng đến trang đăng nhập
-                                window.location.href = '/login';
+                                window.location.href = '/shoping-cart';  // Chuyển hướng đến giỏ hàng
+                            } else {
+                                // Nếu người dùng nhấn "Tiếp tục mua sắm"
+                                console.log("Tiếp tục mua sắm");
                             }
                         });
-                    } else {
-                        // Hiển thị lỗi khác
-                        alert("Có lỗi xảy ra: " + xhr.responseText);
+
+
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 401) {
+                            // Hiển thị thông báo yêu cầu đăng nhập
+                            swal({
+                                title: "Thông báo",
+                                text: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.",
+                                icon: "warning",
+                                buttons: {
+                                    cancel: "Đóng",
+                                    confirm: "Đăng nhập"
+                                }
+                            }).then((value) => {
+                                if (value === true) {
+                                    // Chuyển hướng đến trang đăng nhập
+                                    window.location.href = '/login';
+                                }
+                            });
+                        } else {
+                            console.log(xhr);
+
+                            // Hiển thị lỗi khác
+                            alert("Có lỗi xảy ra: " + xhr.responseText);
+                        }
                     }
-                }
-            });
+                });
+            }
+
+
         }
     });
 
