@@ -162,10 +162,9 @@ class ProductVariantController extends Controller
 
                         // Cập nhật thông tin ảnh vào cơ sở dữ liệu
                         $productImage->update([
-                            'product_id' => $product_id,
-                            'color_id' => $validatedData['color_id'],
+
                             'image_path' => $path . $imageName,
-                            'alt_text' => 'Ảnh sản phẩm',  // Bạn có thể tùy chỉnh
+
                         ]);
                     }
                 }
