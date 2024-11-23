@@ -95,10 +95,21 @@ class ProductController extends Controller
         // dd($request);
         // Validate dữ liệu từ form
         $validate = $request->validate([
-            'product_name' => 'required|string|max:255',
+            'product_name' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9\s\-]+$/',
+            ],
             'description' => 'required',
             'price' => 'required|numeric',
-            'category_id' => 'required|exists:categories,category_id'
+            'category_id' => 'required|exists:categories,category_id',
+        ], [
+            // Custom error messages
+            'product_name.required' => 'Tên sản phẩm là bắt buộc. Vui lòng điền đầy đủ thông tin.',
+            'product_name.string' => 'Tên sản phẩm phải là chuỗi ký tự.',
+            'product_name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+            'product_name.regex' => 'Tên sản phẩm chỉ được phép chứa chữ cái, số, khoảng trắng và dấu gạch ngang.',
         ]);
         // Tạo sản phẩm mới
         $product = Product::create($validate);
@@ -194,20 +205,31 @@ class ProductController extends Controller
     {
         // Validate dữ liệu
         $validate = $request->validate([
-            'product_name' => 'required|string|max:255',
+            'product_name' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-z0-9\s\-]+$/',
+            ],
             'description' => 'required',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,category_id',
+        ], [
+            // Custom error messages
+            'product_name.required' => 'Tên sản phẩm là bắt buộc. Vui lòng điền đầy đủ thông tin.',
+            'product_name.string' => 'Tên sản phẩm phải là chuỗi ký tự.',
+            'product_name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự.',
+            'product_name.regex' => 'Tên sản phẩm chỉ được phép chứa chữ cái, số, khoảng trắng và dấu gạch ngang.',
         ]);
 
         // Tìm sản phẩm
         $product = Product::findOrFail($id);
-
+        $product->fill($validate);
         // Cập nhật sản phẩm
-        $product->product_name = $validate['product_name'];
-        $product->description = $validate['description'];
-        $product->price = $validate['price'];
-        $product->category_id = $validate['category_id']; // Gán thủ công
+        // $product->product_name = $validate['product_name'];
+        // $product->description = $validate['description'];
+        // $product->price = $validate['price'];
+        // $product->category_id = $validate['category_id']; // Gán thủ công
         $product->save(); // Lưu lại
 
         return redirect()->route('productAdmin.index')->with('success', 'Sản phẩm đã được cập nhật.');

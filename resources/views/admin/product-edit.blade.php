@@ -51,13 +51,16 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{ route('productAdmin.update', [$product->product_id]) }}" method="post">
+                                    <form action="{{ route('productAdmin.update', [$product->product_id]) }}" method="post" novalidate>
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
                                                     <input type="text" name="product_name" class="form-control" placeholder="Product Name" id="product_name" value="{{ $product->product_name }}" required>
+                                                    @error('product_name')
+                                                    <div class="error" style="color: red; background-color: #152036; padding-left: 7px;">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
 
 
