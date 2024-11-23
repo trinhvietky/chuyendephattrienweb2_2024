@@ -50,6 +50,7 @@
                                         width="100px">
                                 </div>
                                 <div class="col-md-9">
+                                    <h5 class="card-title">{{ $order->product_name }}</h5>
                                     <h5 class="card-title">{{ $order->order_number }}</h5>
                                     @php
                                         $statusMap = [
