@@ -22,7 +22,7 @@
                     <a class="nav-link {{ $status == 'all' ? 'active' : '' }}"
                         href="{{ route('order.history', ['status' => 'all']) }}">Tất cả</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ $status == 'pending' ? 'active' : '' }}"
                         href="{{ route('order.history', ['status' => 'pending']) }}">Chờ xác nhận</a>
                 </li>
@@ -37,7 +37,7 @@
                 <li class="nav-item">
                     <a class="nav-link {{ $status == 'completed' ? 'active' : '' }}"
                         href="{{ route('order.history', ['status' => 'completed']) }}">Đã giao</a>
-                </li>
+                </li> --}}
             </ul>
 
             @if ($orders->count() > 0)
