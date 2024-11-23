@@ -16,6 +16,8 @@
     <!-- Bootstrap CSS
 		============================================ -->
     <link rel="stylesheet" href="{{asset('/css/bootstrap.min.css')}}">
+    <!-- <link rel="stylesheet" type="text/css" href=" {{asset('/vendor/bootstrap/css/bootstrap.min.css')}}"> -->
+
     <!-- Bootstrap CSS
 		============================================ -->
     <link rel="stylesheet" href="{{asset('/css/font-awesome.min.css')}}">
@@ -63,6 +65,7 @@
     <!-- modernizr JS
 		============================================ -->
     <script src="{{asset('/js/vendor/modernizr-2.8.3.min.js')}}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -112,7 +115,7 @@
                         </li> -->
                         <li>
                             <a class="has-arrow" href="{{route('admin/user-list')}}" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">User</span></a>
-                            <a class="has-arrow" href="{{route('product_variants.index')}}" aria-expanded="false"><i class="icon  nalika-shopping-cart icon-wrap"></i> <span class="mini-click-non">Product</span></a>
+                            <a class="has-arrow" href="{{route('productAdmin.index')}}" aria-expanded="false"><i class="icon  nalika-shopping-cart icon-wrap"></i> <span class="mini-click-non">Product</span></a>
                             <a class="has-arrow" href="{{route('voucher_list')}}" aria-expanded="false"><i class="icon nalika-price-tag icon-wrap"></i> <span class="mini-click-non">Voucher</span></a>
                             <a class="has-arrow" href="{{route('danhmuc.index')}}" aria-expanded="false"><i class="icon nalika-menu-task icon-wrap"></i> <span class="mini-click-non">Danh mục</span></a>
                             <a class="has-arrow" href="{{route ('size-list')}}" aria-expanded="false"><i class="icon nalika-gear icon-wrap"></i> <span class="mini-click-non">Size</span></a>
@@ -230,7 +233,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">

@@ -11,130 +11,231 @@ class ProductImagesSeeder extends Seeder
     {
         DB::table('product_images')->insert([
             [
-                'product_id' => 1, // Women’s Elegant Dress
-                'color_id' => 4, // Blue
-                'image_path' => 'img/product/product-02.jpg',
-                'alt_text' => 'Women’s Elegant Dress in Blue',
+                'product_id' => 1,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731553169_556.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 1, // Women’s Elegant Dress
-                'color_id' => 5, // Green
-                'image_path' => 'img/product/product-03.jpg',
-                'alt_text' => 'Women’s Elegant Dress in Green',
+                'product_id' => 1,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731553169_668.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 2, // Women’s Casual Top
-                'color_id' => 6, // Olive
-                'image_path' => 'img/product/product-04.jpg',
-                'alt_text' => 'Women’s Casual Top in Olive',
+                'product_id' => 1,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731553169_243.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 2, // Women’s Casual Top
-                'color_id' => 7, // Silver
-                'image_path' => 'img/product/product-05.jpg',
-                'alt_text' => 'Women’s Casual Top in Silver',
+
+                'product_id' => 2,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731566152_726.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 3, // Men’s Sports Jacket
-                'color_id' => 1, // Black
-                'image_path' => 'img/product/product-06.jpg',
-                'alt_text' => 'Men’s Sports Jacket in Black',
+
+                'product_id' => 2,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731566152_386.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 3, // Men’s Sports Jacket
-                'color_id' => 8, // Brown
-                'image_path' => 'img/product/product-07.jpg',
-                'alt_text' => 'Men’s Sports Jacket in Brown',
+
+                'product_id' => 2,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731566152_866.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 4, // Women’s Skirt
-                'color_id' => 2, // Yellow
-                'image_path' => 'img/product/product-09.jpg',
-                'alt_text' => 'Women’s Skirt in Yellow',
+
+                'product_id' => 3,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731566384_54.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 4, // Women’s Skirt
-                'color_id' => 1, // Gray
-                'image_path' => 'img/product/product-08.jpg',
-                'alt_text' => 'Women’s Skirt in Gray',
+
+                'product_id' => 3,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731566384_895.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 5, // Men’s Leather Boots
-                'color_id' => 1, // Black
-                'image_path' => 'img/product/product-10.jpg',
-                'alt_text' => 'Men’s Leather Boots in Black',
+
+                'product_id' => 3,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731566384_531.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 5, // Men’s Leather Boots
-                'color_id' => 2, // White
-                'image_path' => 'img/product/product-11.jpg',
-                'alt_text' => 'Men’s Leather Boots in White',
+
+                'product_id' => 4,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731568286_230.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 6, // Women’s Heeled Sandals
-                'color_id' => 3, // Red
-                'image_path' => 'img/product/product-12.jpg',
-                'alt_text' => 'Women’s Heeled Sandals in Red',
+
+                'product_id' => 4,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731568286_332.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 6, // Women’s Heeled Sandals
-                'color_id' => 4, // Blue
-                'image_path' => 'img/product/product-13.jpg',
-                'alt_text' => 'Women’s Heeled Sandals in Blue',
+
+                'product_id' => 4,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731568286_861.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 7, // Men’s Running Shoes
-                'color_id' => 5, // Green
-                'image_path' => 'img/product/product-14.jpg',
-                'alt_text' => 'Men’s Running Shoes in Green',
+
+                'product_id' => 5,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731568895_507.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 7, // Men’s Running Shoes
-                'color_id' => 6, // Olive
-                'image_path' => 'img/product/product-15.jpg',
-                'alt_text' => 'Men’s Running Shoes in Olive',
+                'product_id' => 5,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731568896_725.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 8, // Women’s Handbag
-                'color_id' => 7, // Silver
-                'image_path' => 'img/product/product-16.jpg',
-                'alt_text' => 'Women’s Handbag in Silver',
+                'product_id' => 5,
+                'color_id' => 1,
+                'image_path' => 'img/product/1731568896_453.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'product_id' => 8, // Women’s Handbag
-                'color_id' => 8, // Brown
-                'image_path' => 'img/product/product-17.jpg',
-                'alt_text' => 'Women’s Handbag in Brown',
+                'product_id' => 6,
+                'color_id' => 2,
+                'image_path' => 'img/product/1731568944_345.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 6,
+                'color_id' => 2,
+                'image_path' => 'img/product/1731568944_657.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 6,
+                'color_id' => 2,
+                'image_path' => 'img/product/1731568944_960.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 7,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731569002_927.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 7,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731569002_721.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 7,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731569002_164.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 8,
+                'color_id' => 7,
+                'image_path' => 'img/product/1731569035_152.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 8,
+                'color_id' => 7,
+                'image_path' => 'img/product/1731569035_860.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => 8,
+                'color_id' => 7,
+                'image_path' => 'img/product/1731569035_272.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+
+                'product_id' => 9,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731569092_334.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+
+                'product_id' => 9,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731569092_156.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+
+                'product_id' => 9,
+                'color_id' => 4,
+                'image_path' => 'img/product/1731569092_592.jpg',
+                'alt_text' => 'Ảnh sản phẩm',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

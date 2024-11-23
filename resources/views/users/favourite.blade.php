@@ -785,18 +785,18 @@
 
 									// Tạo nội dung cho gợi ý sản phẩm
 									suggestionItem.innerHTML = `
-	<a href="/product-detail/${product.product_id}" style="text-decoration: none;">
-		<div class="flex">
-			<img src="${imagePath}" alt="${product.product_name}" 
-				 style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-			<div>
-				<strong>${product.product_name}</strong>
-				<p>Price: $${product.price}</p>
-				<p>${product.description.substring(0, 50)}...</p>
-			</div>
-		</div>
-	</a>
-`;
+										<a href="/product-detail/${product.encoded_id}?token=${product.token}" style="text-decoration: none;">
+											<div class="flex">
+												<img src="${imagePath}" alt="${product.product_name}" 
+													style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+												<div>
+													<strong>${product.product_name}</strong>
+													<p>Price: $${product.price}</p>
+													<p>${product.description.substring(0, 50)}...</p>
+												</div>
+											</div>
+										</a>
+									`;
 									suggestionBox.appendChild(suggestionItem);
 
 									// Click vào gợi ý để chọn

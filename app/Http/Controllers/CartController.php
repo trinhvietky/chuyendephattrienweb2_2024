@@ -51,6 +51,11 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        // Get the authenticated user
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
         // Validate input data
         $validatedData = $request->validate([
             'color_id' => 'required|exists:colors,color_id',
@@ -68,11 +73,7 @@ class CartController extends Controller
         if ($productVariant) {
             $productVariantId = $productVariant->productVariant_id;
         }
-        // Get the authenticated user
-        $user = auth()->user();
-        if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+
 
         // Check if the product variant already exists in the cart
         $cartItem = Cart::where('user_id', $user->id)
@@ -193,8 +194,16 @@ class CartController extends Controller
     // app/Http/Controllers/CartController.php
     public function getCartCount()
     {
-        // Lấy tổng số lượng sản phẩm trong giỏ hàng
-        $cartCount = Cart::sum('quantity'); // Tổng số lượng sản phẩm trong giỏ hàng
+        // Lấy user hiện tại
+        $user = auth()->user();
+
+        // Nếu chưa đăng nhập, trả về số lượng bằng 0
+        if (!$user) {
+            return response()->json(['count' => 0]);
+        }
+
+        // Tính tổng số lượng sản phẩm trong giỏ hàng của user hiện tại
+        $cartCount = Cart::where('user_id', $user->id)->sum('quantity');
 
         // Trả về kết quả dưới dạng JSON
         return response()->json(['count' => $cartCount]);
