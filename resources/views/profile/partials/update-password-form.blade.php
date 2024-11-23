@@ -10,9 +10,15 @@
     </header>
 
     @if (session('status'))
-        <div class="alert alert-success">
+        <div class="alert alert-success" id="success">
             {{ session('status') }}
         </div>
+        <script>
+            // Tự động ẩn thông báo sau 3 giây
+            setTimeout(function() {
+                document.getElementById('success').style.display = 'none';
+            }, 5000);
+        </script>
     @endif
     
     <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">

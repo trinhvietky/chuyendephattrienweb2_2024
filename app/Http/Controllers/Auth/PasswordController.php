@@ -22,7 +22,7 @@ class PasswordController extends Controller
                 ->letters()    // Bao gồm chữ cái
                 ->mixedCase()  // Bao gồm chữ hoa và chữ thường
                 ->numbers()    // Bao gồm số
-                ->symbols(), 'confirmed'],
+                ->symbols(), 'regex:/^\S*$/u'],
         ]);
 
 
