@@ -226,7 +226,7 @@
 							right: 20px;
 							top: 3px;">
 									<i class="zmdi zmdi-search"></i>
-							</div>
+								</div>
 								<!-- User is not authenticated: Show login and register links -->
 								<a href="{{ route('login') }}" class="text-sm text-primary" style="font-size: 17px;">Log in</a>
 								<a href="{{ route('auth.register') }}" class="ml-4 text-sm text-primary" style="font-size: 17px;">Register</a>
@@ -989,7 +989,7 @@
 
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<script type="text/javascript" src="https://ahachat.com//customer-chats/customer_chat_Fbc5qvRrEf673c2e74b9f5c.js"></script>
-	
+
 </body>
 
 </html>
