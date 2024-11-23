@@ -94,7 +94,7 @@
 								<ul class="sub-menu">
 									@if(isset($Alldanhmucs) && $Alldanhmucs->isNotEmpty())
 									@foreach($Alldanhmucs as $danhmuc)
-									<li><a href="index.html">{{$danhmuc->category_name}}</a></li>
+									<li><a href="{{ route('products.filter', ['subCategoryId' => $danhmuc->category_id, 'order' => request('order') ?? 'asc']) }}">{{$danhmuc->category_name}}</a></li>
 									@endforeach
 									@endif
 								</ul>
@@ -171,6 +171,9 @@
 												<x-slot name="content">
 													<x-dropdown-link :href="route('profile.edit')">
 														{{ __('Profile') }}
+													</x-dropdown-link>
+													<x-dropdown-link :href="route('order.history')">
+														{{ __('History') }}
 													</x-dropdown-link>
 													<form method="POST" action="{{ route('logout') }}">
 														@csrf

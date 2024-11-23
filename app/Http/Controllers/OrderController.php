@@ -72,6 +72,7 @@ class OrderController extends Controller
             'quan' => 'nullable|string',
             'phuong' => 'nullable|string',
             'address' => 'nullable|string',
+
         ]);
 
         // // Tạo đơn hàng mới
@@ -97,9 +98,12 @@ class OrderController extends Controller
         $order->note = $request->note;
         $order->voucher_code = $request->voucherCode;
         $order->total_amount = $request->totalAmount;
+        
         // Tổng sau giảm giá
         $order->status = 0; // Chờ xử lý
-        $order->save();
+        // $order->save();
+
+
 
         // Lấy chuỗi JSON từ request
         $jsonCarts = $request->input('carts');  // Hoặc $request->carts nếu sử dụng trực tiếp trong form data
@@ -107,6 +111,17 @@ class OrderController extends Controller
         // Giải mã chuỗi JSON thành mảng PHP
         $carts = json_decode($jsonCarts, true);
 
+        //lưu ảnh vào order
+        $firstProduct = reset($carts);
+        $productVariant = ProductVariant::where('productVariant_id', $firstProduct['productVariant_id'])->first();
+        $productImage = ProductImage::where('product_id', $productVariant->product->product_id)
+            ->where('color_id', $productVariant->color->color_id)
+            ->first();
+        if ($productImage) {
+            $order->photo_path = $productImage->image_path;
+        }
+        $order->product_name = $productVariant->product->product_name;
+        $order->save();
         // Lưu các sản phẩm trong giỏ hàng
         // Lấy tất cả các sản phẩm trong giỏ hàng của người dùng
         // $carts = auth()->user()->carts;

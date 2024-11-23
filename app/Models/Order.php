@@ -30,6 +30,7 @@ class Order extends Model
         'ward',
         'specific_address',
         'note',
+        'photo_path',
     ];
 
     /**
