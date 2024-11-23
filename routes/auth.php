@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterOTPController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\OrderHistoryController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -91,4 +92,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+
+    Route::get('order-history', [OrderHistoryController::class, 'index'])->name('order.history');
 });
