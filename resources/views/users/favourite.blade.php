@@ -170,6 +170,9 @@
 													<x-dropdown-link :href="route('profile.edit')">
 														{{ __('Profile') }}
 													</x-dropdown-link>
+													<x-dropdown-link :href="route('order.history')">
+														{{ __('History') }}
+												</x-dropdown-link>
 													<form method="POST" action="{{ route('logout') }}">
 														@csrf
 														<x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
@@ -206,9 +209,6 @@
 												<x-responsive-nav-link :href="route('profile.edit')">
 													{{ __('Profile') }}
 												</x-responsive-nav-link>
-												<x-dropdown-link :href="route('order.history')">
-														{{ __('History') }}
-													</x-dropdown-link>
 												<form method="POST" action="{{ route('logout') }}">
 													@csrf
 													<x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
