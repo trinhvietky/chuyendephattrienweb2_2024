@@ -86,7 +86,7 @@
                                         session(['danhmuc_token' => $token]);
 
                                         // Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
-                                        $encodedId = Crypt::encryptString($danhmuc->danhmuc_ID);
+                                        $encodedId = Crypt::encryptString($danhmuc->category_id);
                                         @endphp
                                         <a href="{{ route('danhmuc.edit', ['danhmuc_ID' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit"
                                             class="pd-setting-ed"

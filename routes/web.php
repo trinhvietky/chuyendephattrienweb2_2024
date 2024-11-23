@@ -355,5 +355,7 @@ Route::put('/blogs/{blog_id}', [BlogController::class, 'update'])->name('blogs.u
 
 Route::get('blog', [BlogController::class, 'AllBlog'])->name('users/blog');
 
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
+
 Route::get('/', [ProductController::class, 'index'])->name('users.home'); // Trang chủ
 Route::get('/product', [ProductController::class, 'product'])->name('product'); // Trang sản phẩm
