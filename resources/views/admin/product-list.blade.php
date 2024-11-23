@@ -203,7 +203,18 @@
                                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                                             </button>
                                         </form>
-                                        <a href="{{ route('productAdmin.edit', $product->product_id) }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
+                                        @php
+                                        // Kiểm tra token đã có trong session chưa, nếu chưa thì tạo mới và lưu vào session
+                                        $token = session('product_token', Str::random(32));
+
+
+                                        // Lưu token vào session nếu nó không tồn tại
+                                        session(['product_token' => $token]);
+
+                                        // Mã hóa ID sản phẩm (chỉ mã hóa ID sản phẩm)
+                                        $encodedId = Crypt::encryptString($product->product_id);
+                                        @endphp
+                                        <a href="{{ route('productAdmin.edit', ['product_id' => $encodedId]) }}?token={{ $token }}" data-toggle="tooltip" title="Edit" class="pd-setting-ed" style="color: white; margin-top: 7px; background: none; border: none;">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </a>
                                     </div>
