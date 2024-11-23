@@ -61,7 +61,7 @@
                         </ul>
                         <div class="container mt-5" style="color: white; width: 100%;">
 
-                            <form action="{{ route('create_voucher') }}" method="POST">
+                            <form action="{{ route('create_voucher') }}" method="POST" novalidate>
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-6 ">

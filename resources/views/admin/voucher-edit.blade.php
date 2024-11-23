@@ -60,7 +60,7 @@
                             </ul>
                             <div class="container mt-5" style="color: white">
 
-                                <form action="{{ route('update_voucher', $voucher->id) }}" method="POST">
+                                <form action="{{ route('update_voucher', $voucher->id) }}" method="POST" novalidate>
                                     @csrf
 
                                     <div class="form-row">

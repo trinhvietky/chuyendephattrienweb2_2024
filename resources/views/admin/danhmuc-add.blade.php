@@ -53,7 +53,7 @@
                         <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="description">
                                 <div class="row">
-                                    <form action="{{ route('danhmuc.store') }}" method="POST">
+                                    <form action="{{ route('danhmuc.store') }}" method="POST" novalidate>
                                         @csrf
                                         <div class="form-group">
                                             <label for="category_name" style="color: aliceblue">Tên danh mục</label>

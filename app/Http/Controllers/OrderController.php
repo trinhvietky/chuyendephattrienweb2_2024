@@ -97,7 +97,7 @@ class OrderController extends Controller
 
         $order->note = $request->note;
         $order->voucher_code = $request->voucherCode;
-        $order->total_amount = $request->totalAmount;
+        $order->total_amount = (float) $request->totalAmount;
         
         // Tổng sau giảm giá
         $order->status = 0; // Chờ xử lý
